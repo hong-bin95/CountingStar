@@ -1,4 +1,4 @@
-package com.a201.countingstar.entity.constellation;
+package com.a201.countingstar.db.entity.constellation;
 
 import javax.persistence.*;
 

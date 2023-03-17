@@ -1,4 +1,4 @@
-package com.a201.countingstar.entity.recommendation;
+package com.a201.countingstar.db.entity.recommendation;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ public class Recommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // sql에 시키기
     @Column(name="recommendation_id")
-    private int crecommendationId;
+    private int recommendationId;
 
     private String title;
     @Lob

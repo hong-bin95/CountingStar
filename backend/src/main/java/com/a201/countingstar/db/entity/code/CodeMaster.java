@@ -1,4 +1,4 @@
-package com.a201.countingstar.entity.code;
+package com.a201.countingstar.db.entity.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

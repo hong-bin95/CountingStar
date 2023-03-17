@@ -1,6 +1,6 @@
-package com.a201.countingstar.entity.star;
+package com.a201.countingstar.db.entity.star;
 
-import com.a201.countingstar.entity.code.CodeDetail;
+import com.a201.countingstar.db.entity.code.CodeDetail;
 
 import javax.persistence.*;
 
