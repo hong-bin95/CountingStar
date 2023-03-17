@@ -1,7 +1,7 @@
 package com.a201.countingstar.controller;
 
-import com.a201.countingstar.db.entity.ApiTest;
-import com.a201.countingstar.service.ApiTestService;
+import com.a201.countingstar.dto.recommendation.recommendationResponseDto;
+import com.a201.countingstar.service.recommendation.RecommendationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,25 +17,23 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/apitest")
-@Api("테스트 컨트롤러")
-public class ApiTestController {
-    private final ApiTestService apiTestService;
-
-    @ApiOperation("ApiTest 목록")
-    @GetMapping("")
-    public ResponseEntity<?> getApiTests(){
-
+@RequestMapping("/recommendation")
+@Api("추천 컨트롤러")
+public class RecommendationController {
+    private final RecommendationService recommendationService;
+    @ApiOperation("추천 컨텐츠 목록")
+    @GetMapping("/")
+    public ResponseEntity<?> getRecommendationList() {
         Map resultmap = new HashMap<>();
         HttpStatus status;
 
         try {
-            List<ApiTest> recvList = apiTestService.getApiTests();
+            List<recommendationResponseDto> recommendationList = recommendationService.getRecommendationList();
 
-            if (recvList.isEmpty()) {
+            if (recommendationList.isEmpty()) {
                 status = HttpStatus.NO_CONTENT;
             } else {
-                resultmap.put("data", recvList);
+                resultmap.put("recommendationList", recommendationList);
                 status = HttpStatus.OK;
             }
 

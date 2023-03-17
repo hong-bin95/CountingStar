@@ -1,6 +1,4 @@
-package com.a201.countingstar.entity.code;
-
-import org.hibernate.engine.jdbc.Size;
+package com.a201.countingstar.db.entity.code;
 
 import javax.persistence.*;
 

@@ -1,7 +1,6 @@
-package com.a201.countingstar.entity.constellation;
+package com.a201.countingstar.db.entity.constellation;
 
-import com.a201.countingstar.entity.code.CodeMaster;
-import com.a201.countingstar.entity.star.Star;
+import com.a201.countingstar.db.entity.star.Star;
 
 import javax.persistence.*;
 

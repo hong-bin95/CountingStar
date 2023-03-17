@@ -1,4 +1,4 @@
-package com.a201.countingstar.entity.spot;
+package com.a201.countingstar.db.entity.spot;
 
 import javax.persistence.*;
 
