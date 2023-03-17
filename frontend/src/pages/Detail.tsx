@@ -2,11 +2,7 @@ import React from 'react';
 import DetailsMain from '../components/DetailsMain';
 
 function Detail() {
-    return (
-        <div>
-            
-        </div>
-    );
+  return <div>detail</div>;
 }
 
 export default Detail;
