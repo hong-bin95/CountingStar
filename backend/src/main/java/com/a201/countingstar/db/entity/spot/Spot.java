@@ -1,7 +1,10 @@
 package com.a201.countingstar.db.entity.spot;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name="spot")
 public class Spot {
