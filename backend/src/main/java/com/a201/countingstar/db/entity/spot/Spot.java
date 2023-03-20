@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Getter
 @Table(name="spot")
