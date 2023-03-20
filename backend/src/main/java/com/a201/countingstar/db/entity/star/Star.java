@@ -1,6 +1,7 @@
 package com.a201.countingstar.db.entity.star;
 
 import com.a201.countingstar.db.entity.code.CodeDetail;
+import com.a201.countingstar.db.entity.constellation.Constellation;
 
 import javax.persistence.*;
 
@@ -16,4 +17,8 @@ public class Star {
     @JoinColumn(name = "code_detail_id")
     // 천체 종류
     private CodeDetail code;
+
+    @ManyToOne
+    @JoinColumn(name="constellation_id")
+    private Constellation constellation_master_id;
 }
