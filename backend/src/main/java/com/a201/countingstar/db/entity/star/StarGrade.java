@@ -47,6 +47,6 @@ public class StarGrade {
     private String endLongitude;
 
     @ManyToOne
-    @JoinColumn(name = "sport_id")
+    @JoinColumn(name = "spot_id")
     private Spot spot;
 }
