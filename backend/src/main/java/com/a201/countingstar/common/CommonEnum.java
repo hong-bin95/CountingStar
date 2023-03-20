@@ -1,5 +1,6 @@
 package com.a201.countingstar.common;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,19 +19,13 @@ public class CommonEnum {
 
     @AllArgsConstructor
     @Getter
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT) // api 호출시 Enum 전체 반환
     public enum RecommendationContentsType{
 
-        THIS_MONTH_CONSTELLATION("이번 달의 별자리", 1),
-        TODAY_BEST_STAR("오늘은 어디에 별이 많이 뜰까요?", 2);
+        THIS_MONTH_CONSTELLATION("THIS_MONTH_CONSTELLATION" , "이번 달의 별자리", 1),
+        TODAY_BEST_STAR("TODAY_BEST_STAR", "오늘은 어디에 별이 많이 뜰까요?", 2);
 
-//        private static final Map<Integer, RecommendationContentsType> RECOMMENDATION_LIST = new HashMap<>();
-//
-//        static {
-//            for (RecommendationContentsType type: values()) {
-//                RECOMMENDATION_LIST.put(type.getValue(), type);
-//            }
-//        }
-
+        private final String code;
         private final String name;
         private final int value;
 

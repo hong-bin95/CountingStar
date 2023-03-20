@@ -40,6 +40,10 @@ public class RecommendationServiceImpl implements RecommendationService{
         // Optional은 null처리를 도와주는 Wrapper class다
         Optional<Recommendation> recommendationEntity = recommendationRepository.findById(recommendationId);
 
+        if(recommendationEntity.isEmpty()){
+            return null;
+        }
+
         RecommendationResponseDto recommendation =
                 RecommendationResponseDto.builder()
                         .recommendationId(recommendationEntity.get().getRecommendationId())
