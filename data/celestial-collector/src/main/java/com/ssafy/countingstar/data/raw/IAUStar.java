@@ -1,6 +1,8 @@
 package com.ssafy.countingstar.data.raw;
 
-public class IAUStar {
+import java.io.Serializable;
+
+public class IAUStar implements Serializable{
     String nameAscii;
     String nameDiacritics;
     String designation;
@@ -17,6 +19,9 @@ public class IAUStar {
 	Double decJ2000; 
 	String date; 
 	String notes;
+	
+	public IAUStar() {}
+	
 	public IAUStar(String nameAscii, String nameDiacritics, String designation, String id, String idDiacritics,
 			String con, String wds, String wdsJ, Double mag, String bnd, Long hip, Long hd, Double raJ2000,
 			Double decJ2000, String date, String notes) {

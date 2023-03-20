@@ -1,6 +1,8 @@
 package com.ssafy.countingstar.data.raw;
 
-public class IAUConstellation {
+import java.io.Serializable;
+
+public class IAUConstellation implements Serializable{
     Integer sno;
     String constellation;
     String iauAbbreviation;
@@ -10,6 +12,8 @@ public class IAUConstellation {
     String origin;
     String meaning;
     String brightestStar;
+    
+    public IAUConstellation() {}
 
     public IAUConstellation(Integer sno, String constellation, 
                          String iauAbbreviation,
