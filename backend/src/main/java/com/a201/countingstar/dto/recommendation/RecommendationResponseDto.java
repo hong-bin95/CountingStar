@@ -19,4 +19,6 @@ public class RecommendationResponseDto {
 
     @Nullable
     private CommonEnum.RecommendationContentsType type;
+    @Nullable
+    private SpotDto spot;
 }
