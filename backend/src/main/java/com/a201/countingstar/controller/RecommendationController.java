@@ -34,7 +34,7 @@ public class RecommendationController {
             if (recommendationList.isEmpty()) {
                 status = HttpStatus.NO_CONTENT;
             } else {
-                resultmap.put("recommendationList", recommendationList);
+                resultmap.put("data", recommendationList);
                 status = HttpStatus.OK;
             }
 
@@ -58,7 +58,7 @@ public class RecommendationController {
             if (recommendation == null) {
                 status = HttpStatus.NO_CONTENT;
             } else {
-                resultmap.put("recommendation", recommendation);
+                resultmap.put("data", recommendation);
                 status = HttpStatus.OK;
             }
 
