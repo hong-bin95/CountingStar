@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Spot {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // sql에 시키기
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="spot_id")
     private int spotId;
 
