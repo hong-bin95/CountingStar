@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Getter
 @Entity
-@Getter
 @Table(name="spot")
 public class Spot {
 
