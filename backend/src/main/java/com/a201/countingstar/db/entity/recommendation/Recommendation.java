@@ -1,5 +1,6 @@
 package com.a201.countingstar.db.entity.recommendation;
 
+import com.a201.countingstar.db.entity.spot.Spot;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -20,5 +21,10 @@ public class Recommendation {
     // 컨텐츠 타입
     @Column(length = 2)
     private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "spot_master_id")
+    private Spot spot_master;
+
 
 }

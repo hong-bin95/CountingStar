@@ -4,16 +4,15 @@ import com.a201.countingstar.common.CommonEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import reactor.util.annotation.Nullable;
-
-import javax.persistence.Lob;
 
 
 @Builder
 @Getter
 @AllArgsConstructor
-public class recommendationResponseDto {
+@NoArgsConstructor
+public class RecommendationResponseDto {
     private int recommendationId;
     private String title;
     private String contents;
