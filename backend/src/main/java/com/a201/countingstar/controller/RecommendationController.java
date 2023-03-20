@@ -4,6 +4,7 @@ import com.a201.countingstar.dto.recommendation.RecommendationResponseDto;
 import com.a201.countingstar.service.recommendation.RecommendationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,7 @@ public class RecommendationController {
 
     @ApiOperation("추천 컨텐츠 상세")
     @GetMapping("/{recommendationId}")
-    public ResponseEntity<?> getRecommendationDetail(@PathVariable int recommendationId) {
+    public ResponseEntity<?> getRecommendationDetail(@PathVariable @ApiParam(value = "추천 컨텐츠 번호", required = true) int recommendationId) {
         Map resultmap = new HashMap<>();
         HttpStatus status;
 
