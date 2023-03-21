@@ -20,12 +20,6 @@ function DetailsDate() {
     const styled = {
         height : '25px',
         width : '25px',
-        // position : 'absolute',
-        // top : '50px'
-    }
-
-    const dateStyle = {
-
     }
 
     const moveUp = () => {
