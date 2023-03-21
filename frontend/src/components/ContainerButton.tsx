@@ -1,23 +1,27 @@
 import React, {useState, useEffect, useRef} from 'react';
-import styled from 'styled-components';
-import logo from '../logo.svg';
+import UpBtn from '../assets/UpBtn.png';
+import DownBtn from '../assets/DownBtn.png';
 
-function ContainerButton() {
+type ButtonProps = {
+    onClick: () => void;
+  };
+
+function ContainerButton({ onClick }: ButtonProps) {
     
     const [now, setNow] = useState<number>(1);
-    const moveUp = () => setNow(now - 1);
-    const moveDown = () => setNow(now + 1);
 
-    // const btnUp = useRef<HTMLImageElement>(null);
-    // const btnDown = useRef<HTMLImageElement>(null);
     const btnUp = useRef() as React.MutableRefObject<HTMLImageElement>;
     const btnDown = useRef() as React.MutableRefObject<HTMLImageElement>;
+
+    const styled = {
+        height : '25px',
+        width : '25px',
+    }
 
     useEffect(() => {
         if(now === 1) {
             btnDown.current.style.display = "none";
             btnUp.current.style.display = "inline";
-
         }
         else{
             btnDown.current.style.display = "inline";
@@ -25,10 +29,20 @@ function ContainerButton() {
         }
     }, [now]);
 
+    const moveUp = () => {
+        onClick();
+        setNow(now - 1);
+    }
+
+    const moveDown = () => {
+        onClick();
+        setNow(now + 1);
+    }
+
     return (
         <div>
-            <img src='../logo.svg' alt="up" onClick={moveUp} ref={btnUp}/>
-            <img src="./박찬호.jpg" alt="do" onClick={moveDown} ref={btnDown}/>
+            <img style={styled} src={UpBtn} alt="up" onClick={moveUp} ref={btnUp}/>
+            <img style={styled} src={DownBtn} alt="do" onClick={moveDown} ref={btnDown}/>
         </div>
     );
 }
