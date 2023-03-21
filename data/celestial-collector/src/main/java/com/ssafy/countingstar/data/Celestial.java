@@ -1,41 +1,85 @@
 package com.ssafy.countingstar.data;
 
 public class Celestial {
+	private Long starId;
     private String name;
-    private int hrNumber;
+    private Long hd;
     private double rightAscension;
     private double declination;
     private double visualMagnitude;
-    private String spectralType;
-    private Constellation constellation;
+    private Integer constellationId;
     
-    // other fields
+    public Celestial() {}
 
-    public Celestial(String name, int hrNumber, double rightAscension,
-                      double declination, double visualMagnitude,
-                      String spectralType) {
+    public Celestial(Long starId, String name, Long hd, double rightAscension,
+                      double declination, double visualMagnitude, Integer constellationId) {
+    	this.starId = starId;
         this.name = name;
-        this.hrNumber = hrNumber;
+        this.hd = hd;
         this.rightAscension = rightAscension;
         this.declination = declination;
         this.visualMagnitude = visualMagnitude;
-        this.spectralType = spectralType;
+        this.constellationId = constellationId;
     }
 
-    // getters and setters
+	public Long getStarId() {
+		return starId;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+	public String getName() {
+		return name;
+	}
 
-        Celestial that = (Celestial) obj;
+	public Long getHd() {
+		return hd;
+	}
 
-        return hrNumber == that.hrNumber; 
-    }
+	public double getRightAscension() {
+		return rightAscension;
+	}
+
+	public double getDeclination() {
+		return declination;
+	}
+
+	public double getVisualMagnitude() {
+		return visualMagnitude;
+	}
+
+	public Integer getConstellationId() {
+		return constellationId;
+	}
+
+	public void setStarId(Long starId) {
+		this.starId = starId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setHd(Long hd) {
+		this.hd = hd;
+	}
+
+	public void setRightAscension(double rightAscension) {
+		this.rightAscension = rightAscension;
+	}
+
+	public void setDeclination(double declination) {
+		this.declination = declination;
+	}
+
+	public void setVisualMagnitude(double visualMagnitude) {
+		this.visualMagnitude = visualMagnitude;
+	}
+
+	public void setConstellationId(Integer constellationId) {
+		this.constellationId = constellationId;
+	}
+	
+	
     
-    public void setConstellation(Constellation constellation) {
-    	this.constellation = constellation;
-    }
+    
 
 }

@@ -1,11 +1,11 @@
 package com.ssafy.countingstar.model.dto;
 
-public class Constellation {
-	
+public class ConstellationDTO {
 	int constellation_id;
 	String name;
 	String observe_month;
-	public Constellation(int constellation_id, String name, String observe_month) {
+	public ConstellationDTO() {}
+	public ConstellationDTO(int constellation_id, String name, String observe_month) {
 		super();
 		this.constellation_id = constellation_id;
 		this.name = name;
@@ -29,7 +29,4 @@ public class Constellation {
 	public void setObserve_month(String observe_month) {
 		this.observe_month = observe_month;
 	}
-	
-	
-
 }

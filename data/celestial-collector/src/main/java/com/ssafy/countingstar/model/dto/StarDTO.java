@@ -1,15 +1,23 @@
 package com.ssafy.countingstar.model.dto;
 
-public class Star {
-	
+public class StarDTO {
+	Integer star_id;
 	String name;
 	int code_detail_id;
 	Integer constellation_id;
-	public Star(String name, int code_detail_id, Integer constellation_id) {
+	public StarDTO() {}
+	public StarDTO(Integer star_id, String name, int code_detail_id, Integer constellation_id) {
 		super();
+		this.star_id = star_id;
 		this.name = name;
 		this.code_detail_id = code_detail_id;
 		this.constellation_id = constellation_id;
+	}
+	public Integer getStar_id() {
+		return star_id;
+	}
+	public void setStar_id(Integer star_id) {
+		this.star_id = star_id;
 	}
 	public String getName() {
 		return name;
@@ -29,7 +37,4 @@ public class Star {
 	public void setConstellation_id(Integer constellation_id) {
 		this.constellation_id = constellation_id;
 	}
-	
-	
-
 }

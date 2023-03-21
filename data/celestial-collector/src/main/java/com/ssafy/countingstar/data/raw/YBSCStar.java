@@ -71,6 +71,7 @@ public class YBSCStar implements Serializable {
         this.HR = HR;
         this.name = name;
         this.DM = DM;
+        if(DM == null )throw new RuntimeException();
         this.HD = HD;
         this.SAO = SAO;
         this.FK5 = FK5;
