@@ -11,6 +11,10 @@ import ContainerButton from './ContainerButton';
 
 function DetailsMain() {
 
+    const EmptySpace = styled.div`
+        padding: 21.5%;
+    `;
+
     const MainContainer = styled.div`
         border: 1px solid gray;
         border-radius: 10px;
@@ -44,6 +48,7 @@ function DetailsMain() {
 
     return (
         <div>
+            <EmptySpace></EmptySpace>
             <MainContainer>
                 <TopContainer>
                     <img src='../logo.svg'></img>
