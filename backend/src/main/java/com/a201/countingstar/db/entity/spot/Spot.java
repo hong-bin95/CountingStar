@@ -13,6 +13,8 @@ public class Spot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="spot_id")
     private int spotId;
+    @Column(name="spot_name")
+    private String spotName;
 
     private String latitude;
     private String longitude;
