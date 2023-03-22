@@ -2,7 +2,9 @@ package com.a201.countingstar.service.spot;
 
 import com.a201.countingstar.db.entity.spot.Spot;
 import com.a201.countingstar.db.repository.spot.SpotRepository;
+import com.a201.countingstar.db.repository.starGrade.starGradeRepository;
 import com.a201.countingstar.dto.spot.SpotResponseDto;
+import com.a201.countingstar.dto.spotRanking.spotRankingResponseDto;
 import org.springframework.stereotype.Service;
 import lombok.*;
 
@@ -14,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SpotServiceImpl implements SpotService {
     private final SpotRepository spotRepository;
+    private final starGradeRepository spotGradeRepository;
     @Override
     public List<SpotResponseDto> getSpotAll(){
         List<Spot> spotEntityList = spotRepository.findAll();
@@ -37,5 +40,16 @@ public class SpotServiceImpl implements SpotService {
                 .latitude(spotEntity.get().getLatitude())
                 .longitude(spotEntity.get().getLongitude()).build();
         return spot;
+    }
+
+    @Override
+    public List<spotRankingResponseDto> getSpotRanking(  String baseDateYear,
+                                                         String baseDateMonth,
+                                                         String baseDateDay,
+                                                         String baseDateHour,
+                                                         String baseDateMinute,
+                                                         int number){
+        return spotGradeRepository.getSpotRanking(baseDateYear, baseDateMonth, baseDateDay,
+                                                    baseDateHour, baseDateMinute, number);
     }
 }

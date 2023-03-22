@@ -1,5 +1,6 @@
 package com.a201.countingstar.controller;
 
+import com.a201.countingstar.dto.spotRanking.spotRankingResponseDto;
 import com.a201.countingstar.service.spot.SpotService;
 import com.a201.countingstar.dto.spot.SpotResponseDto;
 import io.swagger.annotations.Api;
@@ -59,6 +60,36 @@ public class SpotController {
                 status = HttpStatus.OK;
             }
             status = HttpStatus.OK;
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @ApiOperation(value = "스팟 랭킹 조회", notes = "일자별 스팟의 순위 반환")
+    @GetMapping("/ranking")
+    public ResponseEntity<Map<String, Object>> getSpotRanking(@ApiParam(value = "기준년도(YYYY)", required = true)    String baseDateYear,
+                                                              @ApiParam(value = "기준월(MM)", readOnly = true)     String baseDateMonth,
+                                                              @ApiParam(value = "기준일(dd)", readOnly = true)     String baseDateDay,
+                                                              @ApiParam(value = "기준시간(HH)", readOnly = true)    String baseDateHour,
+                                                              @ApiParam(value = "기준분(mm)", readOnly = true)     String baseDateMinute,
+                                                              @ApiParam(value = "리턴데이터 갯수") int number) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            List<spotRankingResponseDto> spot = spotService.getSpotRanking( baseDateYear,
+                                                                            baseDateMonth,
+                                                                            baseDateDay,
+                                                                            baseDateHour,
+                                                                            baseDateMinute,
+                                                                            number);
+            if (spot == null || spot.isEmpty()) {
+                status = HttpStatus.NO_CONTENT;
+            } else {
+                resultMap.put("data", spot);
+                status = HttpStatus.OK;
+            }
         } catch (Exception e) {
             resultMap.put("message", e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
