@@ -12,7 +12,7 @@ function TodayMain({}: Props) {
           <Logo />
         </div>
         <div className="col-span-8 ">
-          <p className="text-4xl text-center py-4">
+          <p className="text-4xl text-center py-4 font-serif">
             오늘은 어디에 별이 많이 뜰까요?
           </p>
         </div>
