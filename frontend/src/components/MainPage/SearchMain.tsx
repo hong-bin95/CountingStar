@@ -13,14 +13,14 @@ interface hourToString {
 function SearchMain({}: Props) {
   //시간, 날짜, 시도, 구군
   const [timeValue, setTimeValue] = useState<string>("시간 선택");
-  const [dateValue, setDateValue] = useState<string>("");
+  const [dateValue, setDateValue] = useState<string>("지역 선택");
   const [sidoValue, setSidoValue] = useState<string>("");
   const [gugunValue, setGugunValue] = useState<string>("");
 
   //시간(1) option(01시)로 변경하기
   let hours: hourToString[] = [];
-  // let obj: hourToString = { hourNum: 0, hourString: "시간 선택" };
-  // hours.push(obj);
+  let obj: hourToString = { hourNum: 0, hourString: "시간 선택" };
+  hours.push(obj);
 
   for (let i = 1; i < 25; i++) {
     let timeNum: number = i;
@@ -31,8 +31,38 @@ function SearchMain({}: Props) {
     hours.push(obj);
   }
 
+  let sidos: string[] = [
+    // "지역 선택",
+    "서울특별시",
+    "광주광역시",
+    "대구광역시",
+    "대전광역시",
+    "부산광역시",
+    "울산광역시",
+    "인천광역시",
+    "강원도",
+    "경기도",
+    "경상남도",
+    "경상북도",
+    "전라남도",
+    "전라북도",
+    "충청남도",
+    "충청북도",
+    "제주특별자치도",
+    "세종특별자치시",
+  ];
+
   const handleSelectTime = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTimeValue(e.target.value);
+  };
+
+  const handleSelectSido = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSidoValue(e.target.value);
+  };
+
+  const handleSearch = (e: React.MouseEvent) => {};
+  const handleSearchContent = (e: React.FormEventHandler<HTMLFormElement>) => {
+    setGugunValue(e.target.value);
   };
 
   return (
@@ -43,16 +73,14 @@ function SearchMain({}: Props) {
       <select
         name="sido"
         className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
-        // onChange={handle}
+        onChange={handleSelectSido}
+        value={sidoValue}
       >
-        <option value="selectSido" selected hidden>
-          시/도 선택
-        </option>
-        <option value="option1">option1</option>
-        <option value="option2">option2</option>
-        <option value="option3">option3</option>
-        <option value="option4">option4</option>
-        <option value="option5">option5</option>
+        {sidos.map((item, idx) => (
+          <option value={item} key={idx}>
+            {item}
+          </option>
+        ))}
       </select>
 
       {/* input type="date"의 min/max 속성은 선택할 수 있는 날짜의 최대/최소  min="2022-04-01" max="2022-04-30" 식으로 제한 */}
@@ -77,9 +105,15 @@ function SearchMain({}: Props) {
       </select>
 
       <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2 ">
-        <form className="grid grid-cols-12 gap-1">
-          <input className="rounded-3xl col-span-11 p-15 text-center text-2xl font-serif"></input>
-          <button className="col-span-1 rounded-3xl">
+        <form className="grid grid-cols-12 gap-1" onSubmit={handleSearch}>
+          <input
+            className="rounded-3xl col-span-11 p-15 text-center text-2xl font-serif"
+            type="text"
+            value={search}
+            placeholder="구/군을 검색해보세요!"
+            onChange={handleSearchContent}
+          ></input>
+          <button className="col-span-1 rounded-3xl" type="submit">
             <img src={search} className="w-3/4 h3/4 p-3" alt="searchIcon" />
           </button>
         </form>
