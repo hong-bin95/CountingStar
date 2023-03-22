@@ -22,12 +22,12 @@ function DetailsDate() {
         width : '25px',
     }
 
-    useEffect(() => {
-        const id =setInterval(() => {
-            setToday(new Date());
-        }, 1000);
-        return (() => clearInterval(id))
-    }, [])
+    // useEffect(() => {
+    //     const id =setInterval(() => {
+    //         setToday(new Date());
+    //     }, 1000);
+    //     return (() => clearInterval(id))
+    // }, [])
 
     const moveUp = () => {
         if(month === 12 && date === 31){ 
