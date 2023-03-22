@@ -12,7 +12,7 @@ const DateContainer = styled.div`
 
 function DetailsDate() {
 
-    let today = new Date();
+    const [today, setToday] = useState<Date>(new Date());
     const [year, setYear] = useState<number>(today.getFullYear());
     const [month, setMonth] = useState<number>(today.getMonth() +1);
     const [date, setDate] = useState<number>(today.getDate());
@@ -21,6 +21,13 @@ function DetailsDate() {
         height : '25px',
         width : '25px',
     }
+
+    useEffect(() => {
+        const id =setInterval(() => {
+            setToday(new Date());
+        }, 1000);
+        return (() => clearInterval(id))
+    }, [])
 
     const moveUp = () => {
         if(month === 12 && date === 31){ 
