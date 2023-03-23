@@ -8,7 +8,7 @@ import {
 } from "@react-google-maps/api";
 import styled from "styled-components";
 import MarkerImage from "../assets/Marker.png";
-import { MarkerType } from "../types/MarkerType";
+import { MarkerType } from "../types/SpotType";
 
 const libraries: (
   | "places"
@@ -52,7 +52,7 @@ function GoogleMain() {
                 position={marker.position}
                 icon={{
                   url: MarkerImage,
-                  scaledSize: new window.google.maps.Size(30, 50),
+                  scaledSize: new window.google.maps.Size(50, 50),
                 }}
                 onClick={() => setSelectedMarker(marker)} // 마커 클릭 시 선택된 마커 정보를 저장하는 함수
               />
@@ -63,7 +63,7 @@ function GoogleMain() {
                 key={index}
                 position={marker.position}
                 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                getPixelPositionOffset={(x, y) => ({ x: -10, y: -5 })}
+                getPixelPositionOffset={(x, y) => ({ x: 0, y: 0 })}
               >
                 <button
                   style={{
