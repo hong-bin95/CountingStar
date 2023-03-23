@@ -22,10 +22,12 @@ const libraries: (
 function GoogleMain() {
   const center = { lat: 36.34, lng: 127.77 };
 
+  // useState 정리
   const [spots, setSpots] = useState<Array<SpotType>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
 
+  // 함수 정리
   const getData = async () => {
     try {
       const response = await SpotApi().doGetSpot();
@@ -39,6 +41,7 @@ function GoogleMain() {
     setIsLoaded(true);
   };
 
+  // useEffect 정리
   useEffect(() => {
     getData();
   }, []);
@@ -58,7 +61,7 @@ function GoogleMain() {
           >
             {spots.length > 0 &&
               spots.map((spot, index) => (
-                <MarkerF
+                <MarkerF // 마커 시작
                   key={index}
                   position={{
                     lat: parseFloat(spot.latitude),
@@ -69,12 +72,12 @@ function GoogleMain() {
                     scaledSize: new window.google.maps.Size(50, 50),
                   }}
                   onClick={() => setSelectedMarker(spot)}
-                />
+                /> // 마커 끝
               ))}
-
+            ;
             {spots.length > 0 &&
               spots.map((spot, index) => (
-                <OverlayViewF
+                <OverlayViewF // 오버레이뷰 시작 (html요소를 구글 맵 위에 넣기 위함)
                   key={index}
                   position={{
                     lat: parseFloat(spot.latitude),
@@ -92,9 +95,9 @@ function GoogleMain() {
                       borderRadius: "4px",
                     }}
                   >
-                    {spot.areaCode}
+                    {spot.spotName}
                   </button>
-                </OverlayViewF>
+                </OverlayViewF> // 오버레이뷰 끝
               ))}
           </GoogleMap>
         )}
