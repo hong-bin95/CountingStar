@@ -27,6 +27,11 @@ function GoogleMain() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
 
+  // useEffect 정리
+  useEffect(() => {
+    getData();
+  }, []);
+
   // 함수 정리
   const getData = async () => {
     try {
@@ -40,11 +45,6 @@ function GoogleMain() {
   const onLoad = () => {
     setIsLoaded(true);
   };
-
-  // useEffect 정리
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <Wrapper>
