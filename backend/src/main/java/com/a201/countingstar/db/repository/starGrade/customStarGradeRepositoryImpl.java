@@ -31,8 +31,6 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
                                                        String baseDateHour,
                                                        String baseDateMinute,
                                                        int number) {
-        int i = 1;
-
         List<spotRankingResponseDto> responseList = new ArrayList<>();
         List<Tuple> starGradeList =
                 queryFactory.select(spot.spotName,
@@ -43,7 +41,6 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
                         .orderBy(
                                 starGrade.grade1.sum().desc()
                         )
-//                        .on()
                         .fetch();
 
 
