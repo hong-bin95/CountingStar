@@ -13,5 +13,5 @@ public interface SpotService {
                                                        String baseDateDay,
                                                        String baseDateHour,
                                                        String baseDateMinute,
-                                                       int number);
+                                                       int limit);
 }
