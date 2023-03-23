@@ -25,6 +25,7 @@ public class SpotServiceImpl implements SpotService {
             spotList.add(SpotResponseDto.builder()
                     .spotId(spot.getSpotId())
                     .areaCode(spot.getAreaCode())
+                    .spotName(spot.getSpotName())
                     .latitude(spot.getLatitude())
                     .longitude(spot.getLongitude()).build());
         });

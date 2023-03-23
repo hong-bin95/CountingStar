@@ -15,4 +15,5 @@ public class SpotResponseDto {
     private String areaCode;
     private String latitude;
     private String longitude;
+    private String spotName;
 }
