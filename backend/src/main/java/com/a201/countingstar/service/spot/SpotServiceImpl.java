@@ -48,8 +48,8 @@ public class SpotServiceImpl implements SpotService {
                                                          String baseDateDay,
                                                          String baseDateHour,
                                                          String baseDateMinute,
-                                                         int number){
+                                                         int limit){
         return spotGradeRepository.getSpotRanking(baseDateYear, baseDateMonth, baseDateDay,
-                                                    baseDateHour, baseDateMinute, number);
+                                                    baseDateHour, baseDateMinute, limit);
     }
 }

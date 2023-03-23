@@ -74,7 +74,7 @@ public class SpotController {
                                                               @ApiParam(value = "기준일(dd)", readOnly = true)     String baseDateDay,
                                                               @ApiParam(value = "기준시간(HH)", readOnly = true)    String baseDateHour,
                                                               @ApiParam(value = "기준분(mm)", readOnly = true)     String baseDateMinute,
-                                                              @ApiParam(value = "리턴데이터 갯수") int number) {
+                                                              @ApiParam(value = "리턴데이터 갯수") int limit) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
@@ -83,7 +83,7 @@ public class SpotController {
                                                                             baseDateDay,
                                                                             baseDateHour,
                                                                             baseDateMinute,
-                                                                            number);
+                    limit);
             if (spot == null || spot.isEmpty()) {
                 status = HttpStatus.NO_CONTENT;
             } else {
