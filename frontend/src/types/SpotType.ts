@@ -10,4 +10,5 @@ export interface SpotType {
   areaCode: string;
   latitude: string;
   longitude: string;
+  spotName: string;
 }
