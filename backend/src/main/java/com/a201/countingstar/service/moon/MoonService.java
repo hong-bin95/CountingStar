@@ -4,5 +4,5 @@ import com.a201.countingstar.dto.moon.MoonResponseDto;
 import com.a201.countingstar.moon.MoonEnum;
 
 public interface MoonService {
-    public MoonResponseDto getMoonUrl();
+    public MoonResponseDto getMoonUrl(String select_date) throws Exception;
 }
