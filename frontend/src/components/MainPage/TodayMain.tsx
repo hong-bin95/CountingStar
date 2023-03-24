@@ -52,9 +52,9 @@ function TodayMain({}: Props) {
         <div className="col-span-2 ">버튼 컴포넌트</div>
       </div>
       <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
-        {spotList.map((spot) => (
+        {spotList.map((spot, idx) => (
           <div className="col-span-4">
-            <TodayBox spotName={spot.spotName} grade={spot.grade} />
+            <TodayBox spotName={spot.spotName} grade={spot.grade} key={idx} />
           </div>
         ))}
       </div>
