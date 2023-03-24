@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import search from "../../assets/search.png";
 import SearchBox from "./SearchBox";
-import Select from "react-select";
 
 type Props = {};
 
