@@ -4,3 +4,11 @@ export interface MarkerType {
     lng: number;
   };
 }
+
+export interface SpotType {
+  spotId: number;
+  areaCode: string;
+  latitude: string;
+  longitude: string;
+  spotName: string;
+}
