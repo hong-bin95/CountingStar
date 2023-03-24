@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   GoogleMap,
+  InfoWindowF,
   LoadScript,
   MarkerF,
   OverlayView,
@@ -10,6 +11,7 @@ import styled from "styled-components";
 import MarkerImage from "../assets/Marker.png";
 import { MarkerType, SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
+import PlaceInfo from "../components/GoogleMain/PlaceInfo";
 
 const libraries: (
   | "places"
@@ -20,17 +22,22 @@ const libraries: (
 )[] = ["places"];
 
 function GoogleMain() {
-  const center = { lat: 36.34, lng: 127.77 };
-
   // useState 정리
+  const [center, setCenter] = useState({ lat: 36.34, lng: 127.77 });
+  const [zoom, setZoom] = useState(7.5);
   const [spots, setSpots] = useState<Array<SpotType>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
+  const [selectedSpot, setSelectedSpot] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
+  const [isLoadedInfoWindow, setIsLoadedInfoWindow] = useState(false);
 
   // useEffect 정리
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    setIsLoadedInfoWindow(false); // 이전 PlaceInfo를 언로드하기 위해 setIsLoadedInfoWindow를 false로 초기화합니다.
+  }, [selectedSpot]);
 
   // 함수 정리
   const getData = async () => {
@@ -46,6 +53,10 @@ function GoogleMain() {
     setIsLoaded(true);
   };
 
+  const handleSelectedSpotChange = (newSelectedSpot: SpotType | null) => {
+    setSelectedSpot(newSelectedSpot);
+  };
+
   // 화면 렌더링
   return (
     <Wrapper>
@@ -56,7 +67,7 @@ function GoogleMain() {
       >
         {isLoaded && (
           <GoogleMap
-            zoom={7.5}
+            zoom={zoom}
             center={center}
             mapContainerClassName="map-container"
           >
@@ -72,7 +83,7 @@ function GoogleMain() {
                     url: MarkerImage,
                     scaledSize: new window.google.maps.Size(50, 50),
                   }}
-                  onClick={() => setSelectedMarker(spot)}
+                  clickable={false}
                 /> // 마커 끝
               ))}
             ;
@@ -95,11 +106,25 @@ function GoogleMain() {
                       color: `white`,
                       borderRadius: "4px",
                     }}
+                    onClick={() => {
+                      setSelectedSpot(spot);
+                      setCenter({
+                        lat: parseFloat(spot.latitude),
+                        lng: parseFloat(spot.longitude),
+                      });
+                      setZoom(10);
+                    }}
                   >
                     {spot.spotName}
                   </button>
                 </OverlayViewF> // 오버레이뷰 끝
               ))}
+            {selectedSpot !== null && (
+              <PlaceInfo
+                Spot={selectedSpot}
+                onCloseClick={() => handleSelectedSpotChange(null)}
+              ></PlaceInfo>
+            )}
           </GoogleMap>
         )}
       </LoadScript>
