@@ -1,14 +1,17 @@
 package com.a201.countingstar.service.weather;
 
-import com.a201.countingstar.dto.weather.weatherResponseDto;
-
-import java.util.List;
+import com.a201.countingstar.dto.weather.ConditionResponseDto;
+import com.a201.countingstar.dto.weather.DustResponseDto;
 
 public interface WeatherService {
-    public List<weatherResponseDto> getWeather(String baseDateYear,
-                                               String baseDateMonth,
-                                               String baseDateDay,
-                                               String baseDateHour,
-                                               String baseDateMinute,
-                                               int spotId);
+    public ConditionResponseDto getCondition(String baseDateYear,
+                                             String baseDateMonth,
+                                             String baseDateDay,
+                                             String baseDateHour,
+                                             int spotId) throws Exception;
+    public DustResponseDto getDust(String baseDateYear,
+                                   String baseDateMonth,
+                                   String baseDateDay,
+                                   String baseDateHour,
+                                   int spotId) throws Exception;
 }
