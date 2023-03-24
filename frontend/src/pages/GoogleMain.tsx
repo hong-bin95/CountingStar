@@ -46,6 +46,7 @@ function GoogleMain() {
     setIsLoaded(true);
   };
 
+  // 화면 렌더링
   return (
     <Wrapper>
       <LoadScript
@@ -60,9 +61,9 @@ function GoogleMain() {
             mapContainerClassName="map-container"
           >
             {spots.length > 0 &&
-              spots.map((spot, index) => (
+              spots.map((spot) => (
                 <MarkerF // 마커 시작
-                  key={index}
+                  key={spot.spotId}
                   position={{
                     lat: parseFloat(spot.latitude),
                     lng: parseFloat(spot.longitude),
@@ -76,9 +77,9 @@ function GoogleMain() {
               ))}
             ;
             {spots.length > 0 &&
-              spots.map((spot, index) => (
+              spots.map((spot) => (
                 <OverlayViewF // 오버레이뷰 시작 (html요소를 구글 맵 위에 넣기 위함)
-                  key={index}
+                  key={spot.spotId}
                   position={{
                     lat: parseFloat(spot.latitude),
                     lng: parseFloat(spot.longitude),
