@@ -1,5 +1,6 @@
 package com.a201.countingstar.controller;
 
+import com.a201.countingstar.common.CallAPI;
 import com.a201.countingstar.dto.spotRanking.spotRankingResponseDto;
 import com.a201.countingstar.service.spot.SpotService;
 import com.a201.countingstar.dto.spot.SpotResponseDto;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class SpotController {
 
     private final SpotService spotService;
+    private final CallAPI call;
 
     @ApiOperation(value = "전체 스팟 조회", notes = "모든 스팟의 정보 반환")
     @GetMapping
@@ -29,6 +31,8 @@ public class SpotController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
+
+
             List<SpotResponseDto> spotList = spotService.getSpotAll();
             // 데이터 없을 때, 204 error 발생하도록 설정
             if (spotList.isEmpty()) {
