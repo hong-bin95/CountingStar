@@ -108,44 +108,46 @@ function SearchMain({}: Props) {
       <div className="text-center py-6 text-4xl font-serif">
         지역으로 검색하기
       </div>
-      <select
-        name="sido"
-        className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
-        onChange={handleSelectSido}
-        value={sidoValue}
-      >
-        {sidos.map((item, idx) => (
-          <option value={item} key={idx}>
-            {item}
-          </option>
-        ))}
-      </select>
+      <div className="grid grid-cols-5">
+        <select
+          name="sido"
+          className=" ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          onChange={handleSelectSido}
+          value={sidoValue}
+        >
+          {sidos.map((item, idx) => (
+            <option value={item} key={idx}>
+              {item}
+            </option>
+          ))}
+        </select>
 
-      {/* input type="date"의 min/max 속성은 선택할 수 있는 날짜의 최대/최소  min="2022-04-01" max="2022-04-30" 식으로 제한 */}
-      <input
-        type="date"
-        min={todayString}
-        max={lastDayString}
-        className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
-        value={dateValue}
-        onChange={handleSelectDate}
-      ></input>
+        {/* input type="date"의 min/max 속성은 선택할 수 있는 날짜의 최대/최소  min="2022-04-01" max="2022-04-30" 식으로 제한 */}
+        <input
+          type="date"
+          min={todayString}
+          max={lastDayString}
+          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          value={dateValue}
+          onChange={handleSelectDate}
+        ></input>
 
-      <select
-        name="sido"
-        className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
-        onChange={handleSelectTime}
-        value={timeValue}
-      >
-        {hours.map((item) => (
-          <option value={item.hourNum} key={item.hourNum}>
-            {item.hourString}
-          </option>
-        ))}
-      </select>
+        <select
+          name="sido"
+          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          onChange={handleSelectTime}
+          value={timeValue}
+        >
+          {hours.map((item) => (
+            <option value={item.hourNum} key={item.hourNum}>
+              {item.hourString}
+            </option>
+          ))}
+        </select>
 
-      <div className="inline-block w-1/6 mr-0 bg-white border border-gray-200">
-        <img src={questionMark} className="w-1/6" />
+        <div className="col-span-2 bg-white border border-gray-200">
+          <img src={questionMark} className="w-8 h-8" />
+        </div>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2 ">
