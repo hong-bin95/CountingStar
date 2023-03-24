@@ -5,6 +5,7 @@ import com.a201.countingstar.dto.moon.MoonApiResponseDto;
 import com.a201.countingstar.dto.moon.MoonResponseDto;
 import com.a201.countingstar.moon.MoonEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.apache.tomcat.util.json.JSONParser;
@@ -48,25 +49,19 @@ public class MoonServiceImpl implements MoonService {
         // 받은 데이터 역직렬화한 결과
         List<MoonApiResponseDto> moonData = MoonApiResponseDto(result);
 
-        for(int i = 0; i < moonData.size(); i++){
-            String ss = moonData.get(i).getPhase();
-        }
-
-//        for(MoonApiResponseDto dto : moonData){
-//            String phase = dto.getPhase();
-//        }
-
-//        moonData.forEach(data -> {
-//            String phase = data.getPhase();
-//            String illumination = data.getIllumination();
-//        });
+        // 그 중에서 원하는 값만 꺼내기
+        moonData.forEach(data -> {
+            String phase = data.getPhase();
+            System.out.println(phase);
+            String illumination = data.getIllumination();
+        });
 
 
 //        double illumination = moonData.getClass().getField("Illumination");
 
 //        System.out.println("원하는 값 -> " + phase);
 //        System.out.println("원하는 값 -> " + illumination);
-        System.out.println("원하는 값 -> " + moonData);
+//        System.out.println("원하는 값 -> " + moonData);
 
 
         // 확인
@@ -85,8 +80,10 @@ public class MoonServiceImpl implements MoonService {
         // mapper -> null 값으로 두면 nullpointexception 발생
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ParameterNamesModule());
-        List<MoonApiResponseDto> dto = mapper.readValue(result.toString(),new ArrayList<MoonApiResponseDto>().getClass());
 
+        // 만드는 dto 형식을 맞춰야 함 ->
+//        List<MoonApiResponseDto> dto = mapper.readValue(result.toString(),new ArrayList<MoonApiResponseDto>().getClass());
+        List<MoonApiResponseDto> dto = mapper.readValue(result.toString(),new TypeReference<List<MoonApiResponseDto>>() {});
         return dto;
     }
 }
