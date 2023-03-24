@@ -7,6 +7,6 @@ import java.util.List;
 public class WeatherServiceImpl implements WeatherService {
     @Override
     public List<weatherResponseDto> getWeather(String baseDateYear, String baseDateMonth, String baseDateDay, String baseDateHour, String baseDateMinute, int spotId) {
-        
+        return null;
     }
 }
