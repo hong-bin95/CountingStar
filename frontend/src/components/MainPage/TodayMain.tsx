@@ -15,9 +15,29 @@ function TodayMain({}: Props) {
   const [spotList, setSpotList] = useState<Array<spot>>([]);
 
   useEffect(() => {
+    let now = new Date();
+    let year = now.getFullYear().toString();
+    let month = ("0" + (now.getMonth() + 1)).slice(-2);
+    let day = now.getDate().toString();
+
+    let hours = now.getHours().toString();
+
+    console.log(year, month, day, hours);
+    console.log(typeof year);
+    console.log(typeof month);
+    console.log(typeof day);
+    console.log(typeof hours);
+
     axios
       .get("https://counting-star.com/api/spot/ranking", {
         params: {
+          // baseDateYear: { year },
+          // baseDateMonth: { month },
+          // baseDateDay: { day },
+          // baseDateHour: { hours },
+          // baseDateMinute: "00",
+          // limit: 5,
+
           baseDateYear: "2023",
           baseDateMonth: "03",
           baseDateDay: "23",
@@ -53,8 +73,8 @@ function TodayMain({}: Props) {
       </div>
       <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
         {spotList.map((spot, idx) => (
-          <div className="col-span-4">
-            <TodayBox spotName={spot.spotName} grade={spot.grade} key={idx} />
+          <div className="col-span-4" key={idx}>
+            <TodayBox spotName={spot.spotName} grade={spot.grade} />
           </div>
         ))}
       </div>

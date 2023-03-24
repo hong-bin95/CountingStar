@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import search from "../../assets/search.png";
 import SearchBox from "./SearchBox";
+import questionMark from "../../assets/question.png";
 
 type Props = {};
 
@@ -30,6 +31,28 @@ function SearchMain({}: Props) {
     hours.push(obj);
   }
 
+  //날짜 제한 (오늘~10일 후)
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = ("0" + (date.getMonth() + 1)).slice(-2);
+  let day = ("0" + date.getDate()).slice(-2);
+
+  //3월 넘어가면
+  let lastMonthNum = date.getMonth() + 1;
+  let lastMonth = "";
+  if (date.getDate() + 10 > 31) {
+    lastMonth = ("0" + (lastMonthNum + 1)).slice(-2);
+  }
+  let lastDate = new Date(date.setDate(date.getDate() + 10));
+
+  let lastDay = ("0" + lastDate.getDate()).slice(-2);
+
+  let todayString = year + "-" + month + "-" + day;
+  let lastDayString = year + "-" + lastMonth + "-" + lastDay;
+  console.log(todayString);
+  console.log(lastDayString);
+
+  //시도 리스트
   let sidos: string[] = [
     "지역 선택",
     "서울특별시",
@@ -101,8 +124,8 @@ function SearchMain({}: Props) {
       {/* input type="date"의 min/max 속성은 선택할 수 있는 날짜의 최대/최소  min="2022-04-01" max="2022-04-30" 식으로 제한 */}
       <input
         type="date"
-        min=""
-        max=""
+        min={todayString}
+        max={lastDayString}
         className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
         value={dateValue}
         onChange={handleSelectDate}
@@ -120,6 +143,10 @@ function SearchMain({}: Props) {
           </option>
         ))}
       </select>
+
+      <div className="inline-block w-1/6 mr-0 bg-white border border-gray-200">
+        <img src={questionMark} className="w-1/6" />
+      </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2 ">
         <form className="grid grid-cols-12 gap-1" onSubmit={handleSearchButton}>
