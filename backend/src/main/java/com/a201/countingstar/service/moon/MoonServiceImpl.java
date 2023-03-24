@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 //@AllArgsConstructor
 public class MoonServiceImpl implements MoonService {
     @Override
-    public MoonResponseDto getMoonUrl(int value) {
+    public MoonResponseDto getMoonUrl() {
         return null;
     }
 }
