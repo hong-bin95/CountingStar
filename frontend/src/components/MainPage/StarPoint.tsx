@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 import starScore from "../../assets/fiveStar.png";
 
-type Props = {};
+type Props = {
+  grade: number;
+};
 
-function StarPoint({}: Props) {
-  const [score, setScore] = useState(5);
+function StarPoint(props: Props) {
+  const [score, setScore] = useState(props.grade);
 
   function repeatStar(score: number): JSX.Element[] {
     let arr = [];
