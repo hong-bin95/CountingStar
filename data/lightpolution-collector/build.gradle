@@ -20,6 +20,8 @@ dependencies {
 	implementation group: 'io.jhdf', name: 'jhdf', version: '0.6.9'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.apache.hbase', name: 'hbase-client', version: '2.5.3'
+	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
+    implementation 'com.datastax.oss:java-driver-core:4.14.0'
 	
 }
 

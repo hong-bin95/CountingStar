@@ -91,7 +91,7 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
             int downloadCount = 0;
             while (downloadCount < mdpr) {
                 if (downloadRecord.isDownloaded(metadata.getCksum())) {
-                    String log = String.format("[%s] Service : LightPolution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
+                    String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
                             LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), reqTime);
                     LOGGER.info(log);
                     break;
@@ -101,18 +101,19 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
                     ResponseEntity<byte[]> response = restTemplate.exchange(metadata.getDownloadsLink(), HttpMethod.GET, DATA_HEADER, byte[].class);
                     if (response.getStatusCode() == HttpStatus.OK) {
                     	SuomiNppViirsDnbData rawData = SuomiNppViirsDnbDataDeserializer.deserialize(response.getBody());
-                    	for(LightPollution lightPolution : lightPollutionProcessor.process(rawData)) {
-                    		lightPollutionService.save(lightPolution);
+                    	for(LightPollution lightPollution : lightPollutionProcessor.process(rawData)) {
+                    		lightPollutionService.save(lightPollution);
                     	}
-                        downloadRecord.markAsDownloaded(metadata.getCksum());
-                        String log = String.format("[%s] Service : LightPolution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
+                        downloadRecord.markAsDownloaded(metadata.getCksum(), metadata.getLdt());
+                        String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
                                 LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), reqTime);
                         LOGGER.info(log);
                         break;
                     }
                     downloadCount++;
+                    
                 } catch (Exception e) {
-                    String log = String.format("[%s] Service : LightPolution, DownloadUrl : %s, IsSuccess : No, FileChecksum : %s, RequestTime : %s, ErrorMessage : %s",
+                    String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : No, FileChecksum : %s, RequestTime : %s, ErrorMessage : %s",
                             LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), LocalDateTime.now(), e.getMessage());
                     LOGGER.error(log);
                 }

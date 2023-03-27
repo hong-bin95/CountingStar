@@ -1,13 +1,13 @@
-package com.ssafy.countingstar.lightpolution;
+package com.ssafy.countingstar.lightpollution;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LightpolutionCollectorApplication {
+public class LightpollutionCollectorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LightpolutionCollectorApplication.class, args);
+		SpringApplication.run(LightpollutionCollectorApplication.class, args);
 	}
 
 }

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class SuomiNppViirsDnbMetaData {
     private int archiveSets;
-    private String cksum;
+    private int cksum;
     private String dataDay;
     private String downloadsLink;
     private int fileId;
@@ -36,11 +36,11 @@ public class SuomiNppViirsDnbMetaData {
         this.archiveSets = archiveSets;
     }
 
-    public String getCksum() {
+    public int getCksum() {
         return cksum;
     }
 
-    public void setCksum(String cksum) {
+    public void setCksum(int cksum) {
         this.cksum = cksum;
     }
 

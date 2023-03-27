@@ -8,8 +8,10 @@ public interface LightPollutionProcessorService {
 	/**
 	 * 
 	 * @param rawData 전처리 이전 raw데이터.
-	 * @return 완전히 처리된 LightPolution 정보.
+	 * @return 완전히 처리된 LightPollution 정보.
 	 */
 	public Iterable<LightPollution> process(SuomiNppViirsDnbData rawData);
+	
+	
 	
 }
