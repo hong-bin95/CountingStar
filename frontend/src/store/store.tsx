@@ -4,7 +4,7 @@ import SpotSlice from "./SpotSlice";
 
 const Store = configureStore({
   reducer: {
-    detail: DetailsSlice.reducer,
+    DetailsSlice: DetailsSlice.reducer,
     spot: SpotSlice,
   },
 });
