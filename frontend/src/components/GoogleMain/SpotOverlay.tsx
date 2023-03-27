@@ -30,7 +30,6 @@ const SpotOverlay = (props: SpotOverlayProps) => {
         }}
         onClick={() => {
           onSpotClick(spot);
-          console.log(spot);
         }}
       >
         {spot.spotName}

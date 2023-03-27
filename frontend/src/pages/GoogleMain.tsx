@@ -31,16 +31,11 @@ function GoogleMain() {
   const [spots, setSpots] = useState<Array<SpotType>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
-  const [isLoadedInfoWindow, setIsLoadedInfoWindow] = useState(false);
 
   // useEffect 정리
   useEffect(() => {
     getData();
   }, []);
-
-  useEffect(() => {
-    setIsLoadedInfoWindow(false); // 이전 PlaceInfo를 언로드하기 위해 setIsLoadedInfoWindow를 false로 초기화합니다.
-  }, [selectedSpot]);
 
   // 함수 정리
   const getData = async () => {
@@ -56,10 +51,6 @@ function GoogleMain() {
     setIsLoaded(true);
   };
 
-  const handleSelectedSpotChange = (newSelectedSpot: SpotType | null) => {
-    setSelectedSpot(newSelectedSpot);
-  };
-
   // 화면 렌더링
   return (
     <Wrapper>
@@ -73,6 +64,7 @@ function GoogleMain() {
             zoom={zoom}
             center={center}
             mapContainerClassName="map-container"
+            options={{ disableDefaultUI: true }}
           >
             {/* <div
               style={{
@@ -111,14 +103,14 @@ function GoogleMain() {
                       lat: parseFloat(selectedSpot.latitude),
                       lng: parseFloat(selectedSpot.longitude),
                     });
-                    setZoom(10);
                   }}
                 />
               ))}
             {selectedSpot !== null && (
               <PlaceInfo
                 Spot={selectedSpot}
-                onCloseClick={() => handleSelectedSpotChange(null)}
+                onCloseClick={() => setSelectedSpot(null)}
+                onUnmount={() => setSelectedSpot(null)}
               ></PlaceInfo>
             )}
           </GoogleMap>

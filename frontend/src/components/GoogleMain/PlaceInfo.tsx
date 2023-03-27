@@ -6,11 +6,15 @@ const PlaceInfo = (Props: any) => {
   const navigate = useNavigate();
 
   const onCloseClick = () => {
-    Props.onCloseClick(null);
+    Props.onCloseClick();
   };
 
   const onDetailsButtonClick = (spotId: number) => {
     navigate(`/Details/${spotId}`);
+  };
+
+  const onUnmount = () => {
+    Props.onUnmount();
   };
 
   return (
@@ -22,6 +26,7 @@ const PlaceInfo = (Props: any) => {
         }}
         onCloseClick={onCloseClick}
         // onCloseClick={() => Props.selectedSpot = {null}}
+        onUnmount={onUnmount}
       >
         <div>
           <h3>{Props.Spot.spotName}</h3>
