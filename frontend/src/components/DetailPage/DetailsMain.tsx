@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled, { keyframes } from 'styled-components';
+import Logo from '../Logo';
 import DetailsDate from './DetailsDate';
 import DetailsPoint from './DetailsPoint';
 import DetailsWeather from './DetailsWeather';
@@ -84,7 +85,7 @@ function DetailsMain() {
         <div>
             <MainContainer>
                 <TopContainer>
-                    <img src='../logo.svg'></img>
+                    <Logo />
                     <PlaceTitle></PlaceTitle>
                     <ContainerButton onClick={onClick}></ContainerButton>
                 </TopContainer>
