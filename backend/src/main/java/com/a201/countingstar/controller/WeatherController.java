@@ -24,10 +24,10 @@ public class WeatherController {
     private final WeatherService weatherService;
     @ApiOperation("날씨 상태 정보")
     @GetMapping("/condition")
-    public ResponseEntity<?> getWeatherCondition(@ApiParam(value = "기준년도(YYYY)", required = true)    String baseDateYear,
-                                                   @ApiParam(value = "기준월(MM)", readOnly = true)     String baseDateMonth,
-                                                   @ApiParam(value = "기준일(dd)", readOnly = true)     String baseDateDay,
-                                                   @ApiParam(value = "기준시간(HH)", readOnly = true)    String baseDateHour,
+    public ResponseEntity<?> getWeatherCondition(@ApiParam(value = "기준년도(YYYY)")    String baseDateYear,
+                                                   @ApiParam(value = "기준월(MM)")     String baseDateMonth,
+                                                   @ApiParam(value = "기준일(dd)")     String baseDateDay,
+                                                   @ApiParam(value = "기준시간(HH)")    String baseDateHour,
                                                    @ApiParam(value = "스팟 번호 (spotId)") int spotId) {
         Map resultmap = new HashMap<>();
         HttpStatus status;
@@ -59,11 +59,11 @@ public class WeatherController {
 
     @ApiOperation("미세먼지 정보")
     @GetMapping("/dust")
-    public ResponseEntity<?> getDust(@ApiParam(value = "기준년도(YYYY)", required = true)    String baseDateYear,
-                                                   @ApiParam(value = "기준월(MM)", readOnly = true)     String baseDateMonth,
-                                                   @ApiParam(value = "기준일(dd)", readOnly = true)     String baseDateDay,
-                                                   @ApiParam(value = "기준시간(HH)", readOnly = true)    String baseDateHour,
-                                                   @ApiParam(value = "스팟 번호 (spotId)") int spotId) {
+    public ResponseEntity<?> getDust(@ApiParam(value = "기준년도(YYYY)")    String baseDateYear,
+                                     @ApiParam(value = "기준월(MM)")     String baseDateMonth,
+                                     @ApiParam(value = "기준일(dd)")     String baseDateDay,
+                                     @ApiParam(value = "기준시간(HH)")    String baseDateHour,
+                                     @ApiParam(value = "스팟 번호 (spotId)") int spotId) {
         Map resultmap = new HashMap<>();
         HttpStatus status;
 

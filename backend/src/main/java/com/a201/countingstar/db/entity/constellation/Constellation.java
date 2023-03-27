@@ -12,6 +12,8 @@ public class Constellation {
     private int constellationId;
 
     private String name;
+    @Column(name="kor_name")
+    private String korName;
     @Column(name="observe_month")
     private String observeMonth;
 
