@@ -24,6 +24,17 @@ const libraries: (
   | "visualization"
 )[] = ["places"];
 
+const mapStyles = [
+  {
+    featureType: "poi",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+];
+
 function GoogleMain() {
   // useState 정리
   const [center, setCenter] = useState({ lat: 36.34, lng: 127.77 });
@@ -64,7 +75,7 @@ function GoogleMain() {
             zoom={zoom}
             center={center}
             mapContainerClassName="map-container"
-            options={{ disableDefaultUI: true }}
+            options={{ styles: mapStyles }}
           >
             {/* <div
               style={{
