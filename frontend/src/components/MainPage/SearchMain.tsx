@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import search from "../../assets/search.png";
 import SearchBox from "./SearchBox";
+import questionMark from "../../assets/question.png";
 
 type Props = {};
 
@@ -30,6 +31,28 @@ function SearchMain({}: Props) {
     hours.push(obj);
   }
 
+  //날짜 제한 (오늘~10일 후)
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = ("0" + (date.getMonth() + 1)).slice(-2);
+  let day = ("0" + date.getDate()).slice(-2);
+
+  //3월 넘어가면
+  let lastMonthNum = date.getMonth() + 1;
+  let lastMonth = "";
+  if (date.getDate() + 10 > 31) {
+    lastMonth = ("0" + (lastMonthNum + 1)).slice(-2);
+  }
+  let lastDate = new Date(date.setDate(date.getDate() + 10));
+
+  let lastDay = ("0" + lastDate.getDate()).slice(-2);
+
+  let todayString = year + "-" + month + "-" + day;
+  let lastDayString = year + "-" + lastMonth + "-" + lastDay;
+  console.log(todayString);
+  console.log(lastDayString);
+
+  //시도 리스트
   let sidos: string[] = [
     "지역 선택",
     "서울특별시",
@@ -85,41 +108,47 @@ function SearchMain({}: Props) {
       <div className="text-center py-6 text-4xl font-serif">
         지역으로 검색하기
       </div>
-      <select
-        name="sido"
-        className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
-        onChange={handleSelectSido}
-        value={sidoValue}
-      >
-        {sidos.map((item, idx) => (
-          <option value={item} key={idx}>
-            {item}
-          </option>
-        ))}
-      </select>
+      <div className="grid grid-cols-5">
+        <select
+          name="sido"
+          className=" ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          onChange={handleSelectSido}
+          value={sidoValue}
+        >
+          {sidos.map((item, idx) => (
+            <option value={item} key={idx}>
+              {item}
+            </option>
+          ))}
+        </select>
 
-      {/* input type="date"의 min/max 속성은 선택할 수 있는 날짜의 최대/최소  min="2022-04-01" max="2022-04-30" 식으로 제한 */}
-      <input
-        type="date"
-        min=""
-        max=""
-        className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
-        value={dateValue}
-        onChange={handleSelectDate}
-      ></input>
+        {/* input type="date"의 min/max 속성은 선택할 수 있는 날짜의 최대/최소  min="2022-04-01" max="2022-04-30" 식으로 제한 */}
+        <input
+          type="date"
+          min={todayString}
+          max={lastDayString}
+          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          value={dateValue}
+          onChange={handleSelectDate}
+        ></input>
 
-      <select
-        name="sido"
-        className="w-1/6 ml-1 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
-        onChange={handleSelectTime}
-        value={timeValue}
-      >
-        {hours.map((item) => (
-          <option value={item.hourNum} key={item.hourNum}>
-            {item.hourString}
-          </option>
-        ))}
-      </select>
+        <select
+          name="sido"
+          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          onChange={handleSelectTime}
+          value={timeValue}
+        >
+          {hours.map((item) => (
+            <option value={item.hourNum} key={item.hourNum}>
+              {item.hourString}
+            </option>
+          ))}
+        </select>
+
+        <div className="col-span-2 bg-white border border-gray-200">
+          <img src={questionMark} className="w-8 h-8" />
+        </div>
+      </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2 ">
         <form className="grid grid-cols-12 gap-1" onSubmit={handleSearchButton}>
