@@ -11,6 +11,9 @@ import styled from "styled-components";
 import MarkerImage from "../assets/Marker.png";
 import { MarkerType, SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
+
+import Main from "./Main";
+import SpotOverlay from "../components/GoogleMain/SpotOverlay";
 import PlaceInfo from "../components/GoogleMain/PlaceInfo";
 
 const libraries: (
@@ -71,6 +74,16 @@ function GoogleMain() {
             center={center}
             mapContainerClassName="map-container"
           >
+            {/* <div
+              style={{
+                position: "absolute",
+                top: "10px",
+                left: "10px",
+                zIndex: 10,
+              }}
+            >
+              <Main />
+            </div> */}
             {spots.length > 0 &&
               spots.map((spot) => (
                 <MarkerF // 마커 시작
@@ -89,35 +102,18 @@ function GoogleMain() {
             ;
             {spots.length > 0 &&
               spots.map((spot) => (
-                <OverlayViewF // 오버레이뷰 시작 (html요소를 구글 맵 위에 넣기 위함)
+                <SpotOverlay
                   key={spot.spotId}
-                  position={{
-                    lat: parseFloat(spot.latitude),
-                    lng: parseFloat(spot.longitude),
+                  spot={spot}
+                  onSpotClick={(selectedSpot) => {
+                    setSelectedSpot(selectedSpot);
+                    setCenter({
+                      lat: parseFloat(selectedSpot.latitude),
+                      lng: parseFloat(selectedSpot.longitude),
+                    });
+                    setZoom(10);
                   }}
-                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                  getPixelPositionOffset={(x, y) => ({ x: 0, y: 0 })}
-                >
-                  <button
-                    style={{
-                      background: `#203254`,
-                      padding: `7px 12px`,
-                      fontSize: "11px",
-                      color: `white`,
-                      borderRadius: "4px",
-                    }}
-                    onClick={() => {
-                      setSelectedSpot(spot);
-                      setCenter({
-                        lat: parseFloat(spot.latitude),
-                        lng: parseFloat(spot.longitude),
-                      });
-                      setZoom(10);
-                    }}
-                  >
-                    {spot.spotName}
-                  </button>
-                </OverlayViewF> // 오버레이뷰 끝
+                />
               ))}
             {selectedSpot !== null && (
               <PlaceInfo
@@ -135,6 +131,7 @@ function GoogleMain() {
 export default GoogleMain;
 
 const Wrapper = styled.div`
+  position: relative;
   .map-container {
     width: 100vw;
     height: 100vh;
