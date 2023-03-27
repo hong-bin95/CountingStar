@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import DetailSlice from "./DetailSlice";
+import DetailsSlice from "./DetailsSlice";
 import SpotSlice from "./SpotSlice";
 
-const store = configureStore({
+const Store = configureStore({
   reducer: {
-    detail: DetailSlice.reducer,
+    detail: DetailsSlice.reducer,
     spot: SpotSlice,
   },
 });
-export default store;
+export default Store;

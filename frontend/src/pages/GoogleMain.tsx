@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import styled from "styled-components";
-import MarkerImage from "../assets/Marker.png";
 import { SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
 
