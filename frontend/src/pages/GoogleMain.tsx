@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
-import {
-  GoogleMap,
-  LoadScript,
-  MarkerF,
-  OverlayView,
-  OverlayViewF,
-} from "@react-google-maps/api";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import styled from "styled-components";
-import MarkerImage from "../assets/Marker.png";
-import { MarkerType, SpotType } from "../types/SpotType";
+import { SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
+
+import Main from "./Main";
+import SpotOverlay from "../components/GoogleMain/SpotOverlay";
+import PlaceInfo from "../components/GoogleMain/PlaceInfo";
+import CustomMarker from "../components/GoogleMain/CustomMarker";
 
 const libraries: (
   | "places"
@@ -19,13 +17,29 @@ const libraries: (
   | "visualization"
 )[] = ["places"];
 
-function GoogleMain() {
-  const center = { lat: 36.34, lng: 127.77 };
+const mapStyles = [
+  {
+    featureType: "poi",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+];
 
+function GoogleMain() {
   // useState 정리
+  const [center, setCenter] = useState({ lat: 36.34, lng: 127.77 });
+  const [zoom, setZoom] = useState(7.5);
   const [spots, setSpots] = useState<Array<SpotType>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
+  const [selectedSpot, setSelectedSpot] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
+
+  // useEffect 정리
+  useEffect(() => {
+    getData();
+  }, []);
 
   // 함수 정리
   const getData = async () => {
@@ -41,11 +55,7 @@ function GoogleMain() {
     setIsLoaded(true);
   };
 
-  // useEffect 정리
-  useEffect(() => {
-    getData();
-  }, []);
-
+  // 화면 렌더링
   return (
     <Wrapper>
       <LoadScript
@@ -55,50 +65,47 @@ function GoogleMain() {
       >
         {isLoaded && (
           <GoogleMap
-            zoom={7.5}
+            zoom={zoom}
             center={center}
             mapContainerClassName="map-container"
+            options={{ styles: mapStyles }}
           >
+            {/* <div
+              style={{
+                position: "absolute",
+                top: "10px",
+                left: "10px",
+                zIndex: 10,
+              }}
+            >
+              <Main />
+            </div> */}
             {spots.length > 0 &&
-              spots.map((spot, index) => (
-                <MarkerF // 마커 시작
-                  key={index}
-                  position={{
-                    lat: parseFloat(spot.latitude),
-                    lng: parseFloat(spot.longitude),
-                  }}
-                  icon={{
-                    url: MarkerImage,
-                    scaledSize: new window.google.maps.Size(50, 50),
-                  }}
-                  onClick={() => setSelectedMarker(spot)}
-                /> // 마커 끝
+              spots.map((spot) => (
+                <CustomMarker key={spot.spotId} spot={spot} />
               ))}
             ;
             {spots.length > 0 &&
-              spots.map((spot, index) => (
-                <OverlayViewF // 오버레이뷰 시작 (html요소를 구글 맵 위에 넣기 위함)
-                  key={index}
-                  position={{
-                    lat: parseFloat(spot.latitude),
-                    lng: parseFloat(spot.longitude),
+              spots.map((spot) => (
+                <SpotOverlay
+                  key={spot.spotId}
+                  spot={spot}
+                  onSpotClick={(selectedSpot) => {
+                    setSelectedSpot(selectedSpot);
+                    setCenter({
+                      lat: parseFloat(selectedSpot.latitude),
+                      lng: parseFloat(selectedSpot.longitude),
+                    });
                   }}
-                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                  getPixelPositionOffset={(x, y) => ({ x: 0, y: 0 })}
-                >
-                  <button
-                    style={{
-                      background: `#203254`,
-                      padding: `7px 12px`,
-                      fontSize: "11px",
-                      color: `white`,
-                      borderRadius: "4px",
-                    }}
-                  >
-                    {spot.spotName}
-                  </button>
-                </OverlayViewF> // 오버레이뷰 끝
+                />
               ))}
+            {selectedSpot !== null && (
+              <PlaceInfo
+                Spot={selectedSpot}
+                onCloseClick={() => setSelectedSpot(null)}
+                onUnmount={() => setSelectedSpot(null)}
+              ></PlaceInfo>
+            )}
           </GoogleMap>
         )}
       </LoadScript>
@@ -109,6 +116,7 @@ function GoogleMain() {
 export default GoogleMain;
 
 const Wrapper = styled.div`
+  position: relative;
   .map-container {
     width: 100vw;
     height: 100vh;

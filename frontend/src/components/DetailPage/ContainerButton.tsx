@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
-import UpBtn from '../assets/UpBtn.png';
-import DownBtn from '../assets/DownBtn.png';
+import UpBtn from '../../assets/UpBtn.png';
+import DownBtn from '../../assets/DownBtn.png';
 
 type ButtonProps = {
     onClick: () => void;
