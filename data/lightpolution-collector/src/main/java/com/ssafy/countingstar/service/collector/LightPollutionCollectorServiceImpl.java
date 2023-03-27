@@ -16,20 +16,22 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.countingstar.data.LightPollution;
+import com.ssafy.countingstar.data.raw.SuomiNppViirsDnbData;
 import com.ssafy.countingstar.data.raw.SuomiNppViirsDnbMetaData;
-import com.ssafy.countingstar.service.DownloadRecordService;
-import com.ssafy.countingstar.service.LightPolutionService;
-import com.ssafy.countingstar.service.data.util.LightPolutionDeserializer;
-import com.ssafy.countingstar.service.processor.LightPolutionProcessorService;
+import com.ssafy.countingstar.service.LightPollutionDownloadRecordService;
+import com.ssafy.countingstar.service.LightPollutionService;
+import com.ssafy.countingstar.service.data.util.SuomiNppViirsDnbDataDeserializer;
+import com.ssafy.countingstar.service.processor.LightPollutionProcessorService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
 @Service
-public class LightPolutionCollectorServiceImpl implements LightPolutionCollectorService{
+public class LightPollutionCollectorServiceImpl implements LightPollutionCollectorService{
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(LightPolutionCollectorServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LightPollutionCollectorServiceImpl.class);
 	
     @Value("${earthdata-token}")
     private static String token;
@@ -48,21 +50,24 @@ public class LightPolutionCollectorServiceImpl implements LightPolutionCollector
     	DATA_HEADER = createHeader(MediaType.APPLICATION_OCTET_STREAM);
     }
     
-    private DownloadRecordService downloadRecord;
+    private LightPollutionDownloadRecordService downloadRecord;
     
     private RestTemplate restTemplate;
     
-    private LightPolutionService lightPolutionService;
+    private LightPollutionService lightPollutionService;
     
-    public LightPolutionCollectorServiceImpl(
-    		@Autowired DownloadRecordService downloadRecord, 
-    		@Autowired LightPolutionService lightPolutionService, 
-    		@Autowired LightPolutionProcessorService lightPolutionProcessor,
+    private LightPollutionProcessorService lightPollutionProcessor;
+    
+    public LightPollutionCollectorServiceImpl(
+    		@Autowired LightPollutionDownloadRecordService downloadRecord, 
+    		@Autowired LightPollutionService lightPollutionService, 
+    		@Autowired LightPollutionProcessorService lightPollutionProcessor,
     		@Autowired RestTemplate restTemplate
     	) {
     	this.downloadRecord = downloadRecord;
     	this.restTemplate = restTemplate;
-    	this.lightPolutionService = lightPolutionService;
+    	this.lightPollutionService = lightPollutionService;
+    	this.lightPollutionProcessor = lightPollutionProcessor;
     }
     
     private SuomiNppViirsDnbMetaData[] downloadMetadata() throws JsonMappingException, JsonProcessingException{
@@ -74,7 +79,15 @@ public class LightPolutionCollectorServiceImpl implements LightPolutionCollector
     }
     
     private void collectData(SuomiNppViirsDnbMetaData[] metadatas, LocalDateTime reqTime) throws IOException {
-    	for (SuomiNppViirsDnbMetaData metadata : metadatas) {
+    	for (int i = metadatas.length-1; i >=0; i--) {
+    		// 가장 최신 데이터 부터 수집
+    		SuomiNppViirsDnbMetaData metadata = metadatas[i];
+    		if(!metadata.getLdt().isBefore(reqTime)) {
+    			// 요청 시각, 이후 자료는 처리하지 않는다.
+    			continue;
+    		}
+    		
+    		// 요청을 넘지않는 자료중 최신 자료부터 
             int downloadCount = 0;
             while (downloadCount < mdpr) {
                 if (downloadRecord.isDownloaded(metadata.getCksum())) {
@@ -87,8 +100,10 @@ public class LightPolutionCollectorServiceImpl implements LightPolutionCollector
                 try {
                     ResponseEntity<byte[]> response = restTemplate.exchange(metadata.getDownloadsLink(), HttpMethod.GET, DATA_HEADER, byte[].class);
                     if (response.getStatusCode() == HttpStatus.OK) {
-                    	lightPolutionService.save(LightPolutionDeserializer.deserialize(response.getBody()));
-                    	
+                    	SuomiNppViirsDnbData rawData = SuomiNppViirsDnbDataDeserializer.deserialize(response.getBody());
+                    	for(LightPollution lightPolution : lightPollutionProcessor.process(rawData)) {
+                    		lightPollutionService.save(lightPolution);
+                    	}
                         downloadRecord.markAsDownloaded(metadata.getCksum());
                         String log = String.format("[%s] Service : LightPolution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
                                 LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), reqTime);

@@ -3,6 +3,7 @@ package com.ssafy.countingstar.process;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.FilterFunction;
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Dataset;
@@ -13,24 +14,39 @@ import org.apache.spark.sql.SparkSession;
 import static org.apache.spark.sql.functions.substring;
 
 import com.ssafy.countingstar.data.Celestial;
+import com.ssafy.countingstar.data.Constellation;
 import com.ssafy.countingstar.data.raw.IAUConstellation;
 import com.ssafy.countingstar.data.raw.IAUStar;
 import com.ssafy.countingstar.data.raw.YBSCStar;
 import com.ssafy.countingstar.model.dao.StarDAO;
 import com.ssafy.countingstar.model.dto.StarDTO;
+import com.ssafy.countingstar.resource.CassandraSecret;
 import com.ssafy.countingstar.resource.Constant;
 import com.ssafy.countingstar.util.IAUConstellationParser;
 import com.ssafy.countingstar.util.IAUStarParser;
 import com.ssafy.countingstar.util.YBSCStarParser;
 
+import com.datastax.spark.connector.japi.CassandraJavaUtil;
+import com.datastax.spark.connector.japi.CassandraRow;
+
 import org.apache.spark.sql.functions;
 
 import scala.Tuple2;
 
-// 원천데이터로부터 정형화된 Celestial을 가공하여 내보낸다.
 public class CelestialProcessor {
 	
-	static SparkSession spark = SparkSession.builder().appName("Celestial1stProcessor").master("local[*]").getOrCreate();
+	static SparkConf conf = new SparkConf();
+	
+	static {
+		conf
+		.setAppName("Celestial-Constellation-Processor")
+        .setMaster("local[*]")
+        .set("spark.cassandra.connection.host", CassandraSecret.host)
+        .set("spark.cassandra.auth.username", CassandraSecret.username)
+        .set("spark.cassandra.auth.password", CassandraSecret.password);
+	}
+	
+	static SparkSession spark = SparkSession.builder().config(conf).getOrCreate();
 	static StarDAO starDAO = StarDAO.getInstance();
 	
 	static Long hdProcess(Long hd) {
@@ -125,6 +141,14 @@ public class CelestialProcessor {
 					      Encoders.bean(Celestial.class));
 		
 		c.filter((FilterFunction<Celestial>)x->x.getRightAscension() > 50.0).show();
+		
+		
+		
+
+		CassandraJavaUtil.javaFunctions(c.javaRDD())
+			.writerBuilder(CassandraSecret.keyspace, "celestial", CassandraJavaUtil.mapToRow(Celestial.class))
+			.saveToCassandra();
+		
 		c.foreach(x->{
 			starDAO.addStar(new StarDTO(x.getStarId().intValue(), x.getName(), 2, x.getConstellationId()));
 		});

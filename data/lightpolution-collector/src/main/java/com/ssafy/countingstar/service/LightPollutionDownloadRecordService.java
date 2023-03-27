@@ -1,6 +1,7 @@
 package com.ssafy.countingstar.service;
 
-public interface DownloadRecordService {
+public interface LightPollutionDownloadRecordService {
+	
 	/**
 	 * @param cksum
 	 * @return 해당 체크섬 데이터가 다운로드 되었는지 확인한다.

@@ -1,6 +1,8 @@
 package com.ssafy.countingstar.data;
 
-public class Constellation {
+import java.io.Serializable;
+
+public class Constellation implements Serializable {
 	int constellationId;
 	String name;
 	String abbr;

@@ -1,6 +1,8 @@
 package com.ssafy.countingstar.data;
 
-public class Celestial {
+import java.io.Serializable;
+
+public class Celestial implements Serializable {
 	private Long starId;
     private String name;
     private Long hd;
