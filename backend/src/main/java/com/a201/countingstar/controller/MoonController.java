@@ -1,6 +1,5 @@
 package com.a201.countingstar.controller;
 
-import com.a201.countingstar.dto.moon.MoonResponseDto;
 import com.a201.countingstar.service.moon.MoonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,16 +26,23 @@ public class MoonController {
 
     @ApiOperation(value = "달 위상 사진 url", notes = "해당 시간의 달 위상 사진 url 반환")
     @GetMapping("/{select_date}")
-    public void getMoonUrl(@PathVariable @ApiParam(value = "선택한 날짜 (select_date)", required = true)
+    public ResponseEntity<Map<String, Object>> getMoonUrl(@PathVariable @ApiParam(value = "선택한 날짜 (select_date)", required = true)
                                    String select_date) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            MoonResponseDto moon = moonService.getMoonUrl(select_date);
-
+            String moon = moonService.getMoonUrl(select_date);
+            if (moon == null) {
+                status = HttpStatus.NO_CONTENT;
+            } else {
+                resultMap.put("data", moon);
+                status = HttpStatus.OK;
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
 

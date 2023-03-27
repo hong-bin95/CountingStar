@@ -24,7 +24,7 @@ public class MoonApiResponseDto implements Serializable {
 
     private String[] Moon;
 
-    private String Index;
+    private int Index;
 
     private String Age;
 
@@ -32,7 +32,7 @@ public class MoonApiResponseDto implements Serializable {
 
     private String Distance;
 
-    private String Illumination;
+    private Float Illumination;
 
     private String AngularDiameter;
 
