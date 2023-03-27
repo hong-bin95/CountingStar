@@ -3,12 +3,14 @@ package com.a201.countingstar.db.repository.constellation;
 import com.a201.countingstar.db.entity.constellation.QConstellation;
 import com.a201.countingstar.db.entity.star.QStar;
 import com.a201.countingstar.db.entity.star.QStarGrade;
+import com.a201.countingstar.db.entity.star.StarGrade;
 import com.a201.countingstar.dto.constellation.ConstellationRankResponseDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomConstellationRepositoryImpl implements CustomConstellationRepository {
@@ -25,24 +27,25 @@ public class CustomConstellationRepositoryImpl implements CustomConstellationRep
     @Override
     public List<ConstellationRankResponseDto> getConstellationRank(String baseDateYear, String baseDateMonth, int limit) {
 
+        List<ConstellationRankResponseDto> responseList = new ArrayList<>();
 
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(starGrade.basicDateYear.eq(baseDateYear));
-        builder.and(starGrade.basicDateMonth.eq(baseDateMonth));
+        builder.and(constellation.observeMonth.contains(baseDateMonth));
 
         List<Tuple> constellationList =
-                queryFactory.select(constellation.name,
-                                constellation.count()
-                                )
-                        .from(constellation)
-                        .innerJoin(star.constellation_master_id, constellation)
-                        .innerJoin(starGrade.star, star)
-                        .where(builder)
-                        .groupBy(constellation.constellationId)
-                        .limit(limit)
-                        .fetch();
-//                        .innerJoin(constellation.constellationId, star);
+                queryFactory
+                        .select(constellation.korName, constellation.constellationId)
+                            .from(constellation)
+                                .where(builder)
+                                        .limit(limit)
+                                                .fetch();
 
+        constellationList.forEach(conste -> {
+            responseList.add(new ConstellationRankResponseDto(
+               conste.get(constellation.constellationId),
+                    conste.get(constellation.korName)
+            ));
+        });
 
         /*
         select con.name, count(con.name)  , sum(sg.grade_1)/count(con.name)
@@ -57,6 +60,6 @@ public class CustomConstellationRepositoryImpl implements CustomConstellationRep
         * */
 
 
-        return null;
+        return responseList;
     }
 }
