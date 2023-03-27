@@ -1,20 +1,14 @@
 import { useState, useEffect } from "react";
-import {
-  GoogleMap,
-  InfoWindowF,
-  LoadScript,
-  MarkerF,
-  OverlayView,
-  OverlayViewF,
-} from "@react-google-maps/api";
+import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
 import styled from "styled-components";
 import MarkerImage from "../assets/Marker.png";
-import { MarkerType, SpotType } from "../types/SpotType";
+import { SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
 
 import Main from "./Main";
 import SpotOverlay from "../components/GoogleMain/SpotOverlay";
 import PlaceInfo from "../components/GoogleMain/PlaceInfo";
+import CustomMarker from "../components/GoogleMain/CustomMarker";
 
 const libraries: (
   | "places"
@@ -89,18 +83,7 @@ function GoogleMain() {
             </div> */}
             {spots.length > 0 &&
               spots.map((spot) => (
-                <MarkerF // 마커 시작
-                  key={spot.spotId}
-                  position={{
-                    lat: parseFloat(spot.latitude),
-                    lng: parseFloat(spot.longitude),
-                  }}
-                  icon={{
-                    url: MarkerImage,
-                    scaledSize: new window.google.maps.Size(50, 50),
-                  }}
-                  clickable={false}
-                /> // 마커 끝
+                <CustomMarker key={spot.spotId} spot={spot} />
               ))}
             ;
             {spots.length > 0 &&
