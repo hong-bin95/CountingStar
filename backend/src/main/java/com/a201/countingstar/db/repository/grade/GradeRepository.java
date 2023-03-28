@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GradeRepository extends JpaRepository<StarGrade, Integer> {
-    public List<GradeResponseDto> getGradeList(GradeRequestDto request);
+public interface GradeRepository extends JpaRepository<StarGrade, Integer>, CustomGradeRepository {
 }
