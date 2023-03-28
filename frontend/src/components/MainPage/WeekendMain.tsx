@@ -42,11 +42,11 @@ function WeekendMain({}: Props) {
         이번 주말 별자리 명소
       </div>
       <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
-        {spotList.map((spot, idx) => (
+        {/* {spotList.map((spot, idx) => (
           <div className="col-span-4" key={idx}>
             <WeekendBox spotName={spot.spotName} grade={spot.grade} />
           </div>
-        ))}
+        ))} */}
       </div>
     </>
   );

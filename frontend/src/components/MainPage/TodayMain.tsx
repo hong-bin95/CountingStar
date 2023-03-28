@@ -4,14 +4,16 @@ import Logo from "../Logo";
 import TodayBox from "../../components/MainPage/TodayBox";
 import axios from "axios";
 
-type Props = {};
+interface Props {
+  toggleMainVisibility: () => void;
+}
 
 interface spot {
   spotName: string;
   grade: number;
 }
 
-function TodayMain({}: Props) {
+function TodayMain({ toggleMainVisibility }: Props) {
   const [spotList, setSpotList] = useState<Array<spot>>([]);
 
   useEffect(() => {
@@ -69,14 +71,14 @@ function TodayMain({}: Props) {
             오늘은 어디에 별이 많이 뜰까요?
           </p>
         </div>
-        <div className="col-span-2 ">버튼 컴포넌트</div>
+        <div className="col-span-2"></div>
       </div>
       <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
-        {spotList.map((spot, idx) => (
+        {/* {spotList.map((spot, idx) => (
           <div className="col-span-4" key={idx}>
             <TodayBox spotName={spot.spotName} grade={spot.grade} />
           </div>
-        ))}
+        ))} */}
       </div>
     </>
   );
