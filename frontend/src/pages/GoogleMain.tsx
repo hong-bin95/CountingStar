@@ -3,6 +3,7 @@ import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import styled from "styled-components";
 import { SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
+import "../styles/GoogleMain.css";
 
 import Main from "./Main";
 import SpotOverlay from "../components/GoogleMain/SpotOverlay";
@@ -70,16 +71,6 @@ function GoogleMain() {
             mapContainerClassName="map-container"
             options={{ styles: mapStyles }}
           >
-            {/* <div
-              style={{
-                position: "absolute",
-                top: "10px",
-                left: "10px",
-                zIndex: 10,
-              }}
-            >
-              <Main />
-            </div> */}
             {spots.length > 0 &&
               spots.map((spot) => (
                 <CustomMarker key={spot.spotId} spot={spot} />
@@ -109,6 +100,9 @@ function GoogleMain() {
           </GoogleMap>
         )}
       </LoadScript>
+      <div className="main-container">
+        <Main />
+      </div>
     </Wrapper>
   );
 }
