@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class GradeResponseDto {
     private int spotId;
     private String spotName;
+    // 별 다섯개중에 몇개인지
     private int grade;
 }

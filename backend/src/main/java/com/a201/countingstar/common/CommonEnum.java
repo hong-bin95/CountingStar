@@ -51,5 +51,15 @@ public class CommonEnum {
 
         private final String code;
         private final String value;
+
+        public static boolean IsSearchTypeByCode(String code){
+            for(SearchType value : values()){
+                if(value.getCode().equals(code)){
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
