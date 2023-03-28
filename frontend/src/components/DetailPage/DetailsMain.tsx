@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled, { keyframes } from 'styled-components';
 import Logo from '../Logo';
 import DetailsDate from './DetailsDate';
@@ -9,6 +9,9 @@ import DetailsDust from './DetailsDust';
 import DetailsMoon from './DetailsMoon';
 import PlaceTitle from './PlaceTitle';
 import ContainerButton from './ContainerButton';
+import { useSelector } from 'react-redux';
+import { DetailsData } from '../../store/DetailsSlice';
+
 
 const slideUp = keyframes`
 from {
@@ -59,6 +62,16 @@ function DetailsMain() {
     
     const [scroll, setScroll] = useState<number>(1000);
 
+    const day = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
+    const year = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
+    const month = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
+    const date = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
+    const hour = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.hour);
+
+    useEffect(() => {
+        console.log(`${year}-${month}-${date}-${hour}, ${day}`);
+    },[year, month, date, hour]);
+    
     const onClick = () => {
 
         if(scroll===1000){

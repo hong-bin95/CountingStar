@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import {DetailsData} from '../../store/DetailsSlice';
+import {updateHour, DetailsData} from '../../store/DetailsSlice';
 import UpBtn from '../../assets/UpBtn.png';
 import DownBtn from '../../assets/DownBtn.png';
 
@@ -32,6 +32,7 @@ function DetailsHour() {
     
     useEffect(()=>{
         setNoon(hour>=12? '오후' : '오전');
+        dispatch(updateHour(hour));
     },[hour]);
 
     const moveUp = () => {

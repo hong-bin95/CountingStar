@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import {update, DetailsData} from '../../store/DetailsSlice';
+import {updateDay, updateYear, updateMonth, updateDate, DetailsData} from '../../store/DetailsSlice';
 import UpBtn from '../../assets/UpBtn.png';
 import DownBtn from '../../assets/DownBtn.png';
 
@@ -15,11 +15,18 @@ function DetailsDate() {
     const dispatch = useDispatch();
     const day = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
     
+    
     const [today, setToday] = useState<Date>(new Date());
     const [newDate, setNewDate] = useState<Date>(today);	// 어제
     const [year, setYear] = useState<number>(newDate.getFullYear());
     const [month, setMonth] = useState<number>(newDate.getMonth() +1);
     const [date, setDate] = useState<number>(newDate.getDate());
+    
+    useEffect(() => {
+        dispatch(updateYear(String(year)));
+        dispatch(updateMonth(month>=10?String(month):`0${month}`));
+        dispatch(updateDate(date>=10?String(date):`0${date}`));
+    },[year, month, date]);
 
     const [styled, setStyled] = useState<object>({
         height : '25px',
@@ -28,7 +35,7 @@ function DetailsDate() {
 
     const dateUp = () => {
         if(day === 10) return;
-        dispatch(update(day+1));
+        dispatch(updateDay(day+1));
         setNewDate(new Date(newDate.setDate(newDate.getDate() + 1)));
         setYear(newDate.getFullYear());
         setMonth(newDate.getMonth() +1);
@@ -37,7 +44,7 @@ function DetailsDate() {
 
     const dateDown = () => {
         if(day === 0) return;
-        dispatch(update(day-1));
+        dispatch(updateDay(day-1));
         setNewDate(new Date(newDate.setDate(newDate.getDate() - 1)));
         setYear(newDate.getFullYear());
         setMonth(newDate.getMonth() +1);
