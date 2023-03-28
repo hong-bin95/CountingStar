@@ -10,7 +10,7 @@ const PlaceInfo = (Props: any) => {
   };
 
   const onDetailsButtonClick = (spotId: number) => {
-    navigate(`/Details/${spotId}`);
+    navigate(`/detail/${spotId}`);
   };
 
   const onUnmount = () => {
