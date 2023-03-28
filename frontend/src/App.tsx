@@ -10,9 +10,8 @@ function App() {
   return (
     <Provider store={Store}>
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<GoogleMain />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/googlemain" element={<GoogleMain />} />
       </Routes>
     </Provider>
   );

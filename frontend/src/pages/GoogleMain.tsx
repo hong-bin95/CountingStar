@@ -9,6 +9,7 @@ import Main from "./Main";
 import SpotOverlay from "../components/GoogleMain/SpotOverlay";
 import PlaceInfo from "../components/GoogleMain/PlaceInfo";
 import CustomMarker from "../components/GoogleMain/CustomMarker";
+import ToggleButton from "../components/GoogleMain/ToggleButton";
 
 const libraries: (
   | "places"
@@ -36,6 +37,7 @@ function GoogleMain() {
   const [spots, setSpots] = useState<Array<SpotType>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
+  const [isMainVisible, setIsMainVisible] = useState(true);
 
   // useEffect 정리
   useEffect(() => {
@@ -100,8 +102,9 @@ function GoogleMain() {
           </GoogleMap>
         )}
       </LoadScript>
-      <div className="main-container">
-        <Main />
+      <ToggleButton onClick={() => setIsMainVisible(!isMainVisible)} />
+      <div className={`main-container ${isMainVisible ? "visible" : "hidden"}`}>
+        <Main toggleMainVisibility={() => setIsMainVisible(!isMainVisible)} />
       </div>
     </Wrapper>
   );
