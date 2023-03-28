@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import {update, DetailsData} from '../store/DetailsSlice';
+import {updateDay, DetailsData} from '../store/DetailsSlice';
 import logo from "../assets/CountingStar.png";
 import { useNavigate } from "react-router-dom";
 type Props = {};
@@ -8,12 +8,10 @@ type Props = {};
 function Logo({}: Props) {
 
   const dispatch = useDispatch();
-  const day = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
-    
   const navigate = useNavigate();
   function moveToMain() {
     navigate("/");
-    dispatch(update(0));
+    dispatch(updateDay(0));
   }
 
   return (
