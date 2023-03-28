@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import DetailSlice from "./DetailSlice";
+import DetailsSlice from "./DetailsSlice";
 import SpotSlice from "./SpotSlice";
 
 const store = configureStore({
   reducer: {
-    detail: DetailSlice.reducer,
+    DetailsSlice: DetailsSlice.reducer,
     spot: SpotSlice,
   },
 });
