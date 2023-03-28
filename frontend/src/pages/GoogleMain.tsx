@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import styled from "styled-components";
-import MarkerImage from "../assets/Marker.png";
 import { SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
+import "../styles/GoogleMain.css";
 
 import Main from "./Main";
 import SpotOverlay from "../components/GoogleMain/SpotOverlay";
 import PlaceInfo from "../components/GoogleMain/PlaceInfo";
 import CustomMarker from "../components/GoogleMain/CustomMarker";
+import ToggleButton from "../components/GoogleMain/ToggleButton";
 
 const libraries: (
   | "places"
@@ -36,6 +37,7 @@ function GoogleMain() {
   const [spots, setSpots] = useState<Array<SpotType>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
+  const [isMainVisible, setIsMainVisible] = useState(true);
 
   // useEffect 정리
   useEffect(() => {
@@ -71,16 +73,6 @@ function GoogleMain() {
             mapContainerClassName="map-container"
             options={{ styles: mapStyles }}
           >
-            {/* <div
-              style={{
-                position: "absolute",
-                top: "10px",
-                left: "10px",
-                zIndex: 10,
-              }}
-            >
-              <Main />
-            </div> */}
             {spots.length > 0 &&
               spots.map((spot) => (
                 <CustomMarker key={spot.spotId} spot={spot} />
@@ -110,6 +102,10 @@ function GoogleMain() {
           </GoogleMap>
         )}
       </LoadScript>
+      <ToggleButton onClick={() => setIsMainVisible(!isMainVisible)} />
+      <div className={`main-container ${isMainVisible ? "visible" : "hidden"}`}>
+        <Main toggleMainVisibility={() => setIsMainVisible(!isMainVisible)} />
+      </div>
     </Wrapper>
   );
 }

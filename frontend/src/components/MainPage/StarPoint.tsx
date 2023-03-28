@@ -13,7 +13,7 @@ function StarPoint(props: Props) {
     let arr = [];
     for (let i = 0; i < score; i++) {
       arr.push(
-        <p>
+        <p key={i}>
           <img src={starScore} className="w-6 mx-2" />
         </p>
       );

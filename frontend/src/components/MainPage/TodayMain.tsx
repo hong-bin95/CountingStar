@@ -4,20 +4,42 @@ import Logo from "../Logo";
 import TodayBox from "../../components/MainPage/TodayBox";
 import axios from "axios";
 
-type Props = {};
+interface Props {
+  toggleMainVisibility: () => void;
+}
 
 interface spot {
   spotName: string;
   grade: number;
 }
 
-function TodayMain({}: Props) {
+function TodayMain({ toggleMainVisibility }: Props) {
   const [spotList, setSpotList] = useState<Array<spot>>([]);
 
   useEffect(() => {
+    let now = new Date();
+    let year = now.getFullYear().toString();
+    let month = ("0" + (now.getMonth() + 1)).slice(-2);
+    let day = now.getDate().toString();
+
+    let hours = now.getHours().toString();
+
+    console.log(year, month, day, hours);
+    console.log(typeof year);
+    console.log(typeof month);
+    console.log(typeof day);
+    console.log(typeof hours);
+
     axios
       .get("https://counting-star.com/api/spot/ranking", {
         params: {
+          // baseDateYear: { year },
+          // baseDateMonth: { month },
+          // baseDateDay: { day },
+          // baseDateHour: { hours },
+          // baseDateMinute: "00",
+          // limit: 5,
+
           baseDateYear: "2023",
           baseDateMonth: "03",
           baseDateDay: "23",
@@ -49,15 +71,15 @@ function TodayMain({}: Props) {
             오늘은 어디에 별이 많이 뜰까요?
           </p>
         </div>
-        <div className="col-span-2 ">버튼 컴포넌트</div>
+        <div className="col-span-2"></div>
       </div>
-      <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
+      {/* <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
         {spotList.map((spot, idx) => (
-          <div className="col-span-4">
-            <TodayBox spotName={spot.spotName} grade={spot.grade} key={idx} />
+          <div className="col-span-4" key={idx}>
+            <TodayBox spotName={spot.spotName} grade={spot.grade} />
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 }
