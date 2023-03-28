@@ -12,3 +12,16 @@ export interface SpotType {
   longitude: string;
   spotName: string;
 }
+
+export interface CustomMarkerType {
+  spot: SpotType;
+}
+
+export interface SpotOverlayType {
+  spot: SpotType;
+  onSpotClick: (spot: SpotType) => void;
+}
+
+export interface ToggleButtonType {
+  onClick: () => void;
+}
