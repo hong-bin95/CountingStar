@@ -30,6 +30,11 @@ const mapStyles = [
   },
 ];
 
+const mapOptions = {
+  styles: mapStyles,
+  fullscreenControl: false,
+};
+
 function GoogleMain() {
   // useState 정리
   const [center, setCenter] = useState({ lat: 36.34, lng: 127.77 });
@@ -71,17 +76,17 @@ function GoogleMain() {
             zoom={zoom}
             center={center}
             mapContainerClassName="map-container"
-            options={{ styles: mapStyles }}
+            options={mapOptions}
           >
             {spots.length > 0 &&
               spots.map((spot) => (
-                <CustomMarker key={spot.spotId} spot={spot} />
+                <CustomMarker key={`customMarker-${spot.spotId}`} spot={spot} />
               ))}
             ;
             {spots.length > 0 &&
               spots.map((spot) => (
                 <SpotOverlay
-                  key={spot.spotId}
+                  key={`spotOverlay-${spot.spotId}`}
                   spot={spot}
                   onSpotClick={(selectedSpot) => {
                     setSelectedSpot(selectedSpot);
