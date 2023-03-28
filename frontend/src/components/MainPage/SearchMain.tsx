@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import search from "../../assets/search.png";
 import SearchBox from "./SearchBox";
 import questionMark from "../../assets/question.png";
+import uuid from "react-uuid";
 
 type Props = {};
 
@@ -9,6 +10,11 @@ interface hourToString {
   hourNum: number;
   hourString: string;
 }
+
+type Sido = {
+  id: number;
+  name: string;
+};
 
 function SearchMain({}: Props) {
   //시간, 날짜, 시도, 구군
@@ -53,25 +59,44 @@ function SearchMain({}: Props) {
   console.log(lastDayString);
 
   //시도 리스트
-  let sidos: string[] = [
-    "지역 선택",
-    "서울특별시",
-    "광주광역시",
-    "대구광역시",
-    "대전광역시",
-    "부산광역시",
-    "울산광역시",
-    "인천광역시",
-    "강원도",
-    "경기도",
-    "경상남도",
-    "경상북도",
-    "전라남도",
-    "전라북도",
-    "충청남도",
-    "충청북도",
-    "제주특별자치도",
-    "세종특별자치시",
+  let sidos: Sido[] = [
+    { id: 100, name: "지역선택" },
+    { id: 101, name: "서울특별시" },
+    { id: 102, name: "광주광역시" },
+    { id: 103, name: "대구광역시" },
+    { id: 104, name: "대전광역시" },
+    { id: 105, name: "부산광역시" },
+    { id: 106, name: "울산광역시" },
+    { id: 107, name: "인천광역시" },
+    { id: 108, name: "강원도" },
+    { id: 109, name: "경기도" },
+    { id: 110, name: "경상남도" },
+    { id: 111, name: "경상북도" },
+    { id: 112, name: "전라남도" },
+    { id: 113, name: "전라북도" },
+    { id: 114, name: "충청남도" },
+    { id: 115, name: "충청북도" },
+    { id: 116, name: "제주특별자치도" },
+    { id: 117, name: "세종특별자치시" },
+
+    // "지역 선택",
+    // "서울특별시",
+    // "광주광역시",
+    // "대구광역시",
+    // "대전광역시",
+    // "부산광역시",
+    // "울산광역시",
+    // "인천광역시",
+    // "강원도",
+    // "경기도",
+    // "경상남도",
+    // "경상북도",
+    // "전라남도",
+    // "전라북도",
+    // "충청남도",
+    // "충청북도",
+    // "제주특별자치도",
+    // "세종특별자치시",
   ];
 
   const handleSelectTime = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -123,9 +148,9 @@ function SearchMain({}: Props) {
           onChange={handleSelectSido}
           value={sidoValue}
         >
-          {sidos.map((item, idx) => (
-            <option value={item} key={idx}>
-              {item}
+          {sidos.map((item: Sido) => (
+            <option value={item.name} key={item.id}>
+              {item.name}
             </option>
           ))}
         </select>

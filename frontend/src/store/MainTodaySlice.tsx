@@ -30,9 +30,9 @@ const MainTodaySlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    // builder.addCase(getTodayStar.fulfilled, (state, action) => [
-    //   (state.status = "complete"),
-    // ]);
+    builder.addCase(getTodayStar.fulfilled, (state, action) => {
+      // (state.status = "complete"),
+    });
   },
 });
 
