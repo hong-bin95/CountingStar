@@ -6,6 +6,7 @@ export interface DetailsData {
   month:string;
   date:string;
   hour:number;
+  spotId:number;
 }
 
 const initialState:DetailsData = {
@@ -14,6 +15,7 @@ const initialState:DetailsData = {
   month: '',
   date: '',
   hour: 0,
+  spotId: 0,
 };
 
 const DetailsSlice = createSlice({
@@ -35,7 +37,10 @@ const DetailsSlice = createSlice({
     updateHour:(state, action: PayloadAction<number>)=>{
       state.hour = action.payload;
     },
+    updateSpotId:(state, action: PayloadAction<number>)=>{
+      state.spotId = action.payload;
+    },
   },
 });
 export default DetailsSlice;
-export const {updateDay, updateYear, updateMonth, updateDate, updateHour} = DetailsSlice.actions;
+export const {updateDay, updateYear, updateMonth, updateDate, updateHour, updateSpotId} = DetailsSlice.actions;
