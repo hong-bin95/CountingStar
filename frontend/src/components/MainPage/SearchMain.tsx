@@ -22,7 +22,7 @@ function SearchMain({}: Props) {
   let obj: hourToString = { hourNum: 0, hourString: "시간 선택" };
   hours.push(obj);
 
-  for (let i = 1; i < 25; i++) {
+  for (let i = 0; i < 24; i++) {
     let timeNum: number = i;
     let timeString: string = ("0" + i).slice(-2) + "시";
 
@@ -93,6 +93,14 @@ function SearchMain({}: Props) {
     console.log(gugunValue);
     console.log(dateValue);
     console.log(timeValue);
+
+    if (sidoValue === "시도 선택") {
+      alert("시/도를 선택해주세요");
+    } else if (dateValue === "날짜 선택") {
+      alert("날짜를 선택해주세요");
+    } else if (timeValue === "시간 선택") {
+      alert("시간을 선택해주세요");
+    }
 
     //request 보내야 하는 부분
   };
@@ -165,22 +173,24 @@ function SearchMain({}: Props) {
         </form>
       </div>
 
-      <div className="text-center my-10 font-serif">검색 결과가 없어요</div>
-
-      <div className="">
-        <p className="font-serif">강원도 영월군 검색 결과</p>
-        <div className="grid grid-cols-12 gap-10 mx-auto my-1">
-          <div className="col-span-4">
-            <SearchBox />
-          </div>
-          <div className="col-span-4">
-            <SearchBox />
-          </div>
-          <div className="col-span-4">
-            <SearchBox />
+      {"들어온 데이터의 개수 0이면" ? (
+        <div className="text-center my-10 font-serif">검색 결과가 없어요</div>
+      ) : (
+        <div className="">
+          <p className="font-serif">강원도 영월군 검색 결과</p>
+          <div className="grid grid-cols-12 gap-10 mx-auto my-1">
+            <div className="col-span-4">
+              <SearchBox />
+            </div>
+            <div className="col-span-4">
+              <SearchBox />
+            </div>
+            <div className="col-span-4">
+              <SearchBox />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

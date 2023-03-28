@@ -71,13 +71,13 @@ function TodayMain({}: Props) {
         </div>
         <div className="col-span-2 ">버튼 컴포넌트</div>
       </div>
-      <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
+      {/* <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
         {spotList.map((spot, idx) => (
           <div className="col-span-4" key={idx}>
             <TodayBox spotName={spot.spotName} grade={spot.grade} />
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 }
