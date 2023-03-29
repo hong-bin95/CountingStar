@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a69d3bc4-85f6-43a8-afc4-cb0c8163a004" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/controller/GradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/controller/GradeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/entity/star/StarGrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/entity/star/StarGrade.java" afterDir="false" />
@@ -100,7 +101,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/SSAFY/S08P22A201/backend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/SSAFY/S08P22A201_Front/backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
