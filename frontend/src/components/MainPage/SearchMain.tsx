@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import search from "../../assets/search.png";
 import SearchBox from "./SearchBox";
 import questionMark from "../../assets/question.png";
-import uuid from "react-uuid";
+import styled from "styled-components";
+import axios from "axios";
 
 type Props = {};
 
@@ -114,10 +115,10 @@ function SearchMain({}: Props) {
   const handleSearchButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(sidoValue);
-    console.log(gugunValue);
-    console.log(dateValue);
-    console.log(timeValue);
+    // console.log(sidoValue);
+    // console.log(gugunValue);
+    // console.log(dateValue);
+    // console.log(timeValue);
 
     if (sidoValue === "시도 선택") {
       alert("시/도를 선택해주세요");
@@ -127,7 +128,34 @@ function SearchMain({}: Props) {
       alert("시간을 선택해주세요");
     }
 
+    let baseDateY = dateValue.slice(0, 4);
+    let baseDateM = dateValue.slice(5, 7);
+    let baseDateD = dateValue.slice(8, 10);
+
+    console.log(baseDateY);
+    console.log(baseDateM);
+    console.log(baseDateD);
+
     //request 보내야 하는 부분
+    axios
+      .get("https://counting-star.com/api/grade/", {
+        params: {
+          baseDateDay: baseDateD,
+          baseDateHour: timeValue.toString(),
+          baseDateMinute: "00",
+          baseDateMonth: baseDateM.toString(),
+          baseDateYear: baseDateY.toString(),
+          keyword: gugunValue,
+          limit: 18,
+          searchType: "NAME",
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   };
   const handleSearchInput = (e: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -178,9 +206,9 @@ function SearchMain({}: Props) {
           ))}
         </select>
 
-        <div className="col-span-2 bg-white border border-gray-200">
-          <img src={questionMark} className="w-8 h-8" />
-        </div>
+        <QuestionHover className="col-span-2  grid justify-items-end">
+          <img src={questionMark} className="w-8 h-8 mr-1" />
+        </QuestionHover>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2 ">
@@ -221,3 +249,9 @@ function SearchMain({}: Props) {
 }
 
 export default SearchMain;
+
+const QuestionHover = styled.div`
+  &:hover {
+    background-color: yellow;
+  }
+`;

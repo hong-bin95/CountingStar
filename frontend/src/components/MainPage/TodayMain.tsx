@@ -33,10 +33,10 @@ function TodayMain({ toggleMainVisibility }: Props) {
     axios
       .get("https://counting-star.com/api/spot/ranking", {
         params: {
-          baseDateYear: { year },
-          baseDateMonth: { month },
-          baseDateDay: { day },
-          baseDateHour: { hours },
+          baseDateYear: year,
+          baseDateMonth: month,
+          baseDateDay: day,
+          baseDateHour: hours,
           baseDateMinute: "00",
           limit: 5,
 
