@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { SpotType } from "../types/SpotType";
 import SpotApi from "../apis/SpotApi";
 import "../styles/GoogleMain.css";
+import GoogleMapStyle from "../styles/GoogleMapStyle";
 
 import Main from "./Main";
 import SpotOverlay from "../components/GoogleMain/SpotOverlay";
@@ -31,7 +32,7 @@ const mapStyles = [
 ];
 
 const mapOptions = {
-  styles: mapStyles,
+  styles: GoogleMapStyle,
   fullscreenControl: false,
 };
 
