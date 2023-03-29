@@ -1,20 +1,15 @@
 package com.a201.countingstar.controller;
 
 import com.a201.countingstar.common.CommonEnum;
-import com.a201.countingstar.dto.constellation.ConstellationRankResponseDto;
 import com.a201.countingstar.dto.grade.GradeRequestDto;
 import com.a201.countingstar.dto.grade.GradeResponseDto;
-import com.a201.countingstar.service.grade.GradeService;
+import com.a201.countingstar.service.stargrade.StarGradeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,12 +21,12 @@ import java.util.Map;
 @RequestMapping("/grade")
 public class GradeController {
 
-    private final GradeService gradeService;
+    private final StarGradeService gradeService;
 
     @ApiOperation("등급 리스트")
     @GetMapping("/")
     // 검색해서 해당하는 스팟을 다 찾고, 검색조건의 시간에 맞는 등급 정보를 스팟별로 내려준다.
-    public ResponseEntity<?> getWeatherCondition(GradeRequestDto request) {
+    public ResponseEntity<?> getGrade(GradeRequestDto request) {
         Map resultmap = new HashMap<>();
         HttpStatus status;
 

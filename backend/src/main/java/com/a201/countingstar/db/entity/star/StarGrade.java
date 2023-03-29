@@ -32,9 +32,9 @@ public class StarGrade {
     private String basicDateMinute;
 
     @Column(name="grade_1")
-    private int grade1;
+    private double grade1;
     @Column(name="grade_2")
-    private double grade2;
+    private int grade2;
 
     @Column(name="start_latitude")
     private String startLatitude;

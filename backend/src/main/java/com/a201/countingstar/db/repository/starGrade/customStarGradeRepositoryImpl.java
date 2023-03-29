@@ -2,6 +2,8 @@ package com.a201.countingstar.db.repository.starGrade;
 
 import com.a201.countingstar.db.entity.spot.QSpot;
 import com.a201.countingstar.db.entity.star.QStarGrade;
+import com.a201.countingstar.dto.grade.GradeRequestDto;
+import com.a201.countingstar.dto.grade.GradeResponseDto;
 import com.a201.countingstar.dto.spotRanking.spotRankingResponseDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
@@ -61,12 +63,52 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
         starGradeList.forEach(starG -> {
             responseList.add(new spotRankingResponseDto(
                     starG.get(spot.spotName),
-                    (int) Math.round(starG.get(starGrade.starGrade.grade1.sum())/starG.get(starGrade.spot.count()))
+                    (int) Math.round(starG.get(starGrade.starGrade.grade1.sum())/2*10/starG.get(starGrade.spot.count()))
 //                    (int)(starG.get(starGrade.starGrade.grade1.sum())/starG.get(starGrade.spot.count()))
             ));
         });
 
         return responseList;
 
+    }
+
+    @Override
+    public List<GradeResponseDto> getGradeList(GradeRequestDto request) {
+        List<GradeResponseDto> responseList = new ArrayList<>();
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(starGrade.basicDateYear.eq(request.getBaseDateYear()));
+        builder.and(starGrade.basicDateMonth.eq(request.getBaseDateMonth()));
+        builder.and(starGrade.basicDateDay.eq(request.getBaseDateDay()));
+        builder.and(starGrade.basicDateHour.eq(request.getBaseDateHour()));
+        builder.and(starGrade.basicDateMinute.eq(request.getBaseDateMinute()));
+        builder.and(starGrade.spot.spotName.contains(request.getKeyword()));
+
+        List<Tuple> starGradeList =
+                queryFactory.select( spot.spotId,
+                                spot.spotName,
+                                starGrade.grade1.sum(),
+                                starGrade.spot.count())
+                        .from(starGrade)
+                        .where(builder)
+                        .leftJoin(starGrade.spot, spot)
+                        .groupBy(starGrade.spot)
+                        .orderBy(
+                                starGrade.grade1.sum().desc()
+                        )
+                        .limit(request.getLimit())
+                        .fetch();
+
+
+        starGradeList.forEach(starG -> {
+            responseList.add(new GradeResponseDto(
+                    starG.get(spot.spotId),
+                    starG.get(spot.spotName),
+                    (int) Math.round(starG.get(starGrade.starGrade.grade1.sum())/2*10/starG.get(starGrade.spot.count()))
+//                    (int)(starG.get(starGrade.starGrade.grade1.sum())/starG.get(starGrade.spot.count()))
+            ));
+        });
+
+        return responseList;
     }
 }
