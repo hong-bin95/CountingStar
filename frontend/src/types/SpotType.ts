@@ -23,5 +23,6 @@ export interface SpotOverlayType {
 }
 
 export interface ToggleButtonType {
+  isMainVisible: boolean;
   onClick: () => void;
 }

@@ -107,7 +107,10 @@ function GoogleMain() {
           </GoogleMap>
         )}
       </LoadScript>
-      <ToggleButton onClick={() => setIsMainVisible(!isMainVisible)} />
+      <ToggleButton
+        isMainVisible={isMainVisible}
+        onClick={() => setIsMainVisible(!isMainVisible)}
+      />
       <div className={`main-container ${isMainVisible ? "visible" : "hidden"}`}>
         <Main toggleMainVisibility={() => setIsMainVisible(!isMainVisible)} />
       </div>
