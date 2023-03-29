@@ -9,9 +9,10 @@ import DetailsDust from './DetailsDust';
 import DetailsMoon from './DetailsMoon';
 import PlaceTitle from './PlaceTitle';
 import ContainerButton from './ContainerButton';
-import { useSelector } from 'react-redux';
-import { DetailsData } from '../../store/DetailsSlice';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { updateMoon, updateSpotId, updateSpotName, DetailsData} from '../../store/DetailsSlice';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const slideUp = keyframes`
 from {
@@ -40,7 +41,6 @@ display: flex;
 margin-top: 40px;
 justify-content: space-between;
 height: 80px;
-
 `;
 
 const BottomContainer = styled.div`
@@ -60,18 +60,55 @@ width: 320px;
 
 function DetailsMain() {
     
-    const [scroll, setScroll] = useState<number>(1000);
+    const dispatch = useDispatch();
 
-    const day = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
+    const [scroll, setScroll] = useState<number>(1000);
+    const { spotId } = useParams<{ spotId: string | undefined }>();
+    const [spotIdNumber, setSpotIdNumber] = useState<number>(0);
+
+    useEffect(() => {
+      if (spotId) {
+        setSpotIdNumber(parseInt(spotId, 10));
+      }
+    }, [spotId]);
+    
     const year = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
     const month = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
     const date = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
     const hour = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.hour);
-
+  
     useEffect(() => {
-        console.log(`${year}-${month}-${date}-${hour}, ${day}`);
-    },[year, month, date, hour]);
+    if (spotIdNumber!==0) {
+      axios
+        .get(`https://counting-star.com/api/spot/${spotIdNumber}`,{
+        })
+        .then((res) => {
+            console.log(res);
+            dispatch(updateSpotId(spotIdNumber));
+            dispatch(updateSpotName(res.data.data.spotName));
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+    },[spotIdNumber]);
     
+    useEffect(()=>{
+        const temp = year + month + date;
+        console.log(temp);
+        axios
+        .get(`https://counting-star.com/api/moon/${temp}`,{
+        })
+        .then((res) => {
+            // console.log(res.data.data);
+            dispatch(updateMoon(res.data.data));
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    },[date])
+
     const onClick = () => {
 
         if(scroll===1000){
