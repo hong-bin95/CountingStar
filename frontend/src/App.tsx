@@ -11,7 +11,7 @@ function App() {
     <Provider store={Store}>
       <Routes>
         <Route path="/" element={<GoogleMain />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:spotId" element={<Detail />} />
       </Routes>
     </Provider>
   );
