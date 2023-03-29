@@ -14,7 +14,7 @@ const ToggleButton: React.FC<ToggleButtonType> = ({
       onClick={onClick}
       className="toggle-button fixed top-4 right-6 z-50
       w-36
-      bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+      bg-transparent hover:bg-sky-700 text-sky-900 font-semibold hover:text-white py-2 px-4 border border-sky-700 hover:border-transparent rounded"
     >
       {buttonText}
     </button>
