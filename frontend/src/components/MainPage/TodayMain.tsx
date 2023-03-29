@@ -33,19 +33,19 @@ function TodayMain({ toggleMainVisibility }: Props) {
     axios
       .get("https://counting-star.com/api/spot/ranking", {
         params: {
-          // baseDateYear: { year },
-          // baseDateMonth: { month },
-          // baseDateDay: { day },
-          // baseDateHour: { hours },
-          // baseDateMinute: "00",
-          // limit: 5,
-
-          baseDateYear: "2023",
-          baseDateMonth: "03",
-          baseDateDay: "23",
-          baseDateHour: "11",
+          baseDateYear: year,
+          baseDateMonth: month,
+          baseDateDay: day,
+          baseDateHour: hours,
           baseDateMinute: "00",
           limit: 5,
+
+          // baseDateYear: "2023",
+          // baseDateMonth: "03",
+          // baseDateDay: "23",
+          // baseDateHour: "11",
+          // baseDateMinute: "00",
+          // limit: 5,
         },
       })
       .then(function (response) {

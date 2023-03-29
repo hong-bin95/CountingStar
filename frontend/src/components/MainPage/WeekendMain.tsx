@@ -11,14 +11,51 @@ interface spot {
 
 function WeekendMain({}: Props) {
   const [spotList, setSpotList] = useState<Array<spot>>([]);
+  const [satSun, setSatSun] = useState<string>("토");
+
+  let now = new Date();
+  let year = now.getFullYear().toString();
+  let month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+  //getDay() => 일요일부터 0~6
+  let weekDay = now.getDay();
+  let day = "";
+
+  if (weekDay === 0) {
+    //오늘이 일요일일 경우, 다음주 주말 보여주기
+    if (satSun === "토") {
+      weekDay = now.getDate() + (6 - weekDay);
+    } else {
+      weekDay = now.getDate() + (7 - weekDay);
+    }
+
+    //31일 넘어가면
+    if (weekDay > 31) {
+      month = ("0" + (now.getMonth() + 2)).slice(-2);
+      day = (weekDay - 31).toString();
+    }
+  } else {
+    //보여주는 요일이 토요일일 경우 오늘 요일 + 5, 일요일일 경우 오늘 요일 +6
+    if (satSun === "토") {
+      weekDay = now.getDate() + (6 - weekDay);
+    } else {
+      weekDay = now.getDate() + (7 - weekDay);
+    }
+
+    //31일 넘어가면
+    if (weekDay > 31) {
+      month = ("0" + (now.getMonth() + 2)).slice(-2);
+      day = (weekDay - 31).toString();
+    }
+  }
 
   useEffect(() => {
     axios
       .get("https://counting-star.com/api/spot/ranking", {
         params: {
-          baseDateYear: "2023",
-          baseDateMonth: "03",
-          baseDateDay: "23",
+          baseDateYear: year,
+          baseDateMonth: month,
+          baseDateDay: day,
           baseDateHour: "11",
           baseDateMinute: "00",
           limit: 5,
@@ -36,11 +73,20 @@ function WeekendMain({}: Props) {
       });
   }, []);
 
+  const changeSatSun = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (satSun === "토") {
+      setSatSun("일");
+    } else {
+      setSatSun("토");
+    }
+  };
+
   return (
     <>
       <div className="text-4xl py-6 text-center font-serif">
         이번 주말 별자리 명소
       </div>
+      <button onClick={changeSatSun}>{satSun}요일</button>
       {/* <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
         {spotList.map((spot, idx) => (
           <div className="col-span-4" key={idx}>
