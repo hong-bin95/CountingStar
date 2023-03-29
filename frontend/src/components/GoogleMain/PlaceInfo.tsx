@@ -28,11 +28,10 @@ const PlaceInfo = (Props: any) => {
         // onCloseClick={() => Props.selectedSpot = {null}}
         onUnmount={onUnmount}
       >
-        <div>
-          <h3>{Props.Spot.spotName}</h3>
-          <br></br>
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-2">{Props.Spot.spotName}</h3>
           <button
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-200 mt-4 w-full text-center"
             onClick={() => {
               onDetailsButtonClick(Props.Spot.spotId);
             }}
