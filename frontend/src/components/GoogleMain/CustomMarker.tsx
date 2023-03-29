@@ -2,13 +2,9 @@ import { MarkerF } from "@react-google-maps/api";
 import MarkerImage from "../../assets/Marker.png";
 import { useDispatch } from "react-redux";
 import { selectSpot } from "../../store/SpotSlice";
-import { SpotType } from "../../types/SpotType";
+import { CustomMarkerType } from "../../types/SpotType";
 
-type CustomMarkerProps = {
-  spot: SpotType;
-};
-
-function CustomMarker({ spot }: CustomMarkerProps) {
+function CustomMarker({ spot }: CustomMarkerType) {
   const { latitude, longitude } = spot;
   const dispatch = useDispatch();
 

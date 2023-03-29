@@ -1,10 +1,7 @@
 import React from "react";
+import { ToggleButtonType } from "../../types/SpotType";
 
-interface ToggleButtonProps {
-  onClick: () => void;
-}
-
-const ToggleButton: React.FC<ToggleButtonProps> = ({ onClick }) => {
+const ToggleButton: React.FC<ToggleButtonType> = ({ onClick }) => {
   return (
     <button
       onClick={onClick}

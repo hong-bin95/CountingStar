@@ -1,13 +1,8 @@
 import React from "react";
 import { OverlayView, OverlayViewF } from "@react-google-maps/api";
-import { SpotType } from "../../types/SpotType";
+import { SpotOverlayType } from "../../types/SpotType";
 
-interface SpotOverlayProps {
-  spot: SpotType;
-  onSpotClick: (spot: SpotType) => void;
-}
-
-const SpotOverlay = (props: SpotOverlayProps) => {
+const SpotOverlay = (props: SpotOverlayType) => {
   const { spot, onSpotClick } = props;
 
   return (
