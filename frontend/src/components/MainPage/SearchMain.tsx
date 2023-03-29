@@ -4,6 +4,7 @@ import SearchBox from "./SearchBox";
 import questionMark from "../../assets/question.png";
 import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -17,12 +18,22 @@ type Sido = {
   name: string;
 };
 
+type result = {
+  spotId: number;
+  spotName: string;
+  grade: number;
+};
+
 function SearchMain({}: Props) {
   //시간, 날짜, 시도, 구군
   const [timeValue, setTimeValue] = useState<string>("시간 선택");
   const [dateValue, setDateValue] = useState<string>("날짜 선택");
   const [sidoValue, setSidoValue] = useState<string>("시도 선택");
   const [gugunValue, setGugunValue] = useState<string>("");
+  const [searchResult, setSearchResult] = useState<Array<result>>([
+    { spotId: -1, spotName: "noData", grade: 0 },
+  ]);
+  const navigate = useNavigate();
 
   //시간(1) option(01시)로 변경하기
   let hours: hourToString[] = [];
@@ -151,12 +162,13 @@ function SearchMain({}: Props) {
         },
       })
       .then(function (response) {
-        console.log(response.data);
+        setSearchResult(response.data.data);
       })
       .catch(function (err) {
         console.log(err);
       });
   };
+
   const handleSearchInput = (e: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { value },
@@ -164,11 +176,14 @@ function SearchMain({}: Props) {
     setGugunValue(value);
   };
 
+  //검색 후 결과 컴포넌트 클릭하면 해당 상세페이지로 연결
+  const navigateToDetail = (spotId: number) => {
+    navigate(`/detail/${spotId}`);
+  };
+
   return (
     <>
-      <div className="text-center py-6 text-4xl font-serif">
-        지역으로 검색하기
-      </div>
+      <div className="text-center py-6 text-4xl font-serif">지역으로 검색하기</div>
       <div className="grid grid-cols-5">
         <select
           name="sido"
@@ -226,21 +241,23 @@ function SearchMain({}: Props) {
         </form>
       </div>
 
-      {"들어온 데이터의 개수 0이면" ? (
+      {searchResult[0].spotId === -1 ? ( //검색 결과 없으면
         <div className="text-center my-10 font-serif">검색 결과가 없어요</div>
       ) : (
         <div className="">
-          <p className="font-serif">강원도 영월군 검색 결과</p>
+          <p className="font-serif">
+            {sidoValue} {gugunValue} 검색 결과
+          </p>
           <div className="grid grid-cols-12 gap-10 mx-auto my-1">
-            <div className="col-span-4">
-              <SearchBox />
-            </div>
-            <div className="col-span-4">
-              <SearchBox />
-            </div>
-            <div className="col-span-4">
-              <SearchBox />
-            </div>
+            {searchResult.map((item) => (
+              <div
+                className="col-span-4"
+                key={item.spotId}
+                onClick={() => navigateToDetail(item.spotId)}
+              >
+                <SearchBox spotName={item.spotName} grade={item.grade} />
+              </div>
+            ))}
           </div>
         </div>
       )}
