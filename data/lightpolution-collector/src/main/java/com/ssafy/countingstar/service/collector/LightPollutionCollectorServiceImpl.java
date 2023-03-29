@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,7 +27,9 @@ import com.ssafy.countingstar.service.processor.LightPollutionProcessorService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class LightPollutionCollectorServiceImpl implements LightPollutionCollectorService{
@@ -61,11 +64,10 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
     public LightPollutionCollectorServiceImpl(
     		@Autowired LightPollutionDownloadRecordService downloadRecord, 
     		@Autowired LightPollutionService lightPollutionService, 
-    		@Autowired LightPollutionProcessorService lightPollutionProcessor,
-    		@Autowired RestTemplate restTemplate
+    		@Autowired LightPollutionProcessorService lightPollutionProcessor
     	) {
     	this.downloadRecord = downloadRecord;
-    	this.restTemplate = restTemplate;
+    	this.restTemplate = new RestTemplate();
     	this.lightPollutionService = lightPollutionService;
     	this.lightPollutionProcessor = lightPollutionProcessor;
     }
@@ -89,6 +91,7 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
     		
     		// 요청을 넘지않는 자료중 최신 자료부터 
             int downloadCount = 0;
+            List<SuomiNppViirsDnbData> processTarget = new ArrayList<SuomiNppViirsDnbData>();
             while (downloadCount < mdpr) {
                 if (downloadRecord.isDownloaded(metadata.getCksum())) {
                     String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
@@ -96,14 +99,11 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
                     LOGGER.info(log);
                     break;
                 }
-
                 try {
                     ResponseEntity<byte[]> response = restTemplate.exchange(metadata.getDownloadsLink(), HttpMethod.GET, DATA_HEADER, byte[].class);
                     if (response.getStatusCode() == HttpStatus.OK) {
                     	SuomiNppViirsDnbData rawData = SuomiNppViirsDnbDataDeserializer.deserialize(response.getBody());
-                    	for(LightPollution lightPollution : lightPollutionProcessor.process(rawData)) {
-                    		lightPollutionService.save(lightPollution);
-                    	}
+                    	processTarget.add(rawData);
                         downloadRecord.markAsDownloaded(metadata.getCksum(), metadata.getLdt());
                         String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
                                 LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), reqTime);
@@ -111,13 +111,15 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
                         break;
                     }
                     downloadCount++;
-                    
                 } catch (Exception e) {
                     String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : No, FileChecksum : %s, RequestTime : %s, ErrorMessage : %s",
                             LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), LocalDateTime.now(), e.getMessage());
                     LOGGER.error(log);
                 }
             }
+            for(LightPollution lightPollution : lightPollutionProcessor.process(processTarget)) {
+        		lightPollutionService.save(lightPollution);
+        	}
         }
     }
     

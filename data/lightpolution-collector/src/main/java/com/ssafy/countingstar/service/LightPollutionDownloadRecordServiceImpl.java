@@ -3,10 +3,12 @@ package com.ssafy.countingstar.service;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ssafy.countingstar.dao.LightPollutionCksumDAO;
 import com.ssafy.countingstar.data.LightPollutionCksum;
 
+@Service
 public class LightPollutionDownloadRecordServiceImpl implements LightPollutionDownloadRecordService{
 	
 	@Autowired
