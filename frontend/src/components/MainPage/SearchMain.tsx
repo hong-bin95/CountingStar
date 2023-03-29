@@ -132,9 +132,9 @@ function SearchMain({}: Props) {
     let baseDateM = dateValue.slice(5, 7);
     let baseDateD = dateValue.slice(8, 10);
 
-    console.log(baseDateY);
-    console.log(baseDateM);
-    console.log(baseDateD);
+    // console.log(baseDateY);
+    // console.log(baseDateM);
+    // console.log(baseDateD);
 
     //request 보내야 하는 부분
     axios
