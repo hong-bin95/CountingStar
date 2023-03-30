@@ -1,5 +1,6 @@
 package com.a201.countingstar.db.repository.starGrade;
 
+import com.a201.countingstar.common.CommonEnum;
 import com.a201.countingstar.db.entity.spot.QSpot;
 import com.a201.countingstar.db.entity.star.QStarGrade;
 import com.a201.countingstar.dto.grade.GradeRequestDto;
@@ -85,7 +86,26 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
         builder.and(starGrade.basicDateDay.eq(request.getBaseDateDay()));
         builder.and(starGrade.basicDateHour.eq(request.getBaseDateHour()));
         builder.and(starGrade.basicDateMinute.eq(request.getBaseDateMinute()));
-        builder.and(starGrade.spot.spotName.contains(request.getKeyword() == null ? "" : request.getKeyword()));
+
+        System.out.println("1 : " + CommonEnum.SearchType.valueOf(request.getSearchType()));
+        System.out.println("2 : " + CommonEnum.SearchType.NAME.getCode());
+        System.out.println("3 : " + CommonEnum.SearchType.ID.getCode());
+
+        System.out.println("CommonEnum.SearchType.valueOf(request.getSearchType()).equals(CommonEnum.SearchType.NAME.getCode()) : " + CommonEnum.SearchType.valueOf(request.getSearchType()).equals(CommonEnum.SearchType.NAME.getCode()));
+        System.out.println("CommonEnum.SearchType.valueOf(request.getSearchType()).equals(CommonEnum.SearchType.ID.getCode()) : " + CommonEnum.SearchType.valueOf(request.getSearchType()).equals(CommonEnum.SearchType.ID.getCode()));
+
+        if(request.getSearchType().equals(CommonEnum.SearchType.NAME.getCode())){
+            // 스팟 이름으로 검색
+            builder.and(starGrade.spot.spotName.contains(request.getKeyword() == null ? "" : request.getKeyword()));
+        }
+        else if(request.getSearchType().equals(CommonEnum.SearchType.ID.getCode() )){
+            // 스팟 아이디로 검색
+            if(request.getKeyword() == null){
+                return null;
+            }
+            builder.and(starGrade.spot.spotId.eq(Integer.parseInt(request.getKeyword())));
+        }
+
 
         List<Tuple> starGradeList =
                 queryFactory.select( spot.spotId,

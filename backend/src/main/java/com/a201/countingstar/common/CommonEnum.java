@@ -47,7 +47,8 @@ public class CommonEnum {
     public enum SearchType{
         NAME("NAME","이름"),
         SUBJECT("SUBJECT","제목"),
-        CONTENTS("CONTENTS","내용");
+        CONTENTS("CONTENTS","내용"),
+        ID("ID","아이디");
 
         private final String code;
         private final String value;
