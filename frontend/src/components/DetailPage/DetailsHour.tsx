@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {updateHour, DetailsData} from '../../store/DetailsSlice';
-import UpBtn from '../../assets/UpBtn.png';
-import DownBtn from '../../assets/DownBtn.png';
+import UpBtn from '../../assets/arrowsRight.png';
+import DownBtn from '../../assets/arrowsLeft.png';
 
 const DateContainer = styled.div`
     display: flex;
     justify-content: space-between;
+    padding-top: 100px;
+
 `;
 
 function DetailsHour() {
@@ -24,6 +26,7 @@ function DetailsHour() {
     const styled = {
         height : '25px',
         width : '25px',
+        marginTop : '10px'
     }
 
     useEffect(() => {

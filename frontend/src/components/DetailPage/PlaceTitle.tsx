@@ -6,7 +6,7 @@ function PlaceTitle() {
     const spotId = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.spotId);
 
     return (
-        <div>
+        <div className="mt-5 mr-10">
             {spotName?spotName:spotId}
         </div>
     );

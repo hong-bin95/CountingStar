@@ -40,7 +40,7 @@ function ContainerButton({ onClick }: ButtonProps) {
     }
 
     return (
-        <div>
+        <div className="mr-1 mt-6">
             <img style={styled} src={UpBtn} alt="up" onClick={moveUp} ref={btnUp}/>
             <img style={styled} src={DownBtn} alt="do" onClick={moveDown} ref={btnDown}/>
         </div>
