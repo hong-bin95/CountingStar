@@ -16,7 +16,7 @@ const SpotOverlay = (props: SpotOverlayType) => {
       getPixelPositionOffset={(x, y) => ({ x: 0, y: 0 })}
     >
       <button
-        className="font-serif bg-white text-sky-900 text-sm px-3 py-2 rounded shadow hover:bg-gray-100"
+        className="font-serif bg-white text-sky-900 text-sm px-3 py-2 rounded shadow hover:bg-gray-100 border-4 border-black"
         onClick={() => {
           onSpotClick(spot);
         }}
