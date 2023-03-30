@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
+
 import styled from "styled-components";
 import { SpotType } from "../types/SpotType";
+
 import SpotApi from "../apis/SpotApi";
+
 import "../styles/GoogleMain.css";
 import GoogleMapStyle from "../styles/GoogleMapStyle";
 
