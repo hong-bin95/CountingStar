@@ -36,17 +36,17 @@ function DetailsHour() {
     },[hour]);
 
     const moveUp = () => {
-        setHour(hour!==24?hour+1:hour);
+        setHour(hour!==23?hour+1:hour);
     }
     const moveDown = () => {
         if(day===0 && nowHour === hour) return;
-        setHour(hour!==1?hour-1:hour);
+        setHour(hour!==0?hour-1:hour);
     }
 
     return (
         <DateContainer>
             <img style={styled} src={DownBtn} alt="do" onClick={moveDown}/>
-            <div> {noon} <br/> {hour>12?hour-12:hour}시 </div>
+            <div> {noon} <br/> {hour>12?hour-12:hour===0?12:hour}시 </div>
             <img style={styled} src={UpBtn} alt="up" onClick={moveUp}/>
         </DateContainer>
     );
