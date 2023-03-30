@@ -26,7 +26,12 @@ public class WeatherServiceImpl implements WeatherService {
         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH");
         Date date = transFormat.parse(date_str);
 
+        date = date
+
         Date now = new Date();
+
+        // 현재와 기준 시간의 차이 (단위 : 시간)
+        long Hour = (date.getTime() - now.getTime()) / 3600000;
 
         return null;
     }
