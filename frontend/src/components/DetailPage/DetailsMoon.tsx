@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { DetailsData } from '../../store/DetailsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { DetailsData, updateMoon } from '../../store/DetailsSlice';
+import axios from 'axios';
 
 const ImgContainer = styled.div`
   display: flex;
@@ -13,21 +14,31 @@ const TextContainer = styled.div`
 function DetailsMoon() {
     const moon = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.moon);
     const date = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
-    const [moonName, setMoonName] = useState<string>(decodeURI(moon).substr(33,3));
+    const year = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
+    const month = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
+    const [moonName, setMoonName] = useState<string>('');
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-      setMoonName(decodeURI(moon).substr(33,3));
-      if(moonName==='차가는') setMoonName(moonName+' 달');
-      else if(moonName==='기울어') setMoonName(moonName+'가는 달');
-    },[date]);
-    
+        axios
+        .get(`https://counting-star.com/api/moon/${year}${month}${date}`,{
+        })
+        .then((res) => {
+            dispatch(updateMoon(res.data.data));
+            setMoonName(decodeURI(res.data.data.substring(33, )));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      },[date]);
+      
     return (
         <div>
             <ImgContainer>
             <img src={moon}></img>
             </ImgContainer>
             <TextContainer>
-            <div>{moonName}</div>
+            <div>{moonName.slice(0,3)==='차가는'?'차가는 달':moonName.slice(0,3)==='기울어'?'기울어가는 달':moonName.slice(0,3)}</div>
             </TextContainer>
         </div>
     );
