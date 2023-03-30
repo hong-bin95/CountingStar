@@ -16,7 +16,7 @@ import axios from 'axios';
 
 const slideUp = keyframes`
 from {
-    transform: translateY(200px);
+    transform: translateY(300px);
 }
 `;
 
@@ -38,7 +38,7 @@ animation-fill-mode: forwards;
 
 const TopContainer = styled.div`
 display: flex;
-margin-top: 40px;
+margin-top: 22px;
 justify-content: space-between;
 height: 80px;
 `;
@@ -47,9 +47,8 @@ const BottomContainer = styled.div`
 display: flex;
 flex-wrap : wrap;
 `;
-
 const ContentsContainer = styled.div`
-border: 1px solid gray;
+border: 1px solid silver;
 border-radius: 10px;
 padding: 10px;
 margin: 34px;
@@ -83,7 +82,6 @@ function DetailsMain() {
         .get(`https://counting-star.com/api/spot/${spotIdNumber}`,{
         })
         .then((res) => {
-            console.log(res);
             dispatch(updateSpotId(spotIdNumber));
             dispatch(updateSpotName(res.data.data.spotName));
 
@@ -93,21 +91,6 @@ function DetailsMain() {
         });
     }
     },[spotIdNumber]);
-    
-    useEffect(()=>{
-        const temp = year + month + date;
-        console.log(temp);
-        axios
-        .get(`https://counting-star.com/api/moon/${temp}`,{
-        })
-        .then((res) => {
-            // console.log(res.data.data);
-            dispatch(updateMoon(res.data.data));
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    },[date])
 
     const onClick = () => {
 
@@ -133,29 +116,29 @@ function DetailsMain() {
 
     return (
         <div>
-            <MainContainer>
-                <TopContainer>
-                    <Logo />
-                    <PlaceTitle></PlaceTitle>
+            <MainContainer className="font-serif drop-shadow-lg bg-gray-100/10">
+                <TopContainer className="ml-10 mr-10">
+                    <Logo></Logo>
+                    <PlaceTitle ></PlaceTitle>
                     <ContainerButton onClick={onClick}></ContainerButton>
                 </TopContainer>
                 <BottomContainer>
-                    <ContentsContainer>
+                    <ContentsContainer className="shadow-md drop-shadow-lg">
                         <DetailsDate></DetailsDate>
                     </ContentsContainer>
-                    <ContentsContainer>
+                    <ContentsContainer className="shadow-md drop-shadow-lg">
                         <DetailsPoint></DetailsPoint>
                     </ContentsContainer>
-                    <ContentsContainer>
+                    <ContentsContainer className="shadow-md drop-shadow-lg">
                         <DetailsWeather></DetailsWeather>
                     </ContentsContainer>                    
-                    <ContentsContainer>
+                    <ContentsContainer className="shadow-md drop-shadow-lg">
                         <DetailsHour></DetailsHour>
                     </ContentsContainer>                    
-                    <ContentsContainer>
+                    <ContentsContainer className="shadow-md drop-shadow-lg">
                         <DetailsDust></DetailsDust>
                     </ContentsContainer>                    
-                    <ContentsContainer>
+                    <ContentsContainer className="shadow-md drop-shadow-lg">
                         <DetailsMoon></DetailsMoon>
                     </ContentsContainer>
                 </BottomContainer>
