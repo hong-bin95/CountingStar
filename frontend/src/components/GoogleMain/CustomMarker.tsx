@@ -17,9 +17,10 @@ function CustomMarker({ spot }: CustomMarkerType) {
       position={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }}
       icon={{
         url: MarkerImage,
-        scaledSize: new window.google.maps.Size(50, 50),
+        scaledSize: new window.google.maps.Size(75, 75),
       }}
       onClick={handleClick}
+      clickable={false}
     />
   );
 }
