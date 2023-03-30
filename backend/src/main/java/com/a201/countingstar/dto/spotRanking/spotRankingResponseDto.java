@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class spotRankingResponseDto {
+    private int spotId;
     private String spotName;
     private int grade;
 }

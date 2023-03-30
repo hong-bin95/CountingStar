@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a69d3bc4-85f6-43a8-afc4-cb0c8163a004" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/controller/GradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/controller/GradeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/entity/star/StarGrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/entity/star/StarGrade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/grade/CustomGradeRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/grade/CustomGradeRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/grade/GradeRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/starGradeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/StarGradeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/grade/GradeRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/grade/GradeRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/service/grade/GradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/service/stargrade/StarGradeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/service/grade/GradeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/service/stargrade/StarGradeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/service/spot/SpotServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/service/spot/SpotServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/spotRanking/spotRankingResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/spotRanking/spotRankingResponseDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,7 +267,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java</url>
-          <line>62</line>
+          <line>63</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -328,7 +317,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java</url>
-          <line>84</line>
+          <line>86</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>

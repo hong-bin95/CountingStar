@@ -46,7 +46,8 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
         builder.and(starGrade.basicDateMinute.eq(baseDateMinute));
 
         List<Tuple> starGradeList =
-                queryFactory.select(spot.spotName,
+                queryFactory.select(spot.spotId,
+                        spot.spotName,
                                         starGrade.grade1.sum(),
                                         starGrade.spot.count())
                         .from(starGrade)
@@ -62,6 +63,7 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
 
         starGradeList.forEach(starG -> {
             responseList.add(new spotRankingResponseDto(
+                    starG.get(spot.spotId),
                     starG.get(spot.spotName),
                     (int) Math.round(starG.get(starGrade.starGrade.grade1.sum())/2*10/starG.get(starGrade.spot.count()))
 //                    (int)(starG.get(starGrade.starGrade.grade1.sum())/starG.get(starGrade.spot.count()))
