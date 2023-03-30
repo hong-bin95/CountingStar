@@ -1,5 +1,6 @@
 package com.ssafy.countingstar.data;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 @Table("lightpollution")
-public class LightPollution {
+public class LightPollution implements Serializable{
 	
 	@PrimaryKeyColumn(name = "lat", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
 	private float lat;

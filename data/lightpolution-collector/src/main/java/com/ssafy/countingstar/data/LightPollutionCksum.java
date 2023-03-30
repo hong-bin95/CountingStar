@@ -9,7 +9,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 public class LightPollutionCksum {
 	
     @PrimaryKey
-    private int cksum;
+    private long cksum;
     
     private LocalDateTime date;
     
@@ -17,17 +17,17 @@ public class LightPollutionCksum {
 		super();
 	}
     
-	public LightPollutionCksum(int cksum, LocalDateTime date) {
+	public LightPollutionCksum(long cksum, LocalDateTime date) {
 		super();
 		this.cksum = cksum;
 		this.date = date;
 	}
 	
-	public int getCksum() {
+	public long getCksum() {
 		return cksum;
 	}
 	
-	public void setCksum(int cksum) {
+	public void setCksum(long cksum) {
 		this.cksum = cksum;
 	}
 	

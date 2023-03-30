@@ -27,11 +27,12 @@ public class StarDAO {
 
 	public void addStar(StarDTO star) {
 		try {
-			String sql = "INSERT INTO star (name, code_detail_id, constellation_id) VALUES (?, ?, ?)";
+			String sql = "INSERT INTO star (star_id, name, code_detail_id, constellation_id) VALUES (?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, star.getName());
-			statement.setInt(2, star.getCode_detail_id());
-			statement.setObject(3, star.getConstellation_id());
+			statement.setInt(1, star.getStar_id());
+			statement.setString(2, star.getName());
+			statement.setInt(3, star.getCode_detail_id());
+			statement.setObject(4, star.getConstellation_id());
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

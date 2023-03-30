@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.FilterFunction;
@@ -22,47 +24,19 @@ import com.ssafy.countingstar.data.raw.SuomiNppViirsDnbData;
 @Service
 public class LightPollutionProcessorServiceImpl implements LightPollutionProcessorService{
 	
-	private SparkSession spark;
+	private transient SparkSession spark;
+	private final int skipI;
+	private final int skipJ;
 	
-	public LightPollutionProcessorServiceImpl(@Value("${spark.master.host}") String sparkMaster) {
+	public LightPollutionProcessorServiceImpl(
+			@Value("${spark.master.host}") String sparkMaster,
+			@Value("${lightpollution-process-r-skip}") int skipI,
+			@Value("${lightpollution-process-c-skip}") int skipJ
+		) {
 		SparkConf conf = new SparkConf().setAppName("Light-Pollution-Processor").setMaster(sparkMaster);
 		this.spark = SparkSession.builder().config(conf).getOrCreate();
-	}
-	
-	static class Unit0{
-		float[] cornerLat;
-		float[] cornerLng;
-		Timestamp timestamp;
-		float[][] rad;
-		
-		public Unit0(float[] cornerLat, float[] cornerLng, Timestamp timestamp, float[][] rad) {
-			this.cornerLat = cornerLat;
-			this.cornerLng = cornerLng;
-			this.timestamp = timestamp;
-			this.rad = rad;
-		}
-	}
-	
-	static class Unit1{
-		float[] cornerLat;
-		float[] cornerLng;
-		Timestamp timestamp;
-		int i;
-		int j;
-		int r;
-		int c;
-		float rad;
-		
-		public Unit1(float[] cornerLat, float[] cornerLng, Timestamp timestamp, int i, int j, int r, int c, float rad) {
-			this.cornerLat = cornerLat;
-			this.cornerLng = cornerLng;
-			this.timestamp = timestamp;
-			this.i = i;
-			this.j = j;
-			this.r = r;
-			this.c = c;
-			this.rad = rad;
-		}
+		this.skipI = skipI;
+		this.skipJ = skipJ;
 	}
 	
 	static Timestamp dateStringToTimestamp(String date, String time) {
@@ -86,23 +60,23 @@ public class LightPollutionProcessorServiceImpl implements LightPollutionProcess
 		float[] lats = unit.cornerLat;
 		float[] lngs = unit.cornerLng;
 		
-		float lat = 0f;
-		float lng = 0f;
-		
 		float lpi = unit.i + 0.5f;
 		float lpj = unit.j + 0.5f;
 		
 		float r = unit.r;
 		float c = unit.c;
 		
-		
-		lat += getIDP(lats[0],lats[3],lpi,r);
-		lat += getIDP(lats[1],lats[2],lpi,r);
-		lat /= 2;
-		
-		lng += getIDP(lngs[0],lngs[1],lpj,c);
-		lng += getIDP(lngs[2],lngs[3],lpj,c);
-		lng /= 2;
+		float lat1 = lats[0];
+		float lat2 = lats[3];
+		float lat3 = lats[1];
+		float lat4 = lats[2];
+		float lng1 = lngs[0];
+		float lng2 = lngs[1];
+		float lng3 = lngs[2];
+		float lng4 = lngs[3];
+				
+		float lat = (getIDP(lat1, lat2, lpi, r) + getIDP(lat3, lat4, lpi, r)) / 2;
+		float lng = (getIDP(lng1, lng2, lpj, c) + getIDP(lng3, lng4, lpj, c)) / 2;
 		
 		return new LightPollution(lat, lng, unit.timestamp, unit.rad);
 		
@@ -122,26 +96,37 @@ public class LightPollutionProcessorServiceImpl implements LightPollutionProcess
 	@Override
 	public Iterable<LightPollution> process(List<SuomiNppViirsDnbData> rawData) {
 		
-		Dataset<SuomiNppViirsDnbData> suomiDataset = spark.createDataset(rawData, Encoders.bean(SuomiNppViirsDnbData.class));
+		final int skipI = this.skipI;
+		final int skipJ = this.skipJ;
 		
-		return suomiDataset
-			.filter((FilterFunction<SuomiNppViirsDnbData>)x->x.getDayNightFlag() == 0)
-			.map(
-					(MapFunction<SuomiNppViirsDnbData, Unit0>)
-					x->new Unit0(
-							x.getgRingPointLatitude(),
-							x.getgRingPointLongitude(),
-							dateStringToTimestamp(x.getRangeEndingDate(), x.getRangeEndingTime()),
-							x.getRadiance()
-					), Encoders.bean(Unit0.class)
-			)
+		
+		/// 간단한 연산은 서비스에서 처리해서 넘겨준다.
+		List<Unit0> before = rawData.stream()
+			.filter(x->x.getDayNightFlag() == 0)
+			.map(x->new Unit0(
+								x.getgRingPointLatitude(),
+								x.getgRingPointLongitude(),
+								dateStringToTimestamp(x.getRangeEndingDate(), x.getRangeEndingTime()),
+								x.getRadiance()
+							)
+				).collect(Collectors.toList());
+		
+		
+		
+		
+		Dataset<Unit0> suomiDataset = spark.createDataset(before, Encoders.bean(Unit0.class));
+		
+
+			
+		return 
+			suomiDataset
 			.flatMap((FlatMapFunction<Unit0,Unit1>)x->{
 					int r = x.rad.length;
 					int c = x.rad[0].length;
 					float[][] rad = x.rad;
 					List<Unit1> list = new ArrayList<Unit1>(r*c);
-					for(int i=0; i<r; i++) {
-						for(int j=0; j<c; j++) {
+					for(int i=0; i<r; i+=skipI) {
+						for(int j=0; j<c; j+=skipJ) {
 							Unit1 u = 
 									new Unit1(
 											x.cornerLat, 
@@ -159,7 +144,10 @@ public class LightPollutionProcessorServiceImpl implements LightPollutionProcess
 					return list.iterator();
 				}
 				,Encoders.bean(Unit1.class)
-			).map((MapFunction<Unit1,LightPollution>)x->interpolationByCorner(x), Encoders.bean(LightPollution.class))
+			)
+			// 휘도는 음수가 불가능. 음수 값은 예외 처리한다.
+			.filter((FilterFunction<Unit1>)x->x.rad >= 0)
+			.map((MapFunction<Unit1,LightPollution>)x->interpolationByCorner(x), Encoders.bean(LightPollution.class))
 			.collectAsList();
 	}
 

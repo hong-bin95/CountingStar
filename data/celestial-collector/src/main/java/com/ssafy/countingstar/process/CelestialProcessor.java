@@ -14,7 +14,6 @@ import org.apache.spark.sql.SparkSession;
 import static org.apache.spark.sql.functions.substring;
 
 import com.ssafy.countingstar.data.Celestial;
-import com.ssafy.countingstar.data.Constellation;
 import com.ssafy.countingstar.data.raw.IAUConstellation;
 import com.ssafy.countingstar.data.raw.IAUStar;
 import com.ssafy.countingstar.data.raw.YBSCStar;
@@ -27,8 +26,9 @@ import com.ssafy.countingstar.util.IAUStarParser;
 import com.ssafy.countingstar.util.YBSCStarParser;
 
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
-import com.datastax.spark.connector.japi.CassandraRow;
 
+import org.apache.spark.sql.expressions.Window;
+import org.apache.spark.sql.expressions.WindowSpec;
 import org.apache.spark.sql.functions;
 
 import scala.Tuple2;
@@ -125,7 +125,8 @@ public class CelestialProcessor {
 						, Encoders.bean(Celestial.class)
 					);
 		
-		Dataset<Celestial> c = a.union(b).withColumn("id", functions.monotonically_increasing_id())
+		WindowSpec window = Window.orderBy(functions.rand(123456L));
+		Dataset<Celestial> c = a.union(b).withColumn("id", functions.row_number().over(window))
 				.map(
 					      (MapFunction<Row, Celestial>) row -> {
 					    	  Celestial star = new Celestial();
@@ -140,10 +141,9 @@ public class CelestialProcessor {
 					        },
 					      Encoders.bean(Celestial.class));
 		
-		c.filter((FilterFunction<Celestial>)x->x.getRightAscension() > 50.0).show();
-		
-		
-		
+		c
+		.filter((FilterFunction<Celestial>)x->x.getRightAscension() > 50.0)
+		.show();		
 
 		CassandraJavaUtil.javaFunctions(c.javaRDD())
 			.writerBuilder(CassandraSecret.keyspace, "celestial", CassandraJavaUtil.mapToRow(Celestial.class))
