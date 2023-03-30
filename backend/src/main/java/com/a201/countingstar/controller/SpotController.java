@@ -8,13 +8,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Api("Spot RestController")
 @RestController
@@ -55,21 +58,35 @@ public class SpotController {
                                             String spotId) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
-        try {
-            SpotResponseDto spot = spotService.getSpotDetail(Integer.valueOf(spotId));
-            if (spot == null) {
-                status = HttpStatus.NO_CONTENT;
-            } else {
-                resultMap.put("data", spot);
-                status = HttpStatus.OK;
-            }
+
+        SpotResponseDto spot = spotService.getSpotDetail(Integer.valueOf(spotId));
+        if (spot == null) {
+            status = HttpStatus.NO_CONTENT;
+        } else {
+            resultMap.put("data", spot);
             status = HttpStatus.OK;
-        } catch (Exception e) {
-            resultMap.put("message", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
+        status = HttpStatus.OK;
+
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+    // 예외처리 - 1) 스팟 id가 잘못된 값인 경우
+    @ExceptionHandler(NumberFormatException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "invalid value of spotId")
+    public String handleTypeMismatchException() {
+        System.out.println("스팟 id가 잘못된 값인 경우 예외처리!!!");
+        return "invalidValue/spotId";
+    }
+
+    // 예외처리 - 2) 존재하지 않는 스팟 id인 경우
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "none of spotId")
+    public String handleMissingPathVariableException() {
+        System.out.println("존재하지 않는 스팟 예외처리!!!");
+        return "noneValue/spotId";
+    }
+
 
     @ApiOperation(value = "스팟 랭킹 조회", notes = "일자별 스팟의 순위 반환")
     @GetMapping("/ranking")
