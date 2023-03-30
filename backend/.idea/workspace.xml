@@ -7,7 +7,10 @@
     <list default="true" id="a69d3bc4-85f6-43a8-afc4-cb0c8163a004" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/spotRanking/spotRankingResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/spotRanking/spotRankingResponseDto.java" afterDir="false" />
+=======
+>>>>>>> feature/등급_검색_api
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

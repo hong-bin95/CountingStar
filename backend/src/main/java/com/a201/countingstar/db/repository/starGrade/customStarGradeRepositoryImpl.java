@@ -84,7 +84,7 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
         builder.and(starGrade.basicDateDay.eq(request.getBaseDateDay()));
         builder.and(starGrade.basicDateHour.eq(request.getBaseDateHour()));
         builder.and(starGrade.basicDateMinute.eq(request.getBaseDateMinute()));
-        builder.and(starGrade.spot.spotName.contains(request.getKeyword()));
+        builder.and(starGrade.spot.spotName.contains(request.getKeyword() == null ? "" : request.getKeyword()));
 
         List<Tuple> starGradeList =
                 queryFactory.select( spot.spotId,
