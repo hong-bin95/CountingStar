@@ -68,51 +68,38 @@ public class MoonServiceImpl implements MoonService {
 
         // 삭, 상현, 보름, 하현
         if ((phase.equals("Dark Moon") || phase.equals("New Moon")) && (index == 0 || index == 28)) {
-            moon_value = 0;
+            moon_value = 1;
             System.out.println("현재 달 ---> 삭 !" + moon_value);
+
         } else if (phase.equals("1st Quater") || index == 7) {
             moon_value = 3;
             System.out.println("현재 달 ---> 상현달 !" + moon_value);
+
         } else if (phase.equals("Full Moon") || index == 14) {
-            moon_value = 6;
+            moon_value = 5;
             System.out.println("현재 달 ---> 보름달 !" + moon_value);
+
         } else if (phase.equals("3rd Quater") || index == 21) {
-            moon_value = 9;
+            moon_value = 7;
             System.out.println("현재 달 ---> 하현달 !" + moon_value);
+
         } else {
-            // 이외에 나머지 달
+
             if (phase.equals("Waxing Crescent")) {
-                if (illumination >= 0.01 && illumination < 0.3) {
-                    System.out.println("현재 달 ---> 1 초승달");
-//                    moon_value = 1;
-                } else if (illumination >= 0.3 && illumination < 0.5) {
-                    System.out.println("현재 달 ---> 2 조금 두꺼운 초승달");
-                    moon_value = 2;
-                }
+            System.out.println("현재 달 ---> 초승달");
+            moon_value = 2;
+
             } else if (phase.equals("Waxing Gibbous")) {
-                if (illumination >= 0.6 && illumination < 0.8) {
-                    System.out.println("현재 달 ---> 3 오른쪽 큰 달");
-                    moon_value = 4;
-                } else if (illumination >= 0.8 && illumination < 1) {
-                    System.out.println("현재 달 ---> 4 오른쪽 더 큰 달");
-                    moon_value = 5;
-                }
+                System.out.println("현재 달 ---> 차가는달");
+                moon_value = 4;
+
             } else if (phase.equals("Waning Gibbous")) {
-                if (illumination >= 0.6 && illumination < 0.8) {
-                    System.out.println("현재 달 ---> 3 왼쪽 큰 달");
-                    moon_value = 6;
-                } else if (illumination >= 0.8 && illumination < 1) {
-                    System.out.println("현재 달 ---> 4 왼쪽 더 큰 달");
-                    moon_value = 7;
-                }
+                System.out.println("현재 달 ---> 기울어가는달");
+                moon_value = 6;
+
             } else if (phase.equals("Waning Crescent")) {
-                if (illumination >= 0.01 && illumination < 0.3) {
-                    System.out.println("현재 달 ---> 1 그믐달");
-                    moon_value = 10;
-                } else if (illumination >= 0.3 && illumination < 0.5) {
-                    System.out.println("현재 달 ---> 2 조금 두꺼운 그믐달");
-                    moon_value = 11;
-                }
+                System.out.println("현재 달 ---> 그믐달");
+                moon_value = 8;
             }
         }
 
