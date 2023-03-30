@@ -37,6 +37,7 @@ const mapStyles = [
 const mapOptions = {
   styles: GoogleMapStyle,
   fullscreenControl: false,
+  mapTypeControl: false,
 };
 
 function GoogleMain() {
