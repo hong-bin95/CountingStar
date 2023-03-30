@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SpotRepository extends JpaRepository<Spot, Integer> {
     List<Spot> findBySpotNameContaining(String spotName);
+    Spot findBySpotId(int spotId);
 }

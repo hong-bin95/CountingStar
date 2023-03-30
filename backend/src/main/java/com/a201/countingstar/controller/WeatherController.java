@@ -40,7 +40,7 @@ public class WeatherController {
                                                                     spotId);
 
             // 임시 데이터
-            weater = new ConditionResponseDto("맑음");
+//            weater = new ConditionResponseDto("맑음");
 
             if (weater == null) {
                 status = HttpStatus.NO_CONTENT;
