@@ -40,7 +40,7 @@ public class GradeController {
             else{
                 List<GradeResponseDto> gradeList = gradeService.getGradeList(request);
 
-                if (gradeList.isEmpty()) {
+                if (gradeList == null || gradeList.isEmpty()) {
                     status = HttpStatus.NO_CONTENT;
                 } else {
                     resultmap.put("data", gradeList);
