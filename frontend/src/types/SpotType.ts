@@ -11,6 +11,7 @@ export interface SpotType {
   latitude: string;
   longitude: string;
   spotName: string;
+  grade: number;
 }
 
 export interface CustomMarkerType {
@@ -25,4 +26,9 @@ export interface SpotOverlayType {
 export interface ToggleButtonType {
   isMainVisible: boolean;
   onClick: () => void;
+}
+
+export interface SpotData {
+  spot: SpotType;
+  grade: number;
 }
