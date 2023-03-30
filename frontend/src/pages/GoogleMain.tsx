@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
+
 import styled from "styled-components";
-import { SpotType } from "../types/SpotType";
+import { SpotType, SpotData } from "../types/SpotType";
+
 import SpotApi from "../apis/SpotApi";
+
 import "../styles/GoogleMain.css";
 import GoogleMapStyle from "../styles/GoogleMapStyle";
 
@@ -52,9 +55,18 @@ function GoogleMain() {
 
   // 함수 정리
   const getData = async () => {
+    const now = new Date();
+    const year = now.getFullYear().toString();
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
+    const day = now.getDate().toString().padStart(2, "0");
+
     try {
-      const response = await SpotApi().doGetSpot();
-      setSpots([...response.data]);
+      const response = await SpotApi().doGetSpot(day, month, year);
+      const spotArray = response.data.map((item: SpotData) => ({
+        ...item.spot,
+        grade: item.grade,
+      }));
+      setSpots([...spotArray]);
     } catch (error) {
       console.log(error);
     }
