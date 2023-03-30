@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a69d3bc4-85f6-43a8-afc4-cb0c8163a004" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/grade/SpotDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/grade/GradeResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/a201/countingstar/dto/grade/GradeResponseDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,7 +268,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java</url>
-          <line>62</line>
+          <line>63</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -316,7 +318,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/a201/countingstar/db/repository/starGrade/customStarGradeRepositoryImpl.java</url>
-          <line>84</line>
+          <line>85</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>

@@ -4,6 +4,7 @@ import com.a201.countingstar.db.entity.spot.QSpot;
 import com.a201.countingstar.db.entity.star.QStarGrade;
 import com.a201.countingstar.dto.grade.GradeRequestDto;
 import com.a201.countingstar.dto.grade.GradeResponseDto;
+import com.a201.countingstar.dto.grade.SpotDto;
 import com.a201.countingstar.dto.spotRanking.spotRankingResponseDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
@@ -87,6 +88,9 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
         List<Tuple> starGradeList =
                 queryFactory.select( spot.spotId,
                                 spot.spotName,
+                                spot.latitude,
+                                spot.longitude,
+                                spot.areaCode,
                                 starGrade.grade1.sum(),
                                 starGrade.spot.count())
                         .from(starGrade)
@@ -102,8 +106,11 @@ public class customStarGradeRepositoryImpl implements customStarGradeRepository 
 
         starGradeList.forEach(starG -> {
             responseList.add(new GradeResponseDto(
-                    starG.get(spot.spotId),
-                    starG.get(spot.spotName),
+                    new SpotDto(starG.get(spot.spotId),
+                            starG.get(spot.spotName),
+                            starG.get(spot.latitude),
+                            starG.get(spot.longitude),
+                            starG.get(spot.areaCode)),
                     (int) Math.round(starG.get(starGrade.starGrade.grade1.sum())/2*10/starG.get(starGrade.spot.count()))
 //                    (int)(starG.get(starGrade.starGrade.grade1.sum())/starG.get(starGrade.spot.count()))
             ));
