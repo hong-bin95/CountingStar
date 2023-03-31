@@ -41,8 +41,8 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
     
     private int mdpr;
     
-    //private static final String metaDataUrl = "https://nrt3.modaps.eosdis.nasa.gov/api/v2/content/details/allData/5200/VJ102DNB_NRT/Recent?fields=all&formats=json";
-    private static final String metaDataUrl = "https://nrt3.modaps.eosdis.nasa.gov/api/v2/content/details/allData/5200/VNP02DNB_NRT/2023/087?fields=all&formats=json";
+    private static final String metaDataUrl = "https://nrt3.modaps.eosdis.nasa.gov/api/v2/content/details/allData/5200/VJ102DNB_NRT/Recent?fields=all&formats=json";
+    //private static final String metaDataUrl = "https://nrt3.modaps.eosdis.nasa.gov/api/v2/content/details/allData/5200/VNP02DNB_NRT/2023/086?fields=all&formats=json";
     	
     private final HttpEntity<String> META_HEADER;
     
@@ -56,18 +56,34 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
     
     private LightPollutionProcessorService lightPollutionProcessor;
     
+    private float maxLat;
+    private float minLat;
+    private float maxLng;
+    private float minLng;
+    
     public LightPollutionCollectorServiceImpl(
     		@Autowired LightPollutionDownloadRecordService downloadRecord, 
     		@Autowired LightPollutionService lightPollutionService, 
     		@Autowired LightPollutionProcessorService lightPollutionProcessor,
     		@Value("${max-download-per-request}") int mdpr,
-    		@Value("${earthdata-token}") String token
+    		@Value("${earthdata-token}") String token,
+    		@Value("${lightpollution-limit-max-lat}") float maxLat,
+    		@Value("${lightpollution-limit-min-lat}") float minLat,
+    		@Value("${lightpollution-limit-max-lng}") float maxLng,
+    		@Value("${lightpollution-limit-min-lng}") float minLng
     	) {
+    	
     	this.downloadRecord = downloadRecord;
     	this.lightPollutionService = lightPollutionService;
     	this.lightPollutionProcessor = lightPollutionProcessor;
     	this.mdpr = mdpr;
     	this.token = token;
+    	
+    	this.maxLat = maxLat;
+    	this.minLat = minLat;
+    	this.maxLng = maxLng;
+    	this.minLng = minLng;
+    	
     	this.restTemplate = new RestTemplate();
     	META_HEADER = createHeader(MediaType.APPLICATION_JSON);
     	DATA_HEADER = createHeader(MediaType.APPLICATION_OCTET_STREAM);
@@ -94,8 +110,6 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
         }
     }
     
-    
-    
     private Iterable<LightPollution> processData(List<SuomiNppViirsDnbData> processTarget) {
     	LOGGER.info("Start to Process Data");
     	return lightPollutionProcessor.process(processTarget);
@@ -116,21 +130,39 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
     		// 가장 최신 데이터 부터 수집
     		SuomiNppViirsDnbMetaData metadata = metadatas[i];
     		if(!metadata.getLdt().isBefore(reqTime)) {
-    			// 요청 시각, 이후 자료는 처리하지 않는다.
+    			String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Skipped(afterReqTime), FileChecksum : %s, RequestTime : %s",
+                        LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), reqTime);
+    			LOGGER.info(log);
     			continue;
     		}
             if (downloadRecord.isDownloaded(metadata.getCksum())) {
-                String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Skipped, FileChecksum : %s, RequestTime : %s",
+                String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Skipped(downloaded), FileChecksum : %s, RequestTime : %s",
                         LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), reqTime);
                 LOGGER.info(log);
                 continue;
             }
             try {
                 SuomiNppViirsDnbData rawData = downloadData(metadata);
+                
+                
                 if(rawData.getDayNightFlag() == 1) {
-                	rawData = null;
+                	LOGGER.info("Passed Because It was not night"); 
+                	continue;
+                	}
+                if(
+                		rawData.getNorthBoundingCoordinate() < minLat ||
+                		rawData.getSouthBoundingCoordinate() > maxLat ||
+                		rawData.getEastBoundingCoordinate() < minLng ||
+                		rawData.getWestBoundingCoordinate() > maxLng
+                		
+                ) {
+                	LOGGER.info("Passed Because It could not be coveraged (lat, lng)");
                 	continue;
                 }
+                
+                // float 읽기.
+                rawData.loadFromDataSet();
+                
                 processTarget.add(rawData);
                 String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : Yes, FileChecksum : %s, RequestTime : %s",
                         LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), reqTime);
@@ -140,6 +172,7 @@ public class LightPollutionCollectorServiceImpl implements LightPollutionCollect
                 String log = String.format("[%s] Service : LightPollution, DownloadUrl : %s, IsSuccess : No, FileChecksum : %s, RequestTime : %s, ErrorMessage : %s",
                         LocalDateTime.now(), metadata.getDownloadsLink(), metadata.getCksum(), LocalDateTime.now(), e.getMessage());
                 LOGGER.error(log);
+                e.printStackTrace();
             }
             
         }

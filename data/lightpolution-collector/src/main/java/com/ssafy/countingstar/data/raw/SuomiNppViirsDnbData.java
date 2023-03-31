@@ -1,5 +1,7 @@
 package com.ssafy.countingstar.data.raw;
 
+import io.jhdf.api.Dataset;
+
 public class SuomiNppViirsDnbData {
 	int dayNightFlag;
 	String rangeEndingDate;
@@ -12,6 +14,23 @@ public class SuomiNppViirsDnbData {
 	int c;
 	
 	float[][] radiance;
+	
+	float southBoundingCoordinate;
+	float northBoundingCoordinate;
+	float eastBoundingCoordinate;
+	float westBoundingCoordinate;
+	
+	Dataset radianceDataSet;
+	
+	public void setDataSet(Dataset radianceDataSet) {
+		this.radianceDataSet = radianceDataSet;
+	}
+	
+	public void loadFromDataSet() {
+		int[] redianceDim = radianceDataSet.getDimensions();
+		float[][] radiance = (float[][]) radianceDataSet.getData();
+		setRadiance(radiance, redianceDim[0], redianceDim[1]);
+	}
 
 	public int getDayNightFlag() {
 		return dayNightFlag;
@@ -69,12 +88,42 @@ public class SuomiNppViirsDnbData {
 		return radiance;
 	}
 
-	public void setRadiance(float[][] radiance, int r, int c) {
+	private void setRadiance(float[][] radiance, int r, int c) {
 		this.radiance = radiance;
 		this.r = r;
 		this.c = c;
 	}
-	
-	
+
+	public float getSouthBoundingCoordinate() {
+		return southBoundingCoordinate;
+	}
+
+	public void setSouthBoundingCoordinate(float southBoundingCoordinate) {
+		this.southBoundingCoordinate = southBoundingCoordinate;
+	}
+
+	public float getNorthBoundingCoordinate() {
+		return northBoundingCoordinate;
+	}
+
+	public void setNorthBoundingCoordinate(float northBoundingCoordinate) {
+		this.northBoundingCoordinate = northBoundingCoordinate;
+	}
+
+	public float getEastBoundingCoordinate() {
+		return eastBoundingCoordinate;
+	}
+
+	public void setEastBoundingCoordinate(float eastBoundingCoordinate) {
+		this.eastBoundingCoordinate = eastBoundingCoordinate;
+	}
+
+	public float getWestBoundingCoordinate() {
+		return westBoundingCoordinate;
+	}
+
+	public void setWestBoundingCoordinate(float westBoundingCoordinate) {
+		this.westBoundingCoordinate = westBoundingCoordinate;
+	}
 	
 }

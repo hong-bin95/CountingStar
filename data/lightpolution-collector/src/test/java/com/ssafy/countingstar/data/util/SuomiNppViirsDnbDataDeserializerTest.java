@@ -23,6 +23,9 @@ class SuomiNppViirsDnbDataDeserializerTest {
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			byte[] data = bis.readAllBytes();
 			SuomiNppViirsDnbData suomi = SuomiNppViirsDnbDataDeserializer.deserialize(data);
+			
+			suomi.loadFromDataSet();
+			
 			assertNotNull(suomi);
 			assertNotNull(suomi.getgRingPointLatitude());
 			assertNotNull(suomi.getgRingPointLongitude());

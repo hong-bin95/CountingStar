@@ -1,8 +1,7 @@
 package com.ssafy.countingstar.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ class LightPollutionCollectorServiceTest {
 
 	@Test
 	void test() {
-		lpcs.collect(LocalDateTime.now());
+		lpcs.collect(LocalDateTime.now(ZoneId.of("UTC")));
 	}
 
 }

@@ -2,11 +2,13 @@ package com.ssafy.countingstar.service.processor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class Unit1 implements Serializable{
 	float[] cornerLat;
 	float[] cornerLng;
-	Timestamp timestamp;
+	LocalDate date;
+	int hour;
 	int i;
 	int j;
 	int r;
@@ -15,10 +17,11 @@ public class Unit1 implements Serializable{
 	
 	public Unit1() {}
 	
-	public Unit1(float[] cornerLat, float[] cornerLng, Timestamp timestamp, int i, int j, int r, int c, float rad) {
+	public Unit1(float[] cornerLat, float[] cornerLng, LocalDate date, int hour, int i, int j, int r, int c, float rad) {
 		this.cornerLat = cornerLat;
 		this.cornerLng = cornerLng;
-		this.timestamp = timestamp;
+		this.date = date;
+		this.hour = hour;
 		this.i = i;
 		this.j = j;
 		this.r = r;
@@ -42,12 +45,20 @@ public class Unit1 implements Serializable{
 		this.cornerLng = cornerLng;
 	}
 
-	public Timestamp getTimestamp() {
-		return timestamp;
+	public LocalDate getDate() {
+		return date;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
 	}
 
 	public int getI() {
@@ -89,6 +100,5 @@ public class Unit1 implements Serializable{
 	public void setRad(float rad) {
 		this.rad = rad;
 	}
-	
 	
 }

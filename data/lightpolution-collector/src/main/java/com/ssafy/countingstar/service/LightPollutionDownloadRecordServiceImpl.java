@@ -16,7 +16,7 @@ public class LightPollutionDownloadRecordServiceImpl implements LightPollutionDo
 
 	@Override
 	public boolean isDownloaded(long cksum) {
-		return lightPollutionCksumDAO.findById(cksum) != null;
+		return lightPollutionCksumDAO.findById(cksum).isPresent();
 	}
 
 	@Override

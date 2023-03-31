@@ -3,6 +3,10 @@ package com.ssafy.countingstar.service.processor;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +22,7 @@ import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.countingstar.data.CollectedDataKey;
 import com.ssafy.countingstar.data.LightPollution;
 import com.ssafy.countingstar.data.raw.SuomiNppViirsDnbData;
 
@@ -25,18 +30,37 @@ import com.ssafy.countingstar.data.raw.SuomiNppViirsDnbData;
 public class LightPollutionProcessorServiceImpl implements LightPollutionProcessorService{
 	
 	private transient SparkSession spark;
+	
 	private final int skipI;
 	private final int skipJ;
+	
+	final static transient ZoneId utc = ZoneId.of("UTC");
+	final static transient ZoneId kst = ZoneId.of("Asia/Seoul");
+	
+    private float maxLat;
+    private float minLat;
+    private float maxLng;
+    private float minLng;
 	
 	public LightPollutionProcessorServiceImpl(
 			@Value("${spark.master.host}") String sparkMaster,
 			@Value("${lightpollution-process-r-skip}") int skipI,
-			@Value("${lightpollution-process-c-skip}") int skipJ
+			@Value("${lightpollution-process-c-skip}") int skipJ,
+    		@Value("${lightpollution-limit-max-lat}") float maxLat,
+    		@Value("${lightpollution-limit-min-lat}") float minLat,
+    		@Value("${lightpollution-limit-max-lng}") float maxLng,
+    		@Value("${lightpollution-limit-min-lng}") float minLng
 		) {
 		SparkConf conf = new SparkConf().setAppName("Light-Pollution-Processor").setMaster(sparkMaster);
 		this.spark = SparkSession.builder().config(conf).getOrCreate();
 		this.skipI = skipI;
 		this.skipJ = skipJ;
+		
+    	this.maxLat = maxLat;
+    	this.minLat = minLat;
+    	this.maxLng = maxLng;
+    	this.minLng = minLng;
+		
 	}
 	
 	static Timestamp dateStringToTimestamp(String date, String time) {
@@ -78,7 +102,7 @@ public class LightPollutionProcessorServiceImpl implements LightPollutionProcess
 		float lat = (getIDP(lat1, lat2, lpi, r) + getIDP(lat3, lat4, lpi, r)) / 2;
 		float lng = (getIDP(lng1, lng2, lpj, c) + getIDP(lng3, lng4, lpj, c)) / 2;
 		
-		return new LightPollution(lat, lng, unit.timestamp, unit.rad);
+		return new LightPollution(new CollectedDataKey(unit.date, unit.hour, lat, lng), unit.rad);
 		
 	}
 	
@@ -99,16 +123,27 @@ public class LightPollutionProcessorServiceImpl implements LightPollutionProcess
 		final int skipI = this.skipI;
 		final int skipJ = this.skipJ;
 		
+		final float maxLat = this.maxLat;
+		final float minLat = this.minLat;
+		final float maxLng = this.maxLng;
+		final float minLng = this.minLng;
 		
 		/// 간단한 연산은 서비스에서 처리해서 넘겨준다.
 		List<Unit0> before = rawData.stream()
 			.filter(x->x.getDayNightFlag() == 0)
-			.map(x->new Unit0(
+			.map(x->{
+							LocalDate ld = LocalDate.parse(x.getRangeEndingDate());
+							LocalTime lt = LocalTime.of(Integer.parseInt(x.getRangeEndingTime().substring(0,2)),0);
+							ZonedDateTime zdt = ZonedDateTime.of(ld, lt, utc).withZoneSameInstant(kst);
+							return new Unit0(
 								x.getgRingPointLatitude(),
 								x.getgRingPointLongitude(),
-								dateStringToTimestamp(x.getRangeEndingDate(), x.getRangeEndingTime()),
+								zdt.toLocalDate(),
+								zdt.getHour(),
 								x.getRadiance()
-							)
+							);
+				
+					}
 				).collect(Collectors.toList());
 		
 		
@@ -131,7 +166,8 @@ public class LightPollutionProcessorServiceImpl implements LightPollutionProcess
 									new Unit1(
 											x.cornerLat, 
 											x.cornerLng, 
-											x.timestamp,
+											x.date,
+											x.hour,
 											i,
 											j,
 											r,
@@ -148,6 +184,10 @@ public class LightPollutionProcessorServiceImpl implements LightPollutionProcess
 			// 휘도는 음수가 불가능. 음수 값은 예외 처리한다.
 			.filter((FilterFunction<Unit1>)x->x.rad >= 0)
 			.map((MapFunction<Unit1,LightPollution>)x->interpolationByCorner(x), Encoders.bean(LightPollution.class))
+			.filter((FilterFunction<LightPollution>)x->x.getKey().getLat() >= minLat)
+			.filter((FilterFunction<LightPollution>)x->x.getKey().getLat() <= maxLat)
+			.filter((FilterFunction<LightPollution>)x->x.getKey().getLng() >= minLng)
+			.filter((FilterFunction<LightPollution>)x->x.getKey().getLng() <= maxLng)
 			.collectAsList();
 	}
 

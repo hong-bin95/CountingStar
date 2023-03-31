@@ -18,11 +18,12 @@ public class SuomiNppViirsDnbDataDeserializer {
 		float[] gRingPointLongitude
 			= (float[]) file.getAttribute("GRingPointLongitude").getData();
 		
+		float southBoundingCoordinate = ((float[])file.getAttribute("SouthBoundingCoordinate").getData())[0];
+		float northBoundingCoordinate = ((float[])file.getAttribute("NorthBoundingCoordinate").getData())[0];
+		float eastBoundingCoordinate = ((float[])file.getAttribute("EastBoundingCoordinate").getData())[0];
+		float westBoundingCoordinate = ((float[])file.getAttribute("WestBoundingCoordinate").getData())[0];
+		
 		Dataset radianceDataSet = file.getDatasetByPath("/observation_data/DNB_observations");
-		
-		int[] redianceDim = radianceDataSet.getDimensions();
-		
-		float[][] radiance = (float[][]) radianceDataSet.getData();
 		
 		SuomiNppViirsDnbData result = new SuomiNppViirsDnbData();
 		result.setDayNightFlag(dayNightFlag);
@@ -30,7 +31,11 @@ public class SuomiNppViirsDnbDataDeserializer {
 		result.setRangeEndingTime(rangeEndingTime);
 		result.setgRingPointLatitude(gRingPointLatitude);
 		result.setgRingPointLongitude(gRingPointLongitude);
-		result.setRadiance(radiance, redianceDim[0], redianceDim[1]);
+		result.setSouthBoundingCoordinate(southBoundingCoordinate);
+		result.setNorthBoundingCoordinate(northBoundingCoordinate);
+		result.setEastBoundingCoordinate(eastBoundingCoordinate);
+		result.setWestBoundingCoordinate(westBoundingCoordinate);
+		result.setDataSet(radianceDataSet);
 		
 		return result;
 	}

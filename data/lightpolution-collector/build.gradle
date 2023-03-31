@@ -17,7 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.data:spring-data-cassandra'
+	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
 
 	
 	compileOnly group: 'org.apache.spark', name: 'spark-sql_2.13', version: '3.3.2'
