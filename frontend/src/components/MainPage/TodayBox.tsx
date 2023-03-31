@@ -1,6 +1,5 @@
 import React from "react";
 import StarPoint from "./StarPoint";
-
 type Props = {
   spotName: string;
   grade: number;
