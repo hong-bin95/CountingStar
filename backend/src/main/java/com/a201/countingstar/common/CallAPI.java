@@ -30,6 +30,7 @@ public class CallAPI {
     * */
     public String GET(String url, Map<String,String> params) throws Exception  {
 
+        System.out.println("call url : " + url);
         StringBuilder urlBuilder = new StringBuilder(url);
         URL _url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) _url.openConnection();
