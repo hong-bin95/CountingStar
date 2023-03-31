@@ -8,6 +8,7 @@ import com.a201.countingstar.dto.weather.ConditionResponseDto;
 import com.a201.countingstar.dto.weather.DustResponseDto;
 import com.a201.countingstar.dto.weather.WeatherApiDto;
 import com.a201.countingstar.dto.weather.*;
+import com.a201.countingstar.dto.weather.api.dustItem;
 import com.a201.countingstar.dto.weather.api.item;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -69,8 +70,6 @@ public class WeatherServiceImpl implements WeatherService {
                 // 단기예보
                 Map<String, String> map = new HashMap<>();
 
-//                map.put("Content-type","application/json");
-
                 String result = call.GET("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?numOfRows=900&pageNo=1&base_date=" + transFormat.format(now) + "&base_time=0200&dataType=JSON" +
                                 "&nx=" + selectSpot.getX() + "&ny=" + selectSpot.getY() + "&serviceKey=" + weatherKey
                         ,map);
@@ -84,8 +83,6 @@ public class WeatherServiceImpl implements WeatherService {
 
                 if(weather != null && (weather.getResponse()).getHeader().getResultCode().equals("00") ) {
                     // 정상 데이터
-//                    List<item> totalItem = weather.getResponse().getBody().getItems().getItem();
-//                    for(int i = 0 ; i < weather.getResponse().getBody().getItems().getItem().size(); i++){
                     for(item item : weather.getResponse().getBody().getItems().getItem()){
                         if(item.getFcstDate().equals(baseDateYear + baseDateMonth + baseDateDay)
                         && item.getFcstTime().equals(baseDateHour + "00")){
@@ -102,34 +99,10 @@ public class WeatherServiceImpl implements WeatherService {
                                 // 눈이나 비
                                 if(item.getCategory().equals("PTY")){
                                     pty = item.getFcstValue();
-//                                        && item.getFcstValue().equals("0") == false){
-                                    // 비나 눈 오면
-//                                    if(item.getFcstValue().equals("1")){
-//                                        return  new ConditionResponseDto("비");
-//                                    }
-//                                    else if(item.getFcstValue().equals("2")){
-//                                        return  new ConditionResponseDto("비 혹은 눈");
-//
-//                                    }
-//                                    else if(item.getFcstValue().equals("3")){
-//                                        return  new ConditionResponseDto("눈");
-//                                    }
-//                                    else {
-//                                        return  new ConditionResponseDto("소나기");
-//                                    }
                                 }
                                 // 맑음(1), 구름많음(3), 흐림(4)
                                 else if(item.getCategory().equals("SKY")){
                                     sky = item.getFcstValue();
-//                                    if(item.getFcstValue().equals("1")){
-//                                        return  new ConditionResponseDto("맑음");
-//                                    }
-//                                    else if(item.getFcstValue().equals("3")){
-//                                        return  new ConditionResponseDto("구름많음");
-//                                    }
-//                                    else {
-//                                        return  new ConditionResponseDto("흐림");
-//                                    }
                                 }
                             }
                         }
@@ -196,14 +169,46 @@ public class WeatherServiceImpl implements WeatherService {
          * 0시간 ~ 48시간 : 단기예보
          * 그 이상 : 중단기예보 (오전오후 나누어서)
          * */
-
-        String date_str = String.format("%s-%s-%s %s",baseDateYear, baseDateMonth, baseDateDay, baseDateHour);
-        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH");
-        Date date = transFormat.parse(date_str);
-
         Date now = new Date();
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String result = call.GET("https://api.odcloud.kr/api/MinuDustFrcstDspthSvrc/v1/getMinuDustFrcstDspth?numOfRows=100&" +
+                "searchDate=" + transFormat.format(now) + "&ver=1.1" +
+                "&serviceKey=" + weatherKey +"&returnType=json",null);
+        System.out.println("api 호출 결과 : " + result);
+
+        DustApiDto dust = getDustApiDto(result);
+        Spot selectSpot = spotRepository.findBySpotId(spotId);
+
+        if(selectSpot != null && dust != null && dust.getResponse().getBody().getItems() != null){
+            for(dustItem item : dust.getResponse().getBody().getItems()){
+                if(item.getInformData().equals(baseDateYear + "-" + baseDateMonth + "-" + baseDateDay)){
+
+                    //서울 : 나쁨,제주 : 보통,전남 : 보통,전북 : 나쁨,광주 : 보통,경남 : 보통,경북 : 보통,울산 : 보통,대구 : 보통,부산 : 보통,충남 : 나쁨,충북 : 보통,세종 : 보통,대전 : 보통,영동 : 보통,영서 : 보통,경기남부 : 나쁨,경기북부 : 나쁨,인천 : 나쁨
+                    String[] dustList = item.getInformGrade().split(",");
+                    if(dustList.length > 0){
+                        for(String dustGrade : dustList){
+                            String[] gradeItems = dustGrade.split(":");
+                            System.out.println(Arrays.toString(gradeItems));
+                            if(gradeItems[0].contains(selectSpot.getLocationName())){
+                                return new DustResponseDto(gradeItems[1]);
+                            }
+                        }
+                    }
+                    //                    return new DustResponseDto()
+                }
+            }
+        }
 
         return null;
+    }
+
+    DustApiDto getDustApiDto(String result) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new ParameterNamesModule());
+
+        DustApiDto dto = mapper.readValue(result.toString(),DustApiDto.class);
+        return dto;
     }
 
     public Date addHoursToJavaUtilDate(Date date, int hours) {

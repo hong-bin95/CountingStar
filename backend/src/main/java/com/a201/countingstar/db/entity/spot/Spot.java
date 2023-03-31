@@ -24,4 +24,7 @@ public class Spot {
     private int x;
     private int y;
 
+    @Column(name="location_name")
+    private String locationName;
+
 }
