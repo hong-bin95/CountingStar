@@ -196,14 +196,14 @@ function SearchMain({}: Props) {
           type="date"
           min={todayString}
           max={lastDayString}
-          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          className="ml-1 h-10 bg-white border border-gray-200 font-serif rounded-2xl shadow-md text-center"
           value={dateValue}
           onChange={handleSelectDate}
         ></input>
 
         <select
           name="sido"
-          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl font-serif shadow-md text-center"
           onChange={handleSelectTime}
           value={timeValue}
         >
@@ -257,24 +257,3 @@ function SearchMain({}: Props) {
 }
 
 export default SearchMain;
-
-const DIV_Hover = styled.div`
-  transition: top 1s ease-in;
-  top: 20px;
-
-  &.hover {
-    top: 0px;
-    animation-duration: 3s;
-    animation-name: fadeout;
-  }
-
-  @keyframes fadeout {
-    0% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
-`;
