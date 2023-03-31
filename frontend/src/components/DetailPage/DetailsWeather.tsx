@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { DetailsData, updateWeather } from '../../store/DetailsSlice';
+import { useSelector } from 'react-redux';
+import { DetailsData} from '../../store/DetailsSlice';
 import axios from 'axios';
 import sunny from '../../assets/sunny.jpg';
 import rain from '../../assets/rain.jpg';
@@ -8,8 +8,6 @@ import cloudy from '../../assets/cloudy.jpg';
 import snow from '../../assets/snow.png';
 
 function DetailsWeather() {
-
-    const dispatch = useDispatch();
 
     const date = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
     const year = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
@@ -24,7 +22,7 @@ function DetailsWeather() {
         .get(`https://counting-star.com/api/weather/condition?baseDateYear=${year}&baseDateMonth=${month}&baseDateDay=${date}&baseDateHour=${hour}&spotId=${spotId}`,{})
         .then((res) => {
             setWeather(res.data.data.weatherCondition);
-            dispatch(updateWeather(res.data.data.weatherCondition));
+            
         })
         .catch((err) => {
           console.log(err);
