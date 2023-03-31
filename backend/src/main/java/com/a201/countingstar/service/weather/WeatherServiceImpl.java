@@ -53,6 +53,9 @@ public class WeatherServiceImpl implements WeatherService {
         date = addHoursToJavaUtilDate(date, -1);
 
         Date now = new Date();
+        transFormat = new SimpleDateFormat("yyyyMMdd");
+
+        // 기준 시간
 
         // 현재와 기준 시간의 차이 (단위 : 시간)
         long Hour = (date.getTime() - now.getTime()) / 3600000;
@@ -68,11 +71,11 @@ public class WeatherServiceImpl implements WeatherService {
 
 //                map.put("Content-type","application/json");
 
-                String result = call.GET("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?numOfRows=900&pageNo=1&base_date=" + baseDateYear + baseDateMonth + baseDateDay + "&base_time=0200&dataType=JSON" +
+                String result = call.GET("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?numOfRows=900&pageNo=1&base_date=" + transFormat.format(now) + "&base_time=0200&dataType=JSON" +
                                 "&nx=" + selectSpot.getX() + "&ny=" + selectSpot.getY() + "&serviceKey=" + weatherKey
                         ,map);
 
-                System.out.println("api 호출 결과 : " + result);
+                 System.out.println("api 호출 결과 : " + result);
 
                 WeatherApiDto weather = getWeatherApiDto(result);
 
@@ -84,7 +87,7 @@ public class WeatherServiceImpl implements WeatherService {
 //                    List<item> totalItem = weather.getResponse().getBody().getItems().getItem();
 //                    for(int i = 0 ; i < weather.getResponse().getBody().getItems().getItem().size(); i++){
                     for(item item : weather.getResponse().getBody().getItems().getItem()){
-                        if(item.getFcstDate().equals(now.getYear() + now.getMonth() + now.getDay())
+                        if(item.getFcstDate().equals(baseDateYear + baseDateMonth + baseDateDay)
                         && item.getFcstTime().equals(baseDateHour + "00")){
                             basicWeatherList.add(item);
                         }
