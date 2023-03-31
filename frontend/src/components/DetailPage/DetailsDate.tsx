@@ -16,7 +16,6 @@ function DetailsDate() {
     const dispatch = useDispatch();
     const day = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
     
-    
     const [today, setToday] = useState<Date>(new Date());
     const [newDate, setNewDate] = useState<Date>(today);	// 어제
     const [year, setYear] = useState<number>(newDate.getFullYear());

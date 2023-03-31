@@ -9,7 +9,6 @@ const DateContainer = styled.div`
     display: flex;
     justify-content: space-between;
     padding-top: 100px;
-
 `;
 
 function DetailsHour() {
@@ -19,7 +18,6 @@ function DetailsHour() {
     
     const [today, setToday] = useState<Date>(new Date());
     const [nowHour, setNowHour] = useState<number>(today.getHours()+1);
-    const [nowNoon, setNowNoon] = useState<string>(nowHour>=12? '오후' : '오전');
     const [hour, setHour] = useState<number>(today.getHours()+1);
     const [noon, setNoon] = useState<string>('');
 
