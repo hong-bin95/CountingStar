@@ -38,6 +38,7 @@ public class SpotServiceImpl implements SpotService {
         SpotResponseDto spot = SpotResponseDto.builder()
                 .spotId(spotEntity.get().getSpotId())
                 .areaCode(spotEntity.get().getAreaCode())
+                .spotName(spotEntity.get().getSpotName())
                 .latitude(spotEntity.get().getLatitude())
                 .longitude(spotEntity.get().getLongitude()).build();
         return spot;

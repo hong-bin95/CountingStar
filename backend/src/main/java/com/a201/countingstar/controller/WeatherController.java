@@ -75,7 +75,7 @@ public class WeatherController {
                     spotId);
 
             // 임시 데이터
-            dust = new DustResponseDto("보통");
+//            dust = new DustResponseDto("보통");
 
             if (dust == null) {
                 status = HttpStatus.NO_CONTENT;
