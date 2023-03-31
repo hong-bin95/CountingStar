@@ -5,9 +5,8 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.io.Serializable;
-import java.util.UUID;
 
-@Table(value = "observatory ")
+@Table(value = "observatory")
 public class Observatory implements Serializable {
 
     @PrimaryKey

@@ -1,9 +1,12 @@
 package com.ssafy.countingstar.data.raw;
 
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
 
 @XmlRootElement(name = "item")
+@XmlAccessorType (XmlAccessType.FIELD)
 public class ASOSData {
 
     @XmlElement(name = "tm")
