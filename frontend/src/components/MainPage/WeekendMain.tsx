@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WeekendBox from "./WeekendBox";
+import styled from "styled-components";
 
 type Props = {};
 
@@ -73,12 +74,12 @@ function WeekendMain({}: Props) {
       });
   }, [day]);
 
-  const changeSatSun = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (satSun === "토") {
-      setSatSun("일");
-    } else {
-      setSatSun("토");
-    }
+  const changeSunToSat = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSatSun("토");
+  };
+
+  const changeSatToSun = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSatSun("일");
   };
 
   return (
@@ -86,8 +87,21 @@ function WeekendMain({}: Props) {
       <div className="text-4xl py-6 text-center font-serif">
         이번 주말 별자리 명소
       </div>
-      <button onClick={changeSatSun}>{satSun}요일</button>
-      <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
+      <div className="ml-4">
+        <button
+          className="border border-emerald-300 px-3 mb-1"
+          onClick={changeSunToSat}
+        >
+          토요일
+        </button>
+        <button
+          className="border border-emerald-300 px-3 mb-1"
+          onClick={changeSatToSun}
+        >
+          일요일
+        </button>
+      </div>
+      <div className="grid grid-cols-12 gap-10 mx-auto my-4 mb-10 ">
         {spotList.map((spot, idx) => (
           <div className="col-span-4" key={idx}>
             <WeekendBox spotName={spot.spotName} grade={spot.grade} />
