@@ -31,8 +31,14 @@ function SearchMain({}: Props) {
   const [timeValue, setTimeValue] = useState<string>("00");
   const [dateValue, setDateValue] = useState<string>("날짜 선택");
   const [regionValue, setregionValue] = useState<string>("");
-  const [searchResult, setSearchResult] = useState<Array<result>>([]);
+  const [searchResult, setSearchResult] = useState<Array<result>>();
   const [searchRegion, setSearchRegion] = useState<string>();
+
+  //물음표 마우스오버시
+  const [hover, setHover] = useState<string>("");
+  //자동완성 저장 위한 객체 배열
+  const [word, setWord] = useState<Array<result>>();
+
   const navigate = useNavigate();
 
   //시간(1) option(01시)로 변경하기
@@ -67,18 +73,69 @@ function SearchMain({}: Props) {
 
   let todayString = year + "-" + month + "-" + day;
   let lastDayString = year + "-" + lastMonth + "-" + lastDay;
-  console.log(todayString);
-  console.log(lastDayString);
 
+  //----시간 select 되면-----//////////////////////////////////////////////////////////////////
   const handleSelectTime = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("원래 시간 " + timeValue);
-    console.log(e.target.value);
     setTimeValue(e.target.value);
-    console.log("시간선택한거 " + timeValue);
+
+    //날짜 선택되어 있을 때,
+
+    let baseDateY = dateValue.slice(0, 4);
+    let baseDateM = dateValue.slice(5, 7);
+    let baseDateD = dateValue.slice(8, 10);
+
+    if (dateValue !== "날짜 선택") {
+      console.log("시간 select axios");
+      axios
+        .get("https://counting-star.com/api/grade/", {
+          params: {
+            baseDateDay: baseDateD,
+            baseDateHour: ("0" + timeValue).slice(-2).toString(),
+            baseDateMinute: "00",
+            baseDateMonth: baseDateM,
+            baseDateYear: baseDateY,
+            keyword: regionValue,
+            limit: 100,
+            searchType: "NAME",
+          },
+        })
+        .then(function (response) {
+          setWord(response.data.data);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    }
   };
 
+  //----날짜 select 되면-----//////////////////////////////////////////////////////////////////
   const handleSelectDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDateValue(e.target.value);
+
+    let baseDateY = dateValue.slice(0, 4);
+    let baseDateM = dateValue.slice(5, 7);
+    let baseDateD = dateValue.slice(8, 10);
+
+    console.log("날짜 select axios");
+    axios
+      .get("https://counting-star.com/api/grade/", {
+        params: {
+          baseDateDay: baseDateD,
+          baseDateHour: ("0" + timeValue).slice(-2).toString(),
+          baseDateMinute: "00",
+          baseDateMonth: baseDateM,
+          baseDateYear: baseDateY,
+          keyword: regionValue,
+          limit: 100,
+          searchType: "NAME",
+        },
+      })
+      .then(function (response) {
+        setWord(response.data.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   };
 
   //----검색 버튼 클릭시-----//////////////////////////////////////////////////////////////////
@@ -115,6 +172,7 @@ function SearchMain({}: Props) {
       });
   };
 
+  //검색어 입력시 입력값 수정해주는 함수
   const handleSearchInput = (e: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { value },
@@ -127,8 +185,6 @@ function SearchMain({}: Props) {
     navigate(`/detail/${spotId}`);
   };
 
-  console.log(searchResult);
-
   return (
     <>
       <div className="text-center py-6 text-4xl font-serif">
@@ -140,14 +196,14 @@ function SearchMain({}: Props) {
           type="date"
           min={todayString}
           max={lastDayString}
-          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          className="ml-1 h-10 bg-white border border-gray-200 font-serif rounded-2xl shadow-md text-center"
           value={dateValue}
           onChange={handleSelectDate}
         ></input>
 
         <select
           name="sido"
-          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl shadow-md text-center"
+          className="ml-1 h-10 bg-white border border-gray-200 rounded-2xl font-serif shadow-md text-center"
           onChange={handleSelectTime}
           value={timeValue}
         >
@@ -158,12 +214,12 @@ function SearchMain({}: Props) {
           ))}
         </select>
 
-        <QuestionHover className="col-span-2  grid justify-items-end">
+        <div className="col-span-2 pl-3 pt-0.5 w-1/3 h-1/3">
           <img src={questionMark} className="w-8 h-8 mr-1" />
-        </QuestionHover>
+        </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2 ">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2">
         <form className="grid grid-cols-12 gap-1" onSubmit={handleSearchButton}>
           <input
             className="rounded-3xl col-span-11 p-15 text-center text-2xl font-serif"
@@ -201,9 +257,3 @@ function SearchMain({}: Props) {
 }
 
 export default SearchMain;
-
-const QuestionHover = styled.div`
-  &:hover {
-    background-color: yellow;
-  }
-`;

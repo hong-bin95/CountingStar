@@ -4,10 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DetailsData, updateMoon } from '../../store/DetailsSlice';
 import axios from 'axios';
 
-const ImgContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`
 const TextContainer = styled.div`
   text-align: center;
 `
@@ -34,9 +30,9 @@ function DetailsMoon() {
       
     return (
         <div>
-            <ImgContainer>
-            <img src={moon}></img>
-            </ImgContainer>
+            <div className="grid justify-items-center mt-5 mb-8 ">
+              <img className="w-40"src={moon}></img>
+            </div>
             <TextContainer>
             <div>{moonName.slice(0,3)==='차가는'?'차가는 달':moonName.slice(0,3)==='기울어'?'기울어가는 달':moonName.slice(0,3)}</div>
             </TextContainer>

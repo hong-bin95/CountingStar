@@ -9,9 +9,10 @@ import DetailsDust from './DetailsDust';
 import DetailsMoon from './DetailsMoon';
 import PlaceTitle from './PlaceTitle';
 import ContainerButton from './ContainerButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateMoon, updateSpotId, updateSpotName, DetailsData} from '../../store/DetailsSlice';
+import { useDispatch } from 'react-redux';
+import { updateSpotId, updateSpotName } from '../../store/DetailsSlice';
 import { useParams } from 'react-router-dom';
+import background from '../../assets/nightSkyExample.jpg';
 import axios from 'axios';
 
 const slideUp = keyframes`
@@ -47,6 +48,7 @@ const BottomContainer = styled.div`
 display: flex;
 flex-wrap : wrap;
 `;
+
 const ContentsContainer = styled.div`
 border: 1px solid silver;
 border-radius: 10px;
@@ -55,7 +57,6 @@ margin: 34px;
 height: 270px;
 width: 320px;
 `;
-
 
 function DetailsMain() {
     
@@ -71,11 +72,6 @@ function DetailsMain() {
       }
     }, [spotId]);
     
-    const year = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
-    const month = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
-    const date = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
-    const hour = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.hour);
-  
     useEffect(() => {
     if (spotIdNumber!==0) {
       axios
@@ -93,30 +89,32 @@ function DetailsMain() {
     },[spotIdNumber]);
 
     const onClick = () => {
-
         if(scroll===1000){
-            window.scrollTo(0, 1000);
             window.scrollTo({
-            top: 1000,
-            left: 1000,
-            behavior: "smooth"
+            top: 700,
+            left: 0,
+            behavior: 'smooth',
             })
         setScroll(scroll-1000);
         }
         else {
-            window.scrollTo(1000,0);
             window.scrollTo({
             top: 0,
-            left: 1000,
-            behavior: "smooth"
+            left: 0,
+            behavior: 'smooth'
             })
         setScroll(scroll+1000);
         }
     }
 
+    const style = {
+        backgroundImage: `url(${background})`,
+        height: '1550px',
+    }
+
     return (
-        <div>
-            <MainContainer className="font-serif drop-shadow-lg bg-gray-100/10">
+        <div style={style}>
+            <MainContainer className="font-serif drop-shadow-lg bg-gray-100">
                 <TopContainer className="ml-10 mr-10">
                     <Logo></Logo>
                     <PlaceTitle ></PlaceTitle>
@@ -143,7 +141,6 @@ function DetailsMain() {
                     </ContentsContainer>
                 </BottomContainer>
             </MainContainer>
-
         </div>
     );
 }

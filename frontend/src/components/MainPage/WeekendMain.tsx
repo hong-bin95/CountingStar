@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WeekendBox from "./WeekendBox";
-
+import { useNavigate } from "react-router-dom";
 type Props = {};
 
 interface spot {
   spotName: string;
   grade: number;
+  spotId: number;
 }
 
 function WeekendMain({}: Props) {
   const [spotList, setSpotList] = useState<Array<spot>>([]);
   const [satSun, setSatSun] = useState<string>("토");
+  const navigate = useNavigate();
 
   let now = new Date();
   let year = now.getFullYear().toString();
@@ -73,12 +75,16 @@ function WeekendMain({}: Props) {
       });
   }, [day]);
 
-  const changeSatSun = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (satSun === "토") {
-      setSatSun("일");
-    } else {
-      setSatSun("토");
-    }
+  const changeSunToSat = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSatSun("토");
+  };
+
+  const changeSatToSun = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSatSun("일");
+  };
+
+  const navigateToDetail = (spotId: number) => {
+    navigate(`/detail/${spotId}`);
   };
 
   return (
@@ -86,10 +92,29 @@ function WeekendMain({}: Props) {
       <div className="text-4xl py-6 text-center font-serif">
         이번 주말 별자리 명소
       </div>
-      <button onClick={changeSatSun}>{satSun}요일</button>
-      <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
+      <div className="ml-4 justify-items-end">
+        <button
+          className="border border-gray-300 px-3 mb-1 mr-2 h-8 w-24 rounded-xl bg-red-200 font-serif transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-300 duration-100 shadow-md"
+          onClick={changeSunToSat}
+        >
+          토요일
+        </button>
+        <button
+          className="border border-gray-300 px-4 mb-1 h-8 w-24 rounded-xl bg-red-200 font-serif transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-300 duration-100 shadow-md"
+          onClick={changeSatToSun}
+        >
+          일요일
+        </button>
+      </div>
+      <div className="grid grid-cols-12 gap-10 mx-auto my-4 mb-10 ">
         {spotList.map((spot, idx) => (
-          <div className="col-span-4" key={idx}>
+          <div
+            className="col-span-4"
+            key={idx}
+            onClick={() => {
+              navigateToDetail(spot.spotId);
+            }}
+          >
             <WeekendBox spotName={spot.spotName} grade={spot.grade} />
           </div>
         ))}

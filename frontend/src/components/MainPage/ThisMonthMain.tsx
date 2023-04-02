@@ -68,16 +68,22 @@ function ThisMonthMain(props: Props) {
           className="col-span-4 pt-5  grid justify-items-end"
           onClick={forward}
         >
-          <img src={arrowLeft} />
+          <img
+            src={arrowLeft}
+            className="transition delay-100 hover:scale-125 duration-100"
+          />
         </div>
         <div className="col-span-4 text-4xl py-8 text-center font-serif">
           {thisMonth}월의 별자리
         </div>
         <div
-          className="col-span-4 pt-5 grid justify-items-start"
+          className="col-span-4 pt-5 grid justify-items-start "
           onClick={back}
         >
-          <img src={arrowRight} />
+          <img
+            src={arrowRight}
+            className="transition delay-100 hover:scale-125 duration-100"
+          />
         </div>
       </div>
 
