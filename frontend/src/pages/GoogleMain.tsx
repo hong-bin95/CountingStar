@@ -23,17 +23,6 @@ const libraries: (
   | "visualization"
 )[] = ["places"];
 
-const mapStyles = [
-  {
-    featureType: "poi",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-];
-
 const mapOptions = {
   styles: GoogleMapStyle,
   fullscreenControl: false,
