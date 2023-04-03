@@ -20,14 +20,14 @@ function ThisMonthMain(props: Props) {
 
   useEffect(() => {
     let year = now.getFullYear().toString();
-    let month = ("0" + thisMonth).slice(-2);
+    let month = thisMonth.toString().padStart(2, "0");
 
     axios
       .get("https://counting-star.com/api/constellation/rank", {
         params: {
           baseDateYear: "2001",
           baseDateMonth: month,
-          limit: 3,
+          limit: 6,
           // baseDateYear: { year },
           // baseDateMonth: { month },
           // limit: 5,
