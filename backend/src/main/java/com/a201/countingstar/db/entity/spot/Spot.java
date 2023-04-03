@@ -27,4 +27,7 @@ public class Spot {
     @Column(name="location_name")
     private String locationName;
 
+    @Column(name="location_code")
+    private String locationCode;
+
 }
