@@ -27,7 +27,7 @@ function ThisMonthMain(props: Props) {
         params: {
           baseDateYear: "2001",
           baseDateMonth: month,
-          limit: 5,
+          limit: 3,
           // baseDateYear: { year },
           // baseDateMonth: { month },
           // limit: 5,
