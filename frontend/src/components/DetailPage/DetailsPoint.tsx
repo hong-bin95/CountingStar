@@ -25,7 +25,7 @@ function DetailsPoint() {
         .catch((err) => {
           console.log(err);
         });
-    },[date, hour]);
+    },[date, hour, score]);
 
     function repeatStar(score: number): JSX.Element[] {
         let arr = [];

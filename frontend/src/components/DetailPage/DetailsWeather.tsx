@@ -27,7 +27,7 @@ function DetailsWeather() {
         .catch((err) => {
           console.log(err);
         });
-    },[date, hour]);
+    },[date, hour, weather]);
     // 날씨 : 비/비 혹은 눈/눈/소나기/흐림/구름많음/맑음
     const style={
         display: 'flex',

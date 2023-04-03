@@ -27,7 +27,7 @@ function DetailsDust() {
         .catch((err) => {
           console.log(err);
         });
-    },[date, hour]);
+    },[date, hour, dust]);
     // 나쁨 보통 좋음
     const style={
         display: 'flex',
