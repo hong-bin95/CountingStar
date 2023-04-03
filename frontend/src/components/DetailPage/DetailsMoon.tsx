@@ -26,7 +26,7 @@ function DetailsMoon() {
         .catch((err) => {
           console.log(err);
         });
-      },[date]);
+      },[date, moon]);
       
     return (
         <div>
