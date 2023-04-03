@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { DetailsData, updateMoon } from '../../store/DetailsSlice';
@@ -9,15 +10,26 @@ const TextContainer = styled.div`
 `
 function DetailsMoon() {
     const moon = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.moon);
-    const date = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
-    const year = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
-    const month = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
+    const [year, setYear] = useState<number>(new Date().getFullYear());
+    const [month, setMonth] = useState<number>(new Date().getMonth() +1);
+    const [date, setDate] = useState<number>(new Date().getDate());
+  
+    const nowDate = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
+    const nowYear = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
+    const nowMonth = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
+   
+    useEffect(()=>{
+        setYear(Number(nowYear));
+        setMonth(Number(nowMonth));
+        setDate(Number(nowDate));
+    },[nowDate, nowYear, nowMonth,]);
+    
     const [moonName, setMoonName] = useState<string>('');
     const dispatch = useDispatch();
 
     useEffect(()=>{
         axios
-        .get(`https://counting-star.com/api/moon/${year}${month}${date}`,{
+        .get(`https://counting-star.com/api/moon/${year}${month<10?`0${month}`:month}${date<10?`0${date}`:date}`,{
         })
         .then((res) => {
             dispatch(updateMoon(res.data.data));
@@ -26,7 +38,7 @@ function DetailsMoon() {
         .catch((err) => {
           console.log(err);
         });
-      },[date, moon]);
+      },[date,]);
       
     return (
         <div>
