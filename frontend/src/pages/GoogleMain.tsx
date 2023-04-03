@@ -14,6 +14,7 @@ import SpotOverlay from "../components/GoogleMain/SpotOverlay";
 import PlaceInfo from "../components/GoogleMain/PlaceInfo";
 import CustomMarker from "../components/GoogleMain/CustomMarker";
 import ToggleButton from "../components/GoogleMain/ToggleButton";
+import GradeInfo from "../components/GoogleMain/GradeInfo";
 
 const libraries: (
   | "places"
@@ -117,6 +118,7 @@ function GoogleMain() {
       <div className={`main-container ${isMainVisible ? "visible" : "hidden"}`}>
         <Main toggleMainVisibility={() => setIsMainVisible(!isMainVisible)} />
       </div>
+      <GradeInfo />
     </Wrapper>
   );
 }
