@@ -20,5 +20,11 @@ public class item {
     private String fcstValue;
     private String nx;
     private String ny;
+    private String wf3Pm;
+    private String wf4Pm;
+    private String wf5Pm;
+    private String wf6Pm;
+    private String wf7Pm;
+
 
 }

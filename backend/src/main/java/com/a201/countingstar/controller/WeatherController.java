@@ -39,9 +39,6 @@ public class WeatherController {
                                                                     baseDateHour,
                                                                     spotId);
 
-            // 임시 데이터
-//            weater = new ConditionResponseDto("맑음");
-
             if (weater == null) {
                 status = HttpStatus.NO_CONTENT;
             } else {
@@ -73,9 +70,6 @@ public class WeatherController {
                     baseDateDay,
                     baseDateHour,
                     spotId);
-
-            // 임시 데이터
-//            dust = new DustResponseDto("보통");
 
             if (dust == null) {
                 status = HttpStatus.NO_CONTENT;

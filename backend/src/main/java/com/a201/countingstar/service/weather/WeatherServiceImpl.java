@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import nonapi.io.github.classgraph.json.JSONDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -141,7 +142,43 @@ public class WeatherServiceImpl implements WeatherService {
                 System.out.println(weather);
             }
             else{
+                now = addHoursToJavaUtilDate(now, -24);
                 // 중단기예보
+                String result = call.GET("http://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst?serviceKey=" +
+                               weatherKey + "&numOfRows=1000&pageNo=1&regId=" + selectSpot.getLocationCode() + "&tmFc=" + transFormat.format(now) + "1800&dataType=JSON"
+                        ,null);
+
+                System.out.println("api 호출 결과 : " + result);
+
+                WeatherApiDto weather = getWeatherApiDto(result);
+
+                if(weather.getResponse().getHeader().getResultCode().equals("00")){
+                    transFormat = new SimpleDateFormat("yyyy-MM-dd HH");
+                    date = transFormat.parse(date_str);
+                    Hour = (date.getTime() - (new Date()).getTime()) / 3600000; // 시간 차이
+
+                    // 3일 :  ~ 72시간
+                    if(Hour <= 72){
+                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf3Pm());
+                    }
+                    // 4일 : ~ 96시간
+                    else if(Hour <= 96){
+                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf4Pm());
+                    }
+                    // 5일 : ~ 120시간
+                    else if(Hour <= 120){
+                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf5Pm());
+                    }
+                    // 6일 : ~ 144시간
+                    else if(Hour <= 144){
+                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf6Pm());
+                    }
+                    // 그 외
+                    else{
+                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf7Pm());
+                    }
+
+                }
             }
         }
 
