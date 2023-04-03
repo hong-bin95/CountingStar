@@ -17,7 +17,7 @@ function DetailsDate() {
     const day = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
     
     const [today, setToday] = useState<Date>(new Date());
-    const [newDate, setNewDate] = useState<Date>(today);	// 어제
+    const [newDate, setNewDate] = useState<Date>(today);
     const [year, setYear] = useState<number>(newDate.getFullYear());
     const [month, setMonth] = useState<number>(newDate.getMonth() +1);
     const [date, setDate] = useState<number>(newDate.getDate());
