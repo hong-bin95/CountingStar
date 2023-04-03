@@ -34,7 +34,7 @@ function WeekendMain({}: Props) {
     //31일 넘어가면
     if (weekDay > 31) {
       month = ("0" + (now.getMonth() + 2)).slice(-2);
-      day = ("0" + (weekDay - 31)).toString();
+      day = (weekDay - 31).toString().padStart(2, "0");
     }
   } else {
     //보여주는 요일이 토요일일 경우 오늘 요일 + 5, 일요일일 경우 오늘 요일 +6
@@ -47,7 +47,7 @@ function WeekendMain({}: Props) {
     //31일 넘어가면
     if (weekDay > 31) {
       month = ("0" + (now.getMonth() + 2)).slice(-2);
-      day = ("0" + (weekDay - 31)).toString();
+      day = (weekDay - 31).toString().padStart(2, "0");
     }
   }
 
@@ -107,17 +107,18 @@ function WeekendMain({}: Props) {
         </button>
       </div>
       <div className="grid grid-cols-12 gap-10 mx-auto my-4 mb-10 ">
-        {spotList.map((spot, idx) => (
-          <div
-            className="col-span-4"
-            key={idx}
-            onClick={() => {
-              navigateToDetail(spot.spotId);
-            }}
-          >
-            <WeekendBox spotName={spot.spotName} grade={spot.grade} />
-          </div>
-        ))}
+        {spotList &&
+          spotList.map((spot, idx) => (
+            <div
+              className="col-span-4"
+              key={idx}
+              onClick={() => {
+                navigateToDetail(spot.spotId);
+              }}
+            >
+              <WeekendBox spotName={spot.spotName} grade={spot.grade} />
+            </div>
+          ))}
       </div>
     </>
   );

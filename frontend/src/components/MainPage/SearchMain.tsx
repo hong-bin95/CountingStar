@@ -58,18 +58,19 @@ function SearchMain({}: Props) {
   //날짜 제한 (오늘~10일 후)
   let date = new Date();
   let year = date.getFullYear();
-  let month = ("0" + (date.getMonth() + 1)).slice(-2);
-  let day = ("0" + date.getDate()).slice(-2);
+  let month = (date.getMonth() + 1).toString().padStart(2, "0");
+  let day = date.getDate().toString().padStart(2, "0");
 
   //3월 넘어가면
   let lastMonthNum = date.getMonth() + 1;
-  let lastMonth = "";
+  console.log(lastMonthNum);
+  let lastMonth = lastMonthNum.toString().padStart(2, "0");
   if (date.getDate() + 10 > 31) {
-    lastMonth = ("0" + (lastMonthNum + 1)).slice(-2);
+    lastMonth = (lastMonthNum + 1).toString().padStart(2, "0");
   }
   let lastDate = new Date(date.setDate(date.getDate() + 10));
 
-  let lastDay = ("0" + lastDate.getDate()).slice(-2);
+  let lastDay = lastDate.getDate().toString().padStart(2, "0");
 
   let todayString = year + "-" + month + "-" + day;
   let lastDayString = year + "-" + lastMonth + "-" + lastDay;

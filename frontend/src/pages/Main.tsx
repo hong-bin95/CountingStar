@@ -33,8 +33,11 @@ function Main({ toggleMainVisibility }: Props) {
           </div>
         </div>
       </div>
-      {/* <div className="sticky text-white w-1/12 h-52 bottom-20 ml-3.5 rounded-2xl font-serif bg-red-200">
-        here
+      {/* <div className="sticky w-2/12 bottom-20 ml-6 rounded-2xl font-serif bg-white">
+        <div className="">오늘의 별</div>
+        <div className="">주말의 별</div>
+        <div className="">이번달 별자리</div>
+        <div className="">별 스팟 검색</div>
       </div> */}
     </>
   );

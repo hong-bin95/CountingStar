@@ -22,8 +22,8 @@ function TodayMain({ toggleMainVisibility }: Props) {
   useEffect(() => {
     let now = new Date();
     let year = now.getFullYear().toString();
-    let month = ("0" + (now.getMonth() + 1)).slice(-2);
-    let day = now.getDate().toString();
+    let month = (now.getMonth() + 1).toString().padStart(2, "0");
+    let day = now.getDate().toString().padStart(2, "0");
 
     let hours = now.getHours().toString();
 
@@ -47,7 +47,8 @@ function TodayMain({ toggleMainVisibility }: Props) {
       })
       .then(function (response) {
         console.log("구분");
-
+        console.log("spotLists출력");
+        console.log(response);
         setSpotList(response.data.data);
         console.log(spotList);
       })
@@ -75,17 +76,18 @@ function TodayMain({ toggleMainVisibility }: Props) {
         <div className="col-span-2"></div>
       </div>
       <div className="grid grid-cols-12 gap-10 mx-auto my-1 ">
-        {spotList.map((spot, idx) => (
-          <div
-            className="col-span-4"
-            key={idx}
-            onClick={() => {
-              navigateToDetail(spot.spotId);
-            }}
-          >
-            <TodayBox spotName={spot.spotName} grade={spot.grade} />
-          </div>
-        ))}
+        {spotList &&
+          spotList.map((spot, idx) => (
+            <div
+              className="col-span-4"
+              key={idx}
+              onClick={() => {
+                navigateToDetail(spot.spotId);
+              }}
+            >
+              <TodayBox spotName={spot.spotName} grade={spot.grade} />
+            </div>
+          ))}
       </div>
     </>
   );
