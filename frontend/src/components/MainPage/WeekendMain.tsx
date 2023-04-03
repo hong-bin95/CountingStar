@@ -21,7 +21,7 @@ function WeekendMain({}: Props) {
 
   //getDay() => 일요일부터 0~6
   let weekDay = now.getDay();
-  let day = "";
+  let day = weekDay.toString().padStart(2, "0");
 
   if (weekDay === 0) {
     //오늘이 일요일일 경우, 다음주 주말 보여주기
