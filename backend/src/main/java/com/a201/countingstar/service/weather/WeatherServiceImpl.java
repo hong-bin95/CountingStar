@@ -151,6 +151,7 @@ public class WeatherServiceImpl implements WeatherService {
                 System.out.println("api 호출 결과 : " + result);
 
                 WeatherApiDto weather = getWeatherApiDto(result);
+                String wf = "";
 
                 if(weather.getResponse().getHeader().getResultCode().equals("00")){
                     transFormat = new SimpleDateFormat("yyyy-MM-dd HH");
@@ -159,23 +160,48 @@ public class WeatherServiceImpl implements WeatherService {
 
                     // 3일 :  ~ 72시간
                     if(Hour <= 72){
-                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf3Pm());
+                        wf = weather.getResponse().getBody().getItems().getItem().get(0).getWf3Pm();
                     }
                     // 4일 : ~ 96시간
                     else if(Hour <= 96){
-                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf4Pm());
+                        wf = weather.getResponse().getBody().getItems().getItem().get(0).getWf4Pm();
                     }
                     // 5일 : ~ 120시간
                     else if(Hour <= 120){
-                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf5Pm());
+                        wf = weather.getResponse().getBody().getItems().getItem().get(0).getWf5Pm();
                     }
                     // 6일 : ~ 144시간
                     else if(Hour <= 144){
-                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf6Pm());
+                        wf = weather.getResponse().getBody().getItems().getItem().get(0).getWf6Pm();
                     }
                     // 그 외
                     else{
-                        return new ConditionResponseDto(weather.getResponse().getBody().getItems().getItem().get(0).getWf7Pm());
+                        wf = weather.getResponse().getBody().getItems().getItem().get(0).getWf7Pm();
+                    }
+
+
+                    /*
+                    *
+                    * - 맑음
+                    * - 구름많음, 구름많고 비, 구름많고 눈, 구름많고 비/눈, 구름많고 소나기
+                    * - 흐림, 흐리고 비, 흐리고 눈, 흐리고 비/눈, 흐리고 소나기
+                    */
+                    //비/비 혹은 눈/눈/소나기/흐림/구름많음/맑음
+                    if(wf.equals("비") || wf.equals("비 혹은 눈") || wf.equals("눈") || wf.equals("소나기") || wf.equals("흐림")
+                            || wf.equals("구름많음")|| wf.equals("맑음")){
+                        return new ConditionResponseDto(wf);                                
+                    }
+                    else if(wf.equals("구름많고 비") || wf.equals("흐리고 비")){
+                        return new ConditionResponseDto("비");
+                    }
+                    else if(wf.equals("구름많고 소나기") ||  wf.equals("흐리고 소나기")){
+                        return new ConditionResponseDto("소나기");
+                    }
+                    else if(wf.equals("구름많고 눈") || wf.equals("흐리고 눈") ){
+                        return new ConditionResponseDto("눈");
+                    }
+                    else if(wf.equals("구름많고 비/눈") || wf.equals("흐리고 비/눈") ){
+                        return new ConditionResponseDto("비 혹은 눈");
                     }
 
                 }
