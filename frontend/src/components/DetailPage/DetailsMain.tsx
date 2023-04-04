@@ -9,10 +9,14 @@ import DetailsDust from './DetailsDust';
 import DetailsMoon from './DetailsMoon';
 import PlaceTitle from './PlaceTitle';
 import ContainerButton from './ContainerButton';
-import { useDispatch } from 'react-redux';
-import { updateSpotId, updateSpotName } from '../../store/DetailsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSpotId, updateSpotName, DetailsData } from '../../store/DetailsSlice';
 import { useParams } from 'react-router-dom';
 import background from '../../assets/nightSkyExample.jpg';
+import DustBackground from '../../assets/DustBackground.jpg';
+import CloudyBackground from '../../assets/CloudyBackground.jpg';
+import RainBackground from '../../assets/rain.gif';
+import SnowBackground from '../../assets/snow.gif';
 import axios from 'axios';
 
 const slideUp = keyframes`
@@ -107,8 +111,20 @@ function DetailsMain() {
         }
     }
 
+    const dust = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.dust);
+    const weather = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.weather);
+    
     const style = {
-        backgroundImage: `url(${background})`,
+        backgroundImage: `url(${
+            weather.indexOf('흐림')!==-1?CloudyBackground:
+            weather.indexOf('구름많음')!==-1?CloudyBackground:
+            weather.indexOf('맑음')!==-1 && dust==='나쁨'?DustBackground:
+            weather.indexOf('맑음')!==-1?background:
+            (weather.indexOf('소나기')!==-1 || weather.indexOf('비')!==-1)?RainBackground:
+            weather.indexOf('눈')!==-1?SnowBackground:background
+        })`,
+        backgroundRepeat : 'no-repeat',
+        backgroundSize : 'cover',
         height: '1550px',
     }
 

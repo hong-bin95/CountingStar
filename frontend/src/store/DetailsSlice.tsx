@@ -9,6 +9,8 @@ export interface DetailsData {
   spotId:number;
   spotName:string;
   moon:string;
+  dust:string;
+  weather:string;
 }
 
 const initialState:DetailsData = {
@@ -20,6 +22,8 @@ const initialState:DetailsData = {
   spotId: 0,
   spotName: '',
   moon: '',
+  dust: '',
+  weather: '',
 };
 
 const DetailsSlice = createSlice({
@@ -50,7 +54,13 @@ const DetailsSlice = createSlice({
     updateMoon:(state, action: PayloadAction<string>)=>{
       state.moon = action.payload;
     },
+    updateWeather:(state, action: PayloadAction<string>)=>{
+      state.weather = action.payload;
+    },
+    updateDust:(state, action: PayloadAction<string>)=>{
+      state.dust = action.payload;
+    },
   },
 });
 export default DetailsSlice;
-export const {updateDay, updateYear, updateMonth, updateDate, updateHour, updateSpotId, updateSpotName, updateMoon} = DetailsSlice.actions;
+export const {updateDay, updateYear, updateMonth, updateDate, updateHour, updateSpotId, updateSpotName, updateMoon, updateWeather, updateDust} = DetailsSlice.actions;
