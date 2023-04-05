@@ -1,17 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-
-export interface DetailsData {
-  day:number;
-  year:string;
-  month:string;
-  date:string;
-  hour:number;
-  spotId:number;
-  spotName:string;
-  moon:string;
-  dust:string;
-  weather:string;
-}
+import { DetailsData } from '../types/DetailsType';
 
 const initialState:DetailsData = {
   day: 0,
@@ -21,7 +9,6 @@ const initialState:DetailsData = {
   hour: 0,
   spotId: 0,
   spotName: '',
-  moon: '',
   dust: '',
   weather: '',
 };
@@ -51,9 +38,6 @@ const DetailsSlice = createSlice({
     updateSpotName:(state, action: PayloadAction<string>)=>{
       state.spotName = action.payload;
     },
-    updateMoon:(state, action: PayloadAction<string>)=>{
-      state.moon = action.payload;
-    },
     updateWeather:(state, action: PayloadAction<string>)=>{
       state.weather = action.payload;
     },
@@ -63,4 +47,4 @@ const DetailsSlice = createSlice({
   },
 });
 export default DetailsSlice;
-export const {updateDay, updateYear, updateMonth, updateDate, updateHour, updateSpotId, updateSpotName, updateMoon, updateWeather, updateDust} = DetailsSlice.actions;
+export const {updateDay, updateYear, updateMonth, updateDate, updateHour, updateSpotId, updateSpotName, updateWeather, updateDust} = DetailsSlice.actions;

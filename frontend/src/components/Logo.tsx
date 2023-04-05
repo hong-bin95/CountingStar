@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { updateDay, DetailsData } from "../store/DetailsSlice";
+import { useDispatch } from 'react-redux';
+import { updateDay } from '../store/DetailsSlice';
 import logo from "../assets/CountingStar.png";
 import { useNavigate } from "react-router-dom";
 

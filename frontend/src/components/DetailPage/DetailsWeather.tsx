@@ -1,27 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { DetailsData, updateWeather} from '../../store/DetailsSlice';
+import { updateWeather } from '../../store/DetailsSlice';
+import { DetailsData } from '../../types/DetailsType';
 import axios from 'axios';
-import sunny from '../../assets/sunny.jpg';
-import rain from '../../assets/rain.jpg';
-import cloudy from '../../assets/cloudy.jpg';
-import snow from '../../assets/snow.png';
+import sunny from '../../assets/weather/sunny.jpg';
+import rain from '../../assets/weather/rain.jpg';
+import cloudy from '../../assets/weather/cloudy.jpg';
+import snow from '../../assets/weather/snow.png';
 
 function DetailsWeather() {
 
     const dispatch = useDispatch();
 
+    const { spotId } = useParams<{ spotId: string | undefined }>();
+
     const [year, setYear] = useState<number>(new Date().getFullYear());
     const [month, setMonth] = useState<number>(new Date().getMonth() +1);
     const [date, setDate] = useState<number>(new Date().getDate());
     const [hour, setHour] = useState<number>(new Date().getHours()+1);
-    const { spotId } = useParams<{ spotId: string | undefined }>();
+    const [weather, setWeather] = useState<string>('');
 
-    const nowDate = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
-    const nowYear = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
-    const nowMonth = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
-    const nowHour = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.hour);
+    const nowDate = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.date);
+    const nowYear = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.year);
+    const nowMonth = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.month);
+    const nowHour = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.hour);
 
     useEffect(()=>{
         setYear(Number(nowYear));
@@ -29,8 +32,6 @@ function DetailsWeather() {
         setDate(Number(nowDate));
         setHour(Number(nowHour));
     },[nowDate, nowYear, nowMonth, nowHour,]);
-
-    const [weather, setWeather] = useState<string>('');
 
     useEffect(()=>{
         axios
