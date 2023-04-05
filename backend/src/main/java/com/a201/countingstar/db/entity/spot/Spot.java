@@ -21,4 +21,13 @@ public class Spot {
     @Column(name="area_code", length = 7)
     private String areaCode;
 
+    private int x;
+    private int y;
+
+    @Column(name="location_name")
+    private String locationName;
+
+    @Column(name="location_code")
+    private String locationCode;
+
 }

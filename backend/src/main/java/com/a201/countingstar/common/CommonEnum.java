@@ -40,4 +40,27 @@ public class CommonEnum {
         }
 
     }
+
+    @AllArgsConstructor
+    @Getter
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT) // api 호출시 Enum 전체 반환
+    public enum SearchType{
+        NAME("NAME","이름"),
+        SUBJECT("SUBJECT","제목"),
+        CONTENTS("CONTENTS","내용"),
+        ID("ID","아이디");
+
+        private final String code;
+        private final String value;
+
+        public static boolean IsSearchTypeByCode(String code){
+            for(SearchType value : values()){
+                if(value.getCode().equals(code)){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
 }

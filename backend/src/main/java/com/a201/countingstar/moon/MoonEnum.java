@@ -12,18 +12,15 @@ public class MoonEnum {
     @Getter
     public enum MoonPhotoUrl{
 
-        DARK_MOON(0, "https://counting-star.com/images/%EC%82%AD.png"),
-        WAX_CRE_1(1, "https://counting-star.com/images/1%20%EC%B4%88%EC%8A%B9%EB%8B%AC.png"),
-        WAX_CRE_2(2, "https://counting-star.com/images/2%20%EC%B4%88%EC%8A%B9%EB%8B%AC.png"),
+        // 삭 -> 초승달 -> 상현달 -> 차가는달 -> 보름달 -> 기울어가는달 -> 하현달 -> 그믐달
+        DARK_MOON(1, "https://counting-star.com/images/%EC%82%AD.png"),
+        WAX_CRE(2, "https://counting-star.com/images/%EC%B4%88%EC%8A%B9%EB%8B%AC.png"),
         FIRST_QUARTER(3, "https://counting-star.com/images/%EC%83%81%ED%98%84%EB%8B%AC.png"),
-        WAX_GIB_1(4, "https://counting-star.com/images/3%20%EC%98%A4%EB%A5%B8%EC%AA%BD%20%ED%81%B0%20%EB%8B%AC.png"),
-        WAX_GIB_2(5, "https://counting-star.com/images/4%20%EC%98%A4%EB%A5%B8%EC%AA%BD%20%EB%8D%94%20%ED%81%B0%20%EB%8B%AC.png"),
-        FULL_MOON(6, "https://counting-star.com/images/%EB%B3%B4%EB%A6%84%EB%8B%AC.png"),
-        WAN_GIB_1(7, "https://counting-star.com/images/3%20%EC%99%BC%EC%AA%BD%20%ED%81%B0%20%EB%8B%AC.png"),
-        WAN_GIB_2(8, "https://counting-star.com/images/4%20%EC%99%BC%EC%AA%BD%20%EB%8D%94%20%ED%81%B0%20%EB%8B%AC.png"),
-        THIRD_QUARTER(9, "https://counting-star.com/images/%ED%95%98%ED%98%84%EB%8B%AC.png"),
-        WAN_CRE_1(10, "https://counting-star.com/images/1%20%EA%B7%B8%EB%AF%90%EB%8B%AC.png"),
-        WAN_CRE_2(11, "https://counting-star.com/images/2%20%EA%B7%B8%EB%AF%90%EB%8B%AC.png");
+        WAX_GIB(4, "https://counting-star.com/images/%EC%B0%A8%EA%B0%80%EB%8A%94%EB%8B%AC.png"),
+        FULL_MOON(5, "https://counting-star.com/images/%EB%B3%B4%EB%A6%84%EB%8B%AC.png"),
+        WAN_GIB(6, "https://counting-star.com/images/%EA%B8%B0%EC%9A%B8%EC%96%B4%EA%B0%80%EB%8A%94%EB%8B%AC.png"),
+        THIRD_QUARTER(7, "https://counting-star.com/images/%ED%95%98%ED%98%84%EB%8B%AC.png"),
+        WAN_CRE(8, "https://counting-star.com/images/%EA%B7%B8%EB%AF%90%EB%8B%AC.png");
 
         private final int value;
         private final String url;
