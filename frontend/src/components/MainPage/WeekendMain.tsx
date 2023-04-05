@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WeekendBox from "./WeekendBox";
 import { useNavigate } from "react-router-dom";
-type Props = {};
+import { weekendMainSpot } from "../../types/mainType";
 
-interface spot {
-  spotName: string;
-  grade: number;
-  spotId: number;
-}
-
-function WeekendMain({}: Props) {
-  const [spotList, setSpotList] = useState<Array<spot>>([]);
+function WeekendMain() {
+  const [spotList, setSpotList] = useState<Array<weekendMainSpot>>([]);
   const [satSun, setSatSun] = useState<string>("토");
   const navigate = useNavigate();
 
@@ -64,11 +58,7 @@ function WeekendMain({}: Props) {
         },
       })
       .then(function (response) {
-        console.log(response);
-        console.log("구분");
-
         setSpotList(response.data.data);
-        console.log(spotList);
       })
       .catch(function (error) {
         console.log(error);
@@ -89,7 +79,7 @@ function WeekendMain({}: Props) {
 
   return (
     <>
-      <div className="text-4xl py-6 text-center font-serif">
+      <div className="text-4xl py-6 text-center font-serif mt-6 mb-4">
         이번 주말 별자리 명소
       </div>
       <div className="ml-4 justify-items-end">

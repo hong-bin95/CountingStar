@@ -2,31 +2,11 @@ import React, { useState } from "react";
 import search from "../../assets/search.png";
 import SearchBox from "./SearchBox";
 import questionMark from "../../assets/question.png";
-import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { hourToString, spotData, result } from "../../types/mainType";
 
-type Props = {};
-
-interface hourToString {
-  hourNum: number;
-  hourString: string;
-}
-
-type spotData = {
-  spotId: number;
-  spotName: string;
-  latitude: number;
-  longtitude: number;
-  areaCode: number;
-};
-
-type result = {
-  spot: spotData;
-  grade: number;
-};
-
-function SearchMain({}: Props) {
+function SearchMain() {
   //시간, 날짜, 구군
   const [timeValue, setTimeValue] = useState<string>("00");
   const [dateValue, setDateValue] = useState<string>("날짜 선택");
@@ -34,17 +14,10 @@ function SearchMain({}: Props) {
   const [searchResult, setSearchResult] = useState<Array<result>>();
   const [searchRegion, setSearchRegion] = useState<string>();
 
-  //물음표 마우스오버시
-  const [hover, setHover] = useState<string>("");
-  //자동완성 저장 위한 객체 배열
-  const [word, setWord] = useState<Array<result>>();
-
   const navigate = useNavigate();
 
   //시간(1) option(01시)로 변경하기
   let hours: hourToString[] = [];
-  // let obj: hourToString = { hourNum: 100, hourString: "시간 선택" };
-  // hours.push(obj);
 
   for (let i = 0; i < 24; i++) {
     let timeNum: number = i;
@@ -63,7 +36,6 @@ function SearchMain({}: Props) {
 
   //3월 넘어가면
   let lastMonthNum = date.getMonth() + 1;
-  console.log(lastMonthNum);
   let lastMonth = lastMonthNum.toString().padStart(2, "0");
   if (date.getDate() + 10 > 31) {
     lastMonth = (lastMonthNum + 1).toString().padStart(2, "0");
@@ -78,65 +50,11 @@ function SearchMain({}: Props) {
   //----시간 select 되면-----//////////////////////////////////////////////////////////////////
   const handleSelectTime = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTimeValue(e.target.value);
-
-    //날짜 선택되어 있을 때,
-
-    let baseDateY = dateValue.slice(0, 4);
-    let baseDateM = dateValue.slice(5, 7);
-    let baseDateD = dateValue.slice(8, 10);
-
-    if (dateValue !== "날짜 선택") {
-      console.log("시간 select axios");
-      axios
-        .get("https://counting-star.com/api/grade/", {
-          params: {
-            baseDateDay: baseDateD,
-            baseDateHour: ("0" + timeValue).slice(-2).toString(),
-            baseDateMinute: "00",
-            baseDateMonth: baseDateM,
-            baseDateYear: baseDateY,
-            keyword: regionValue,
-            limit: 100,
-            searchType: "NAME",
-          },
-        })
-        .then(function (response) {
-          setWord(response.data.data);
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    }
   };
 
   //----날짜 select 되면-----//////////////////////////////////////////////////////////////////
   const handleSelectDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDateValue(e.target.value);
-
-    let baseDateY = dateValue.slice(0, 4);
-    let baseDateM = dateValue.slice(5, 7);
-    let baseDateD = dateValue.slice(8, 10);
-
-    console.log("날짜 select axios");
-    axios
-      .get("https://counting-star.com/api/grade/", {
-        params: {
-          baseDateDay: baseDateD,
-          baseDateHour: ("0" + timeValue).slice(-2).toString(),
-          baseDateMinute: "00",
-          baseDateMonth: baseDateM,
-          baseDateYear: baseDateY,
-          keyword: regionValue,
-          limit: 100,
-          searchType: "NAME",
-        },
-      })
-      .then(function (response) {
-        setWord(response.data.data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
   };
 
   //----검색 버튼 클릭시-----//////////////////////////////////////////////////////////////////
@@ -188,7 +106,7 @@ function SearchMain({}: Props) {
 
   return (
     <>
-      <div className="text-center py-6 text-4xl font-serif">
+      <div className="text-center py-6 text-4xl font-serif mb-6 mt-4">
         지역으로 검색하기
       </div>
       <div className="grid grid-cols-5">
@@ -215,12 +133,12 @@ function SearchMain({}: Props) {
           ))}
         </select>
 
-        <div className="col-span-2 pl-3 pt-0.5 w-1/3 h-1/3">
+        {/* <div className="col-span-2 pl-3 pt-0.5 w-1/3 h-1/3">
           <img src={questionMark} className="w-8 h-8 mr-1" />
-        </div>
+        </div> */}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-md my-2 mb-6">
         <form className="grid grid-cols-12 gap-1" onSubmit={handleSearchButton}>
           <input
             className="rounded-3xl col-span-11 p-15 text-center text-2xl font-serif"
@@ -239,8 +157,8 @@ function SearchMain({}: Props) {
         <div className="text-center my-10 font-serif">검색 결과가 없어요</div>
       ) : (
         <div className="">
-          <p className="font-serif">{searchRegion} 검색 결과</p>
-          <div className="grid grid-cols-12 gap-10 mx-auto my-1">
+          <p className="font-serif ml-3 mb-4">{searchRegion} 검색 결과</p>
+          <div className="grid grid-cols-12 gap-10 mx-auto my-1 font-serif text-2xl mb-8">
             {searchResult.map((item) => (
               <div
                 className="col-span-4"

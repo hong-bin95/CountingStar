@@ -4,19 +4,10 @@ import Logo from "../Logo";
 import TodayBox from "../../components/MainPage/TodayBox";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { TodayFucProps, TodaySpot } from "../../types/mainType";
 
-interface Props {
-  toggleMainVisibility: () => void;
-}
-
-interface spot {
-  spotName: string;
-  grade: number;
-  spotId: number;
-}
-
-function TodayMain({ toggleMainVisibility }: Props) {
-  const [spotList, setSpotList] = useState<Array<spot>>([]);
+function TodayMain({ toggleMainVisibility }: TodayFucProps) {
+  const [spotList, setSpotList] = useState<Array<TodaySpot>>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,12 +17,6 @@ function TodayMain({ toggleMainVisibility }: Props) {
     let day = now.getDate().toString().padStart(2, "0");
 
     let hours = now.getHours().toString();
-
-    // console.log(year, month, day, hours);
-    // console.log(typeof year);
-    // console.log(typeof month);
-    // console.log(typeof day);
-    // console.log(typeof hours);
 
     axios
       .get("https://counting-star.com/api/spot/ranking", {
@@ -46,11 +31,7 @@ function TodayMain({ toggleMainVisibility }: Props) {
         },
       })
       .then(function (response) {
-        console.log("구분");
-        console.log("spotLists출력");
-        console.log(response);
         setSpotList(response.data.data);
-        console.log(spotList);
       })
       .catch(function (error) {
         console.log(error);

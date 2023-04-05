@@ -4,15 +4,9 @@ import axios from "axios";
 import ThisMonthBox from "./ThisMonthBox";
 import arrowLeft from "../../assets/arrowsLeft.png";
 import arrowRight from "../../assets/arrowsRight.png";
+import { stella } from "../../types/mainType";
 
-type Props = {};
-
-interface stella {
-  constellationId: number;
-  constellationName: string;
-}
-
-function ThisMonthMain(props: Props) {
+function ThisMonthMain() {
   let now = new Date();
 
   const [constellaList, setConstellaList] = useState<Array<stella>>([]);
@@ -25,20 +19,13 @@ function ThisMonthMain(props: Props) {
     axios
       .get("https://counting-star.com/api/constellation/rank", {
         params: {
-          baseDateYear: "2001",
+          baseDateYear: year,
           baseDateMonth: month,
-          limit: 6,
-          // baseDateYear: { year },
-          // baseDateMonth: { month },
-          // limit: 5,
+          limit: 100,
         },
       })
       .then(function (response) {
-        console.log(response.data);
-        console.log("구분");
         setConstellaList(response.data.data);
-        console.log("리스트 저장한거 출력");
-        console.log(constellaList);
       })
       .catch(function (error) {
         console.log(error);
@@ -63,7 +50,7 @@ function ThisMonthMain(props: Props) {
 
   return (
     <>
-      <div className="grid grid-cols-12 gap-10 mx-auto my-1">
+      <div className="grid grid-cols-12 gap-10 mx-auto my-1 mt-6 mb-4">
         <div
           className="col-span-4 pt-5  grid justify-items-end"
           onClick={forward}
@@ -77,7 +64,7 @@ function ThisMonthMain(props: Props) {
           {thisMonth}월의 별자리
         </div>
         <div
-          className="col-span-4 pt-5 grid justify-items-start "
+          className="col-span-4 pt-5 grid justify-items-start"
           onClick={back}
         >
           <img
