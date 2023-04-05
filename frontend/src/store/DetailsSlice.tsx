@@ -6,6 +6,11 @@ export interface DetailsData {
   month:string;
   date:string;
   hour:number;
+  spotId:number;
+  spotName:string;
+  moon:string;
+  dust:string;
+  weather:string;
 }
 
 const initialState:DetailsData = {
@@ -14,6 +19,11 @@ const initialState:DetailsData = {
   month: '',
   date: '',
   hour: 0,
+  spotId: 0,
+  spotName: '',
+  moon: '',
+  dust: '',
+  weather: '',
 };
 
 const DetailsSlice = createSlice({
@@ -35,7 +45,22 @@ const DetailsSlice = createSlice({
     updateHour:(state, action: PayloadAction<number>)=>{
       state.hour = action.payload;
     },
+    updateSpotId:(state, action: PayloadAction<number>)=>{
+      state.spotId = action.payload;
+    },
+    updateSpotName:(state, action: PayloadAction<string>)=>{
+      state.spotName = action.payload;
+    },
+    updateMoon:(state, action: PayloadAction<string>)=>{
+      state.moon = action.payload;
+    },
+    updateWeather:(state, action: PayloadAction<string>)=>{
+      state.weather = action.payload;
+    },
+    updateDust:(state, action: PayloadAction<string>)=>{
+      state.dust = action.payload;
+    },
   },
 });
 export default DetailsSlice;
-export const {updateDay, updateYear, updateMonth, updateDate, updateHour} = DetailsSlice.actions;
+export const {updateDay, updateYear, updateMonth, updateDate, updateHour, updateSpotId, updateSpotName, updateMoon, updateWeather, updateDust} = DetailsSlice.actions;

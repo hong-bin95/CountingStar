@@ -18,7 +18,7 @@ const PlaceInfo = (Props: any) => {
   };
 
   return (
-    <div className="text-center">
+    <div className="text-center border-4 border-black">
       <InfoWindowF
         position={{
           lat: parseFloat(Props.Spot.latitude),
@@ -28,11 +28,10 @@ const PlaceInfo = (Props: any) => {
         // onCloseClick={() => Props.selectedSpot = {null}}
         onUnmount={onUnmount}
       >
-        <div>
-          <h3>{Props.Spot.spotName}</h3>
-          <br></br>
+        <div className="font-serif bg-white p-4 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-2">{Props.Spot.spotName}</h3>
           <button
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            className="bg-sky-600 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded transition duration-200 mt-4 w-full text-center"
             onClick={() => {
               onDetailsButtonClick(Props.Spot.spotId);
             }}

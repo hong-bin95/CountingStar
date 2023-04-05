@@ -1,17 +1,22 @@
 import React from "react";
+import { ToggleButtonType } from "../../types/SpotType";
 
-interface ToggleButtonProps {
-  onClick: () => void;
-}
+const ToggleButton: React.FC<ToggleButtonType> = ({
+  onClick,
+  isMainVisible,
+}) => {
+  const buttonText = isMainVisible
+    ? "지도에서 보기"
+    : "오늘은 어디에 별이 뜰까요?";
 
-const ToggleButton: React.FC<ToggleButtonProps> = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="toggle-button fixed top-4 right-4 bg-white p-3 rounded-full shadow-md z-50"
+      className="toggle-button fixed top-4 right-6 z-50
+      w-26
+      bg-transparent hover:bg-sky-700 text-white font-semibold hover:text-white py-2 px-4 border border-sky-300 hover:border-transparent rounded"
     >
-      {/* 토글 버튼 아이콘 또는 텍스트를 여기에 추가 */}
-      Toggle
+      {buttonText}
     </button>
   );
 };

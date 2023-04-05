@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
+
 import styled from "styled-components";
-import { SpotType } from "../types/SpotType";
+import { SpotType, SpotData } from "../types/SpotType";
+
 import SpotApi from "../apis/SpotApi";
+
 import "../styles/GoogleMain.css";
+import GoogleMapStyle from "../styles/GoogleMapStyle";
 
 import Main from "./Main";
 import SpotOverlay from "../components/GoogleMain/SpotOverlay";
 import PlaceInfo from "../components/GoogleMain/PlaceInfo";
 import CustomMarker from "../components/GoogleMain/CustomMarker";
 import ToggleButton from "../components/GoogleMain/ToggleButton";
+import GradeInfo from "../components/GoogleMain/GradeInfo";
 
 const libraries: (
   | "places"
@@ -19,16 +24,11 @@ const libraries: (
   | "visualization"
 )[] = ["places"];
 
-const mapStyles = [
-  {
-    featureType: "poi",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-];
+const mapOptions = {
+  styles: GoogleMapStyle,
+  fullscreenControl: false,
+  mapTypeControl: false,
+};
 
 function GoogleMain() {
   // useState 정리
@@ -46,9 +46,18 @@ function GoogleMain() {
 
   // 함수 정리
   const getData = async () => {
+    const now = new Date();
+    const year = now.getFullYear().toString();
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
+    const day = now.getDate().toString().padStart(2, "0");
+
     try {
-      const response = await SpotApi().doGetSpot();
-      setSpots([...response.data]);
+      const response = await SpotApi().doGetSpot(day, month, year);
+      const spotArray = response.data.map((item: SpotData) => ({
+        ...item.spot,
+        grade: item.grade,
+      }));
+      setSpots([...spotArray]);
     } catch (error) {
       console.log(error);
     }
@@ -71,17 +80,17 @@ function GoogleMain() {
             zoom={zoom}
             center={center}
             mapContainerClassName="map-container"
-            options={{ styles: mapStyles }}
+            options={mapOptions}
           >
             {spots.length > 0 &&
               spots.map((spot) => (
-                <CustomMarker key={spot.spotId} spot={spot} />
+                <CustomMarker key={`customMarker-${spot.spotId}`} spot={spot} />
               ))}
             ;
             {spots.length > 0 &&
               spots.map((spot) => (
                 <SpotOverlay
-                  key={spot.spotId}
+                  key={`spotOverlay-${spot.spotId}`}
                   spot={spot}
                   onSpotClick={(selectedSpot) => {
                     setSelectedSpot(selectedSpot);
@@ -102,10 +111,14 @@ function GoogleMain() {
           </GoogleMap>
         )}
       </LoadScript>
-      <ToggleButton onClick={() => setIsMainVisible(!isMainVisible)} />
+      <ToggleButton
+        isMainVisible={isMainVisible}
+        onClick={() => setIsMainVisible(!isMainVisible)}
+      />
       <div className={`main-container ${isMainVisible ? "visible" : "hidden"}`}>
         <Main toggleMainVisibility={() => setIsMainVisible(!isMainVisible)} />
       </div>
+      <GradeInfo />
     </Wrapper>
   );
 }

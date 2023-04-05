@@ -2,12 +2,13 @@ import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {updateDay, updateYear, updateMonth, updateDate, DetailsData} from '../../store/DetailsSlice';
-import UpBtn from '../../assets/UpBtn.png';
-import DownBtn from '../../assets/DownBtn.png';
+import UpBtn from '../../assets/arrowsRight.png';
+import DownBtn from '../../assets/arrowsLeft.png';
 
 const DateContainer = styled.div`
     display: flex;
     justify-content: space-between;
+    padding-top: 90px;
 `;
 
 function DetailsDate() {
@@ -15,9 +16,8 @@ function DetailsDate() {
     const dispatch = useDispatch();
     const day = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
     
-    
     const [today, setToday] = useState<Date>(new Date());
-    const [newDate, setNewDate] = useState<Date>(today);	// 어제
+    const [newDate, setNewDate] = useState<Date>(today);
     const [year, setYear] = useState<number>(newDate.getFullYear());
     const [month, setMonth] = useState<number>(newDate.getMonth() +1);
     const [date, setDate] = useState<number>(newDate.getDate());
@@ -31,6 +31,7 @@ function DetailsDate() {
     const [styled, setStyled] = useState<object>({
         height : '25px',
         width : '25px',
+        marginTop: '20px',
     });
 
     const dateUp = () => {
