@@ -37,7 +37,7 @@ function GoogleMain() {
   const [spots, setSpots] = useState<Array<SpotType>>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState<SpotType | null>(null); // 마커 클릭 시 선택된 마커 정보를 저장하는 상태 변수
-  const [isMainVisible, setIsMainVisible] = useState(true);
+  const [isMainVisible, setIsMainVisible] = useState(false);
 
   // useEffect 정리
   useEffect(() => {
