@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Logo from '../Logo';
 import DetailsDate from './DetailsDate';
@@ -9,14 +9,15 @@ import DetailsDust from './DetailsDust';
 import DetailsMoon from './DetailsMoon';
 import PlaceTitle from './PlaceTitle';
 import ContainerButton from './ContainerButton';
+import { DetailsData } from '../../types/DetailsType';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateSpotId, updateSpotName, DetailsData } from '../../store/DetailsSlice';
+import { updateSpotId, updateSpotName } from '../../store/DetailsSlice';
 import { useParams } from 'react-router-dom';
 import background from '../../assets/nightSkyExample.jpg';
-import DustBackground from '../../assets/DustBackground.jpg';
-import CloudyBackground from '../../assets/CloudyBackground.jpg';
-import RainBackground from '../../assets/rain.gif';
-import SnowBackground from '../../assets/snow.gif';
+import DustBackground from '../../assets/background/DustBackground.jpg';
+import CloudyBackground from '../../assets/background/CloudyBackground.jpg';
+import RainBackground from '../../assets/background/rain.gif';
+import SnowBackground from '../../assets/background/snow.gif';
 import axios from 'axios';
 
 const slideUp = keyframes`
@@ -111,8 +112,8 @@ function DetailsMain() {
         }
     }
 
-    const dust = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.dust);
-    const weather = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.weather);
+    const dust = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.dust);
+    const weather = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.weather);
     
     const style = {
         backgroundImage: `url(${

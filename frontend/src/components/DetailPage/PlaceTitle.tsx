@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {DetailsData} from '../../store/DetailsSlice';
+import { DetailsData } from '../../types/DetailsType';
+
 function PlaceTitle() {
-    const spotName = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.spotName);
-    const spotId = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.spotId);
+    const spotName = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.spotName);
+    const spotId = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.spotId);
 
     return (
         <div className="mt-5 mr-10">
