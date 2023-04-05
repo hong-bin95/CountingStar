@@ -6,7 +6,7 @@ import MainWeekendSlice from "./MainWeekendSlice";
 import MainMonthSlice from "./MainMonthSlice";
 const store = configureStore({
   reducer: {
-    DetailsSlice: DetailsSlice.reducer,
+    detailsSlice: DetailsSlice.reducer,
     spot: SpotSlice,
     mainToday: MainTodaySlice.reducer,
     mainWeekend: MainWeekendSlice.reducer,

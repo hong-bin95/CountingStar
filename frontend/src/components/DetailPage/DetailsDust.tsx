@@ -1,29 +1,32 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { DetailsData } from '../../types/DetailsType';
 import { useDispatch, useSelector } from 'react-redux';
-import { DetailsData, updateDust } from '../../store/DetailsSlice';
+import { updateDust } from '../../store/DetailsSlice';
 import axios from 'axios';
-import angry from '../../assets/angry.png';
-import heartEyes from '../../assets/heart-eyes.png';
-import sad from '../../assets/sad.png';
-import smile from '../../assets/smile.png';
+import angry from '../../assets/dustEmoji/angry.png';
+import heartEyes from '../../assets/dustEmoji/heart-eyes.png';
+import sad from '../../assets/dustEmoji/sad.png';
+import smile from '../../assets/dustEmoji/smile.png';
 import question from '../../assets/question.png';
 
 function DetailsDust() {
 
     const dispatch = useDispatch();
 
+    const { spotId } = useParams<{ spotId: string | undefined }>();
+
     const [year, setYear] = useState<number>(new Date().getFullYear());
     const [month, setMonth] = useState<number>(new Date().getMonth() +1);
     const [date, setDate] = useState<number>(new Date().getDate());
     const [hour, setHour] = useState<number>(new Date().getHours()+1);
-    const { spotId } = useParams<{ spotId: string | undefined }>();
+    const [dust, setDust] = useState<string>('');
 
-    const nowDay = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.day);
-    const nowDate = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
-    const nowYear = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
-    const nowMonth = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
-    const nowHour = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.hour);
+    const nowDay = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.day);
+    const nowDate = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.date);
+    const nowYear = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.year);
+    const nowMonth = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.month);
+    const nowHour = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.hour);
 
     useEffect(()=>{
         setYear(Number(nowYear));
@@ -31,8 +34,6 @@ function DetailsDust() {
         setDate(Number(nowDate));
         setHour(Number(nowHour));
     },[nowDate, nowYear, nowMonth, nowHour,]);
-
-    const [dust, setDust] = useState<string>('');
 
     useEffect(()=>{
         if(nowDay<3){

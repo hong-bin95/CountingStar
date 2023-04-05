@@ -1,10 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react';
-import UpBtn from '../../assets/UpBtn.png';
-import DownBtn from '../../assets/DownBtn.png';
+import React, { useState, useEffect, useRef } from 'react';
+import UpBtn from '../../assets/btn/UpBtn.png';
+import DownBtn from '../../assets/btn/DownBtn.png';
+import { ButtonProps } from '../../types/DetailsType';
 
-type ButtonProps = {
-    onClick: () => void;
-  };
 
 function ContainerButton({ onClick }: ButtonProps) {
     

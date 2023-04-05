@@ -1,22 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { DetailsData} from '../../store/DetailsSlice';
+import { DetailsData } from '../../types/DetailsType';
 import starScore from "../../assets/fiveStar.png";
 import axios from 'axios';
 
 function DetailsPoint() {
+
+  const { spotId } = useParams<{ spotId: string | undefined }>();
     
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number>(new Date().getMonth() +1);
   const [date, setDate] = useState<number>(new Date().getDate());
   const [hour, setHour] = useState<number>(new Date().getHours()+1);
-  const { spotId } = useParams<{ spotId: string | undefined }>();
+  const [score, setScore] = useState<number>(0);
 
-  const nowDate = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.date);
-  const nowYear = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.year);
-  const nowMonth = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.month);
-  const nowHour = useSelector((state:{DetailsSlice:DetailsData}) => state.DetailsSlice.hour);
+  const nowDate = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.date);
+  const nowYear = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.year);
+  const nowMonth = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.month);
+  const nowHour = useSelector((state:{detailsSlice:DetailsData}) => state.detailsSlice.hour);
 
   useEffect(()=>{
       setYear(Number(nowYear));
@@ -25,7 +27,6 @@ function DetailsPoint() {
       setHour(Number(nowHour));
   },[nowDate, nowYear, nowMonth, nowHour,]);
 
-    const [score, setScore] = useState<number>(0);
 
     useEffect(()=>{
         axios
