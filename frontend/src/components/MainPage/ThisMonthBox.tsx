@@ -1,15 +1,7 @@
 import React from "react";
-import nightSky from "../../assets/nightSkyExample.jpg";
+import { MonthProps } from "../../types/mainType";
 
-type Props = {
-  stellaName: string;
-  cnt: number;
-};
-
-function ThisMonthBox(props: Props) {
-  // console.log(props.stellaName);
-  // console.log(props.cnt);
-
+function ThisMonthBox(props: MonthProps) {
   return (
     <>
       <div className="relative border border-gray-300 rounded-2xl shadow-md w-full transition delay-100 hover:scale-110  duration-100">

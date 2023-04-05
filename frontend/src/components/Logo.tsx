@@ -1,12 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import {updateDay, DetailsData} from '../store/DetailsSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { updateDay, DetailsData } from "../store/DetailsSlice";
 import logo from "../assets/CountingStar.png";
 import { useNavigate } from "react-router-dom";
-type Props = {};
 
-function Logo({}: Props) {
-
+function Logo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   function moveToMain() {
