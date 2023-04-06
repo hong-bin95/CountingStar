@@ -1,5 +1,7 @@
 package com.ssafy.countingstar.dto;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +12,12 @@ import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "star_grade")
-public class StarGrade {
+public class StarGrade implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "star_grade_id")
-    private int starGradeId;
+    private Integer starGradeId;
     
     @Column(name = "spot_id")
     private int spot_id;
@@ -36,10 +38,10 @@ public class StarGrade {
     private String basicDateMinute;
     
     @Column(name = "grade_1")
-    private double grade1;
+    private double grade_1;
     
     @Column(name = "grade_2")
-    private int grade2;
+    private int grade_2;
     
     @Column(name = "start_latitude")
     private String startLatitude;
@@ -58,11 +60,11 @@ public class StarGrade {
 
 	public StarGrade() {}
 
-	public int getStarGradeId() {
+	public Integer getStarGradeId() {
 		return starGradeId;
 	}
 
-	public void setStarGradeId(int starGradeId) {
+	public void setStarGradeId(Integer starGradeId) {
 		this.starGradeId = starGradeId;
 	}
 
@@ -115,19 +117,19 @@ public class StarGrade {
 	}
 
 	public double getGrade1() {
-		return grade1;
+		return grade_1;
 	}
 
 	public void setGrade1(double grade1) {
-		this.grade1 = grade1;
+		this.grade_1 = grade1;
 	}
 
 	public int getGrade2() {
-		return grade2;
+		return grade_2;
 	}
 
 	public void setGrade2(int grade2) {
-		this.grade2 = grade2;
+		this.grade_2 = grade2;
 	}
 
 	public String getStartLatitude() {
@@ -170,6 +172,15 @@ public class StarGrade {
 		this.star_id = star_id;
 	}
 
-    
+	@Override
+	public String toString() {
+		return "StarGrade [starGradeId=" + starGradeId + ", spot_id=" + spot_id + ", basicDateYear=" + basicDateYear
+				+ ", basicDateMonth=" + basicDateMonth + ", basicDateDay=" + basicDateDay + ", basicDateHour="
+				+ basicDateHour + ", basicDateMinute=" + basicDateMinute + ", grade1=" + grade_1 + ", grade2=" + grade_2
+				+ ", startLatitude=" + startLatitude + ", startLongitude=" + startLongitude + ", endLatitude="
+				+ endLatitude + ", endLongitude=" + endLongitude + ", star_id=" + star_id + "]";
+	}
+
+	
     
 }

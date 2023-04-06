@@ -1,6 +1,8 @@
 package com.ssafy.countingstar.data;
 
-public class LocationData {
+import java.io.Serializable;
+
+public class LocationData implements Serializable {
 	
 	//위도
 	double lat;

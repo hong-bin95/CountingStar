@@ -1,6 +1,8 @@
 package com.ssafy.countingstar.data;
 
-public class ObservatoryData extends LocationData {
+import java.io.Serializable;
+
+public class ObservatoryData extends LocationData implements Serializable {
 	
 	private String observertoryName;
 

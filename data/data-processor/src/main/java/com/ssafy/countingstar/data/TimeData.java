@@ -1,17 +1,26 @@
 package com.ssafy.countingstar.data;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Calendar;
 
-public class TimeData {
+public class TimeData implements Serializable {
 	
 	private double equinox;
 	
 	private double solarTime;
 	
-	private Calendar cal;
+	private LocalDate date;
 	
-	public TimeData(Calendar cal) {
-		setCalendar(cal);
+	private int hour;
+	
+	public TimeData(LocalDate date, int hour) {
+//		hour = hour - 9;
+//		if(hour < 0) {
+//			hour += 24;
+//			date = date.minusDays(1);
+//		}
+		setTime(date, hour);
 	}
 
 	public double getEquinox() {
@@ -22,16 +31,22 @@ public class TimeData {
 		return solarTime;
 	}
 	
-	public void setCalendar(Calendar cal) {
-		this.cal = cal;
+	public void setTime(LocalDate date, int hour) {
+//		hour = hour - 9;
+//		if(hour < 0) {
+//			hour += 24;
+//			date = date.minusDays(1);
+//		}
+		this.date = date;
+		this.hour = hour;
 		
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH) + 1;
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-	  	double hour = cal.get(Calendar.HOUR_OF_DAY);
-	  	double minute = cal.get(Calendar.MINUTE);
-	  	double second = cal.get(Calendar.SECOND);
-	  	this.solarTime = hour + minute/60 + second/3600;
+		int year = date.getYear();
+		int month = date.getMonthValue();
+		int day = date.getDayOfMonth();
+	  	double hourDouble = hour;
+//	  	double minute = cal.get(Calendar.MINUTE);
+//	  	double second = cal.get(Calendar.SECOND);
+	  	this.solarTime = hourDouble;// + minute/60 + second/3600;
 	  	
 	  	int a = (14 - month) / 12;
 	    int y = year + 4800 - a;
@@ -39,14 +54,10 @@ public class TimeData {
 	  	
 	  	double julianDay = day + (153 * m + 2) / 5 + 365 * y + y / 4 - y / 100 + y / 400 - 32045;
 	  	julianDay += (hour - 12) / 24.0;
-	    julianDay += minute / 1440.0;
-	    julianDay += second / 86400.0;
+//	    julianDay += minute / 1440.0;
+//	    julianDay += second / 86400.0;
 	    
 	  	this.equinox = julianDay - 2451545.0;
-	}
-	
-	public Calendar getCalendar() {
-		return this.cal;
 	}
 	
 	

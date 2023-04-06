@@ -1,12 +1,13 @@
 package com.ssafy.countingstar.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.ssafy.countingstar.data.LightPollution;
 
+import reactor.core.publisher.Flux;
+
 public interface LightPollutionService {
 	
-	public List<LightPollution> getAllLightPollution(LocalDate date);
+	public Flux<LightPollution> getAllLightPollution(float lat, float lng);
 
 }

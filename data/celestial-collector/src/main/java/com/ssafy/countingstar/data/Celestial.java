@@ -3,6 +3,7 @@ package com.ssafy.countingstar.data;
 import java.io.Serializable;
 
 public class Celestial implements Serializable {
+	private Integer id;
 	private Integer starId;
     private String name;
     private Long hd;
@@ -13,8 +14,9 @@ public class Celestial implements Serializable {
     
     public Celestial() {}
 
-    public Celestial(Integer starId, String name, Long hd, double rightAscension,
+    public Celestial(Integer id, Integer starId, String name, Long hd, double rightAscension,
                       double declination, double visualMagnitude, Integer constellationId) {
+    	this.id = id;
     	this.starId = starId;
         this.name = name;
         this.hd = hd;
@@ -23,6 +25,14 @@ public class Celestial implements Serializable {
         this.visualMagnitude = visualMagnitude;
         this.constellationId = constellationId;
     }
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public Integer getStarId() {
 		return starId;

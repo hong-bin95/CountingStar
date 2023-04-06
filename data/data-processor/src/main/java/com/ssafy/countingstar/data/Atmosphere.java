@@ -1,11 +1,13 @@
 package com.ssafy.countingstar.data;
 
+import java.io.Serializable;
+
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 @Table("atmosphere")
-public class Atmosphere {
+public class Atmosphere implements Serializable {
 	
 	@PrimaryKey
 	private CollectedDataKey key;

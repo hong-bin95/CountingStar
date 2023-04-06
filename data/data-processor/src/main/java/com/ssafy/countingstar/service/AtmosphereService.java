@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.ssafy.countingstar.data.Atmosphere;
 
+import reactor.core.publisher.Flux;
+
 public interface AtmosphereService {
 	
-	public List<Atmosphere> getAllAtmosphere(LocalDate date, int hour);
+	public Flux<Atmosphere> getAllAtmosphere(LocalDate date, int hour);
 
 }

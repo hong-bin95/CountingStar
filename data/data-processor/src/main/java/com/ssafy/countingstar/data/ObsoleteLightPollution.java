@@ -6,27 +6,27 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table("lightpollution2")
-public class LightPollution implements Serializable {
+@Table("lightpollution")
+public class ObsoleteLightPollution implements Serializable {
 	
 	@PrimaryKey
-	private LightPollutionKey key;
+	private CollectedDataKey key;
     
     @Column("radiance")
     private float radiance;
 
-    public LightPollution() {}
+    public ObsoleteLightPollution() {}
 
-    public LightPollution(LightPollutionKey key, float radiance) {
+    public ObsoleteLightPollution(CollectedDataKey key, float radiance) {
         this.key = key;
         this.radiance = radiance;
     }
 
-	public LightPollutionKey getKey() {
+	public CollectedDataKey getKey() {
 		return key;
 	}
 
-	public void setKey(LightPollutionKey key) {
+	public void setKey(CollectedDataKey key) {
 		this.key = key;
 	}
 

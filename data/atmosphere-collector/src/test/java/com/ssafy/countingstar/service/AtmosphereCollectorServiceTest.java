@@ -17,9 +17,11 @@ class AtmosphereCollectorServiceTest {
 
 	@Test
 	void test() {
+		
+		
 		int year = 2023;
 		int month = 4;
-		int day = 2;
+		int day = 3;
 		
 		for(int i=0; i<=8; i++) {
 			atmosphereCollectorService.collect(LocalDateTime.of(year, month, day, i, 0));

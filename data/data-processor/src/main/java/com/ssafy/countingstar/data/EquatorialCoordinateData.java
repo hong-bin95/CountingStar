@@ -1,7 +1,9 @@
 package com.ssafy.countingstar.data;
 
+import java.io.Serializable;
+
 // 적도 좌표
-public class EquatorialCoordinateData {
+public class EquatorialCoordinateData implements Serializable {
 	
 	// 적경
 	private double ra;

@@ -1,18 +1,43 @@
 package com.ssafy.countingstar.data;
 
-public class Celestial {
+import java.io.Serializable;
+
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
+
+@Table("celestial")
+public class Celestial implements Serializable {
+	
+	@PrimaryKey
+	private int id;
+	
+	@Column("star_id")
 	private Integer starId;
+	
+	@Column("name")
     private String name;
+	
+	@Column("hd")
     private Long hd;
+	
+	@Column("right_ascension")
     private double rightAscension;
+	
+	@Column("declination")
     private double declination;
+	
+	@Column("visual_magnitude")
     private double visualMagnitude;
+	
+	@Column("constellation_id")
     private Integer constellationId;
     
     public Celestial() {}
 
-    public Celestial(Integer starId, String name, Long hd, double rightAscension,
+    public Celestial(int id, Integer starId, String name, Long hd, double rightAscension,
                       double declination, double visualMagnitude, Integer constellationId) {
+    	this.id = id;
     	this.starId = starId;
         this.name = name;
         this.hd = hd;
@@ -21,6 +46,14 @@ public class Celestial {
         this.visualMagnitude = visualMagnitude;
         this.constellationId = constellationId;
     }
+    
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Integer getStarId() {
 		return starId;

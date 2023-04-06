@@ -1,5 +1,6 @@
 package com.ssafy.countingstar.dto;
 
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "spot")
-public class Spot {
+public class Spot implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -115,6 +116,5 @@ public class Spot {
 	public void setLocationCode(String locationCode) {
 		this.locationCode = locationCode;
 	}
-    
     
 }

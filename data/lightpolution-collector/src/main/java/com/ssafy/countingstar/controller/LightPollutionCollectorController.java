@@ -10,13 +10,13 @@ import com.ssafy.countingstar.dto.LightPollutionCollectorRequestDTO;
 import com.ssafy.countingstar.service.collector.LightPollutionCollectorService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/api")
 public class LightPollutionCollectorController {
 	
 	@Autowired
 	LightPollutionCollectorService collector;
 	
-	@PostMapping("/")
+	@PostMapping("/eollect")
 	public ResponseEntity<?> requestCollect(LightPollutionCollectorRequestDTO requestBody) {
 		collector.collect(requestBody.getDate());
 		return ResponseEntity.ok().build();

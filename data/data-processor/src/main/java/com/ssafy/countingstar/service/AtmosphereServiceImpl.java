@@ -1,18 +1,18 @@
 package com.ssafy.countingstar.service;
 
-import java.time.Duration;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ssafy.countingstar.data.Atmosphere;
 import com.ssafy.countingstar.repository.ReactiveAtmosphereRepository;
 
 import reactor.core.publisher.Flux;
 
-public class AtmosphereServiceImpl implements AtmosphereService{
+@Service
+public class AtmosphereServiceImpl implements AtmosphereService, Serializable{
 	
 	@Autowired
 	ReactiveAtmosphereRepository reactiveAtmosphereRepository;
@@ -22,7 +22,7 @@ public class AtmosphereServiceImpl implements AtmosphereService{
 	}
 
 	@Override
-	public List<Atmosphere> getAllAtmosphere(LocalDate date, int hour) {
+	public Flux<Atmosphere> getAllAtmosphere(LocalDate date, int hour) {
 		Flux<Atmosphere> flux = null;
 		
 		for(int dateD=0; dateD<7; dateD++) {
@@ -39,7 +39,7 @@ public class AtmosphereServiceImpl implements AtmosphereService{
 			}
 		}
 		
-		return flux.collect(Collectors.toUnmodifiableList()).block();
+		return flux;
 	}
 
 }

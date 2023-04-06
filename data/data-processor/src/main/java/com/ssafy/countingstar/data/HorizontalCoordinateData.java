@@ -1,7 +1,9 @@
 package com.ssafy.countingstar.data;
 
+import java.io.Serializable;
+
 // 지평 좌표
-public class HorizontalCoordinateData {
+public class HorizontalCoordinateData implements Serializable {
 	
 	//고도
 	private double altitude;

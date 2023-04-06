@@ -82,6 +82,7 @@ public class CelestialProcessor {
 					(MapFunction<Tuple2<IAUStar,IAUConstellation>,Celestial>)
 						x-> new Celestial(
 								null,
+								null,
 								x._1.getNameDiacritics(),
 								hdProcess(x._1.getHd()), 
 								x._1.getRaJ2000().doubleValue(),
@@ -105,6 +106,7 @@ public class CelestialProcessor {
 				.map(
 					(MapFunction<Tuple2<Row,IAUConstellation>, Celestial>)
 						x-> new Celestial(
+								null,
 								null,
 								nameProcess((Long)x._1.getAs("HD")),
 								hdProcess((Long)x._1.getAs("HD")), 
@@ -130,6 +132,7 @@ public class CelestialProcessor {
 				.map(
 					      (MapFunction<Row, Celestial>) row -> {
 					    	  Celestial star = new Celestial();
+					    	  star.setId(row.getAs("id"));
 					          star.setStarId(row.getAs("id"));
 					          star.setName(row.getAs("name"));
 					          star.setHd(row.getAs("hd"));
