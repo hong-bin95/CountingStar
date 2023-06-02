@@ -3,7 +3,7 @@
    
 ## 👀 Overview
 
-![counting_star](/uploads/448acfc8421fc8bb97ac6f294061d1f9/counting_star.png)
+![image](https://github.com/hong-bin95/CountingStar/assets/105191633/138a6f67-a5bc-4b6a-b613-cb3e6979a068)
 
 ### 서비스 소개 
 날씨, 대기 질, 빛 공해등의 데이터를 바탕으로 별 보기 좋은 위치 정보와 현재 관측 가능 여부를 점수로 제공하는 서비스
@@ -63,11 +63,11 @@
       
 ## 📌 기획 및 개발 일정
 ### Figma
-![캡처](/uploads/12c37671bfe61c95e2a512c3a01a9c64/캡처.PNG)
+![image](https://github.com/hong-bin95/CountingStar/assets/105191633/77fac203-8c3d-491b-9247-5430589019c6)
 
 ### 개발 일정
-![Untitled](/uploads/1259c3017274759cf03b7b29ca77b223/Untitled.png)  
-![캡처](/uploads/30c753b706e576b97cc44a11369d45ba/캡처.PNG) 
+![image](https://github.com/hong-bin95/CountingStar/assets/105191633/476346cf-b3f8-4184-9824-cd9cc22d3c1f)
+![image](https://github.com/hong-bin95/CountingStar/assets/105191633/81fdd60b-6015-4ff7-8820-294103730cd6)
    
 ## 📌 기술 스택 및 개발 환경
 - IDE
@@ -129,10 +129,10 @@
   ✔ Jira
   ✔ Notion
 ```
-![그림1](/uploads/aa72e7eb7d1adb8472239e3ebcdf0303/그림1.png)   
-   
+![image](https://github.com/hong-bin95/CountingStar/assets/105191633/5a0404ab-48fa-46e9-a4fd-a497c8f3dc2a)  
+
 ## 📌 팀원 구성
-![역할](/uploads/42210904bccaf8f638b1280cfbfc9ec1/역할.PNG)
+![image](https://github.com/hong-bin95/CountingStar/assets/105191633/6e54a096-078e-46d0-af81-7ce3d3789594)
 
 
 
